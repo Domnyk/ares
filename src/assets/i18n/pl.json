@@ -1,0 +1,14 @@
+{
+  "NAVIGATION": {
+    "MAIN_PAGE": "strona główna",
+    "SEARCH_RECIPE": "wyszukaj przepis",
+    "ADD_RECIPE": "dodaj przepis",
+    "MY_PROFILE": "mój profil"
+  },
+  "MAIN_PAGE": {
+    "LAST_ADDED": "Ostatnio dodane przepisy",
+    "SEARCH": "Wyszukaj",
+    "SEARCH_PLACEHOLDER": "Wyszukaj przepis",
+    "GO_TO_RECIPE": "Wyświetl przepis"
+  }
+}

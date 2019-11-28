@@ -1,0 +1,9 @@
+<app-search-box></app-search-box>
+<div class="newest-recipes-container">
+  <h4 class="newest-recipes-container__title">{{'MAIN_PAGE.LAST_ADDED' | translate}}</h4>
+  <div class="newest-recipes-container__recipes">
+  <ng-container *ngFor="let newestRecipe of newestRecipes">
+    <app-search-result [recipe]="newestRecipe"></app-search-result>
+  </ng-container>
+  </div>
+</div>
