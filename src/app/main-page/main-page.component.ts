@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Recipe} from '../model/recipe';
+import {RecipeService} from '../service/recipe.service';
 
 @Component({
   selector: 'app-main-page',
@@ -10,16 +11,11 @@ export class MainPageComponent implements OnInit {
 
   public newestRecipes: Recipe[] = [];
 
-  constructor() { }
+  constructor(private recipeService: RecipeService) { }
 
   ngOnInit() {
-    this.newestRecipes = [{
-      name: 'Sałatka z kurczaka z fetą i oliwkami',
-      id: '123'
-    }, {
-      name: 'Ciasto marchewkowe z bakaliami',
-      id: '1234'
-    }];
+    this.recipeService.findNewestRecipes()
+      .subscribe((recipes: Recipe[]) => this.newestRecipes = recipes);
   }
 
 }

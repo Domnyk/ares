@@ -12,6 +12,7 @@ import { SearchBoxComponent } from './main-page/search-box/search-box.component'
 import { SearchResultComponent } from './main-page/search-result/search-result.component';
 import { MyProfileComponent } from './my-profile/my-profile.component';
 import { SearchTabComponent } from './search-tab/search-tab.component';
+import {SearchResolver} from './search-tab/resolver/search-resolver';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -39,7 +40,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
       }
     })
   ],
-  providers: [],
+  providers: [SearchResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
