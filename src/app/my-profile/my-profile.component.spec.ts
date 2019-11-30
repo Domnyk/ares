@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyProfileComponent } from './my-profile.component';
+import {TranslateModule} from '@ngx-translate/core';
 
 describe('MyProfileComponent', () => {
   let component: MyProfileComponent;
@@ -8,7 +9,8 @@ describe('MyProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyProfileComponent ]
+      declarations: [ MyProfileComponent ],
+      imports: [TranslateModule.forRoot()]
     })
     .compileComponents();
   }));
