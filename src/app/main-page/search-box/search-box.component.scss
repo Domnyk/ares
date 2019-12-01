@@ -1,0 +1,25 @@
+.search-box {
+  display: flex;
+  justify-content: center;
+  margin: 50px 0 70px 0;
+
+  &__input {
+    width: 40vw;
+    border-radius: 20px;
+    padding: 5px 5px 5px 10px;
+    border-color: maroon;
+  }
+
+  &__button {
+    background-color: maroon;
+    color: white;
+    border-radius: 25px;
+    border: none;
+    padding: 0 20px;
+    margin-left: 10px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}

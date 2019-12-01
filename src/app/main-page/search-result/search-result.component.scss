@@ -1,0 +1,30 @@
+.recipe-item {
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+  border: 2px solid maroon;
+
+  &__image {
+    width: 70px;
+    height: 70px;
+    margin-right: 20px;
+  }
+
+  &__title {
+    color: maroon;
+    font-weight: bolder;
+  }
+
+  &__link {
+    color: maroon;
+    align-self: flex-end;
+    margin: auto 25px auto auto;
+
+    &:hover {
+      color: maroon;
+    }
+  }
+}
+
