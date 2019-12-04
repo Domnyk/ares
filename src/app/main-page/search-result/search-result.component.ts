@@ -9,7 +9,7 @@ import {Router} from '@angular/router';
 })
 export class SearchResultComponent implements OnInit {
 
-  @Input() public recipe: Recipe;
+  @Input() public recipe!: Recipe;
 
   constructor(private router: Router) { }
 

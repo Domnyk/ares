@@ -25,7 +25,7 @@ export class SearchResolver implements OnDestroy, Resolve<Recipe[]>{
         } else {
           // TODO redirect to recipe page when available, figure out how to pass recipe data (another request or store)
           this.router.navigateByUrl('profile');
-          return null;
+          return [];
         }
       }));
   }
