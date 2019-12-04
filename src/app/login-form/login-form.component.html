@@ -1,0 +1,31 @@
+<form [formGroup]="loginForm" (ngSubmit)="sendLoginReq()" novalidate>
+    <div class="form-group">
+        <label>
+            {{ 'LOGIN_FORM.LABEL.USERNAME' | translate }}
+            <input type="text" class="form-control" formControlName="username" [ngClass]="{ 'is-invalid': (username.dirty || username.touched) && username.invalid }">
+            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="invalid-feedback">
+                {{ 'LOGIN_FORM.VALIDATIONS.PROVIDE_USERNAME' | translate }}
+            </div>
+        </label>        
+    </div>
+    
+    <div class="form-group">
+        <label>
+            {{ 'LOGIN_FORM.LABEL.PASSWORD' | translate }}
+            <input type="password" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': (f.password.dirty || f.password.touched) && f.password.invalid }"> 
+            <div *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)" class="invalid-feedback">
+                {{ 'LOGIN_FORM.VALIDATIONS.PROVIDE_PASSWORD' | translate }}
+            </div>
+        </label>
+    </div>
+
+    <div class="form-group">
+        Form Status: {{ loginForm.status }}
+        Username: {{ loginForm.value.username }}
+        Password: {{ loginForm.value.password }}
+        Username invalid: {{ username.invalid }}
+    </div>
+
+    <app-form-components-submit [submitText]="'LOGIN_FORM.SUBMIT' | translate" [isDisabled]="loginForm.invalid">
+    </app-form-components-submit>
+</form>

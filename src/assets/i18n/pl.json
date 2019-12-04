@@ -10,5 +10,16 @@
     "SEARCH": "Wyszukaj",
     "SEARCH_PLACEHOLDER": "Wyszukaj przepis",
     "GO_TO_RECIPE": "Wyświetl przepis"
+  },
+  "LOGIN_FORM": {
+    "SUBMIT": "Zaloguj",
+    "LABEL": {
+      "USERNAME": "Nazwa użytkownika",
+      "PASSWORD": "Hasło"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_USERNAME": "Podaj nazwę użytkownika",
+      "PROVIDE_PASSWORD": "Podaj hasło" 
+    }
   }
 }
