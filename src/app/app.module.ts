@@ -15,11 +15,6 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { SearchTabComponent } from './search-tab/search-tab.component';
 import {SearchResolver} from './search-tab/resolver/search-resolver';
 import { LoginFormComponent } from './login-form/login-form.component';
-import { UsernameComponent } from './form-components/username/username.component';
-import { PasswordComponent } from './form-components/password/password.component';
-import { SubmitComponent } from './form-components/submit/submit.component';
-
-
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -35,9 +30,6 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MyProfileComponent,
     SearchTabComponent,
     LoginFormComponent,
-    UsernameComponent,
-    PasswordComponent,
-    SubmitComponent,
   ],
   imports: [
     BrowserModule,

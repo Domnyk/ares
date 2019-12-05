@@ -1,4 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { TranslateModule } from '@ngx-translate/core';
+import { ReactiveFormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { LoginFormComponent } from './login-form.component';
 
@@ -8,7 +11,8 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginFormComponent ]
+      declarations: [ LoginFormComponent ],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, RouterTestingModule]
     })
     .compileComponents();
   }));
