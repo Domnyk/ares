@@ -3,7 +3,9 @@
     "MAIN_PAGE": "strona główna",
     "SEARCH_RECIPE": "wyszukaj przepis",
     "ADD_RECIPE": "dodaj przepis",
-    "MY_PROFILE": "mój profil"
+    "MY_PROFILE": "mój profil",
+    "LOGIN": "zaloguj",
+    "LOGOUT": "wyloguj"
   },
   "MAIN_PAGE": {
     "LAST_ADDED": "Ostatnio dodane przepisy",
@@ -13,6 +15,8 @@
   },
   "LOGIN_FORM": {
     "SUBMIT": "Zaloguj",
+    "WRONG_USERNAME_OR_PASSWORD": "Zły login lub hasło",
+    "LOGIN_IN_PROGRESS": "Proszę czekać, trwa logowanie",
     "LABEL": {
       "USERNAME": "Nazwa użytkownika",
       "PASSWORD": "Hasło"

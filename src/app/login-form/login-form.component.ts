@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
-import { timer } from 'rxjs';
+import { FieldValidationService } from '../service/field-validation.service';
+import { AuthService } from '../service/auth.service';
 
 @Component({
   selector: 'app-login-form',
@@ -13,19 +15,36 @@ export class LoginFormComponent implements OnInit {
   password: FormControl = new FormControl('', [Validators.required]);
   loginForm: FormGroup;
 
-  constructor(private formBuilder: FormBuilder) {
+  loginInProgress = false;
+  lastAttemptFailed = false;
+
+  constructor(public fieldValidationService: FieldValidationService, private authService: AuthService,
+              private formBuilder: FormBuilder, private router: Router) {
     this.loginForm = this.formBuilder.group({
       username: this.username,
       password: this.password
     });
   }
 
-  get f() { return this.loginForm.controls; }
-
   ngOnInit() {
   }
 
   sendLoginReq() {
-    timer(1000).subscribe(_ => console.log('Receiving resp'));
+    this.loginInProgress = true;
+
+    this.authService.login(this.username.value, this.password.value).subscribe((succeeded: boolean) => {
+      if (succeeded) {
+        // Set appropriate flags so that navigation bar would change
+        this.router.navigate(['/profile']);
+      } else {
+        this.lastAttemptFailed = true;
+      }
+
+      this.loginInProgress = false;
+    });
+  }
+
+  hide() {
+    this.lastAttemptFailed = false;
   }
 }

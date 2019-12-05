@@ -1,31 +1,41 @@
-<form [formGroup]="loginForm" (ngSubmit)="sendLoginReq()" novalidate>
-    <div class="form-group">
-        <label>
-            {{ 'LOGIN_FORM.LABEL.USERNAME' | translate }}
-            <input type="text" class="form-control" formControlName="username" [ngClass]="{ 'is-invalid': (username.dirty || username.touched) && username.invalid }">
-            <div *ngIf="username.invalid && (username.dirty || username.touched)" class="invalid-feedback">
-                {{ 'LOGIN_FORM.VALIDATIONS.PROVIDE_USERNAME' | translate }}
-            </div>
-        </label>        
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="alert alert-danger" role="alert" *ngIf="lastAttemptFailed">
+      {{ 'LOGIN_FORM.WRONG_USERNAME_OR_PASSWORD' | translate }}!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
     </div>
-    
-    <div class="form-group">
-        <label>
-            {{ 'LOGIN_FORM.LABEL.PASSWORD' | translate }}
-            <input type="password" class="form-control" formControlName="password" [ngClass]="{ 'is-invalid': (f.password.dirty || f.password.touched) && f.password.invalid }"> 
-            <div *ngIf="f.password.invalid && (f.password.dirty || f.password.touched)" class="invalid-feedback">
-                {{ 'LOGIN_FORM.VALIDATIONS.PROVIDE_PASSWORD' | translate }}
-            </div>
-        </label>
-    </div>
+    <form [formGroup]="loginForm" (ngSubmit)="sendLoginReq()" novalidate>
+      <div class="form-group">
+        <label for="username">{{ 'LOGIN_FORM.LABEL.USERNAME' | translate }}</label>
+        <input type="text" class="form-control" formControlName="username" id="username" autocomplete="username"
+          [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(username) }">
+        <div *ngIf="fieldValidationService.isInvalid(username)" class="invalid-feedback">
+          {{ 'LOGIN_FORM.VALIDATIONS.PROVIDE_USERNAME' | translate }}
+        </div>
+      </div>
 
-    <div class="form-group">
-        Form Status: {{ loginForm.status }}
-        Username: {{ loginForm.value.username }}
-        Password: {{ loginForm.value.password }}
-        Username invalid: {{ username.invalid }}
-    </div>
+      <div class="form-group">
+        <label for="password">{{ 'LOGIN_FORM.LABEL.PASSWORD' | translate }}</label>
+        <input type="password" class="form-control" formControlName="password" id="password"
+          autocomplete="current-password" [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(password) }">
+        <div *ngIf="fieldValidationService.isInvalid(password)" class="invalid-feedback">
+          {{ 'LOGIN_FORM.VALIDATIONS.PROVIDE_PASSWORD' | translate }}
+        </div>
+      </div>
 
-    <app-form-components-submit [submitText]="'LOGIN_FORM.SUBMIT' | translate" [isDisabled]="loginForm.invalid">
-    </app-form-components-submit>
-</form>
+      <div class="form-row">
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="loginForm.invalid || loginInProgress">
+            {{ 'LOGIN_FORM.SUBMIT' | translate }}
+          </button>
+        </div>
+        <div class="col-10" class="align-self-center" *ngIf="loginInProgress">
+          <div class="text-warning">{{ 'LOGIN_FORM.LOGIN_IN_PROGRESS' | translate}}...</div>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
