@@ -9,7 +9,7 @@ import { AuthGuard } from './route-guards/auth.guard';
 
 const routes: Routes = [
   { path: '', canActivateChild: [AuthGuard], children: [
-    { path: 'main', component: MainPageComponent },
+    { path: '', component: MainPageComponent },
     { path: 'profile', component: MyProfileComponent },
     { path: 'search', component: SearchTabComponent, resolve: { foundRecipes: SearchResolver } },
   ]},

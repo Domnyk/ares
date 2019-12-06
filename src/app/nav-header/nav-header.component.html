@@ -1,7 +1,8 @@
 <div class="navigation-container">
   <ul class="nav nav-pills nav-justified">
     <li class="nav-item">
-      <a class="nav-link navigation-container__button" routerLink="main" routerLinkActive="active">{{'NAVIGATION.MAIN_PAGE' | translate}}</a>
+      <a class="nav-link navigation-container__button" routerLink="" routerLinkActive="active" 
+         [routerLinkActiveOptions]="{exact:true}">{{'NAVIGATION.MAIN_PAGE' | translate}}</a>
     </li>
     <li class="nav-item">
       <a class="nav-link navigation-container__button" routerLink="search" routerLinkActive="active">{{'NAVIGATION.SEARCH_RECIPE' | translate}}</a>
