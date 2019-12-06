@@ -29,7 +29,7 @@ export class LoginFormComponent implements OnInit {
   ngOnInit() {
   }
 
-  sendLoginReq() {
+  sendLoginReq(): void {
     this.loginInProgress = true;
 
     this.authService.login(this.username.value, this.password.value).subscribe((succeeded: boolean) => {
@@ -44,7 +44,7 @@ export class LoginFormComponent implements OnInit {
     });
   }
 
-  hide() {
+  hide(): void {
     this.lastAttemptFailed = false;
   }
 }
