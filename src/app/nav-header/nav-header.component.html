@@ -10,7 +10,7 @@
     <li class="nav-item">
       <a class="nav-link navigation-container__button" routerLinkActive="active" routerLink="add">{{'NAVIGATION.ADD_RECIPE' | translate}}</a>
     </li>
-    <li class="nav-item" *ngIf="authService.isLoggedIn">
+    <li class="nav-item">
       <a class="nav-link navigation-container__button" routerLinkActive="active" routerLink="profile" #logIn>{{'NAVIGATION.MY_PROFILE' | translate}}</a>
     </li>
     <li class="nav-item" *ngIf="authService.isLoggedIn">
