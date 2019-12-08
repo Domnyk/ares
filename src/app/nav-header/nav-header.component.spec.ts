@@ -1,4 +1,5 @@
 import {async, ComponentFixture, TestBed} from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import {NavHeaderComponent} from './nav-header.component';
 import {TranslateModule} from '@ngx-translate/core';
@@ -10,7 +11,7 @@ describe('NavHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ NavHeaderComponent ],
-      imports: [TranslateModule.forRoot()]
+      imports: [TranslateModule.forRoot(), RouterTestingModule]
     })
     .compileComponents();
   }));

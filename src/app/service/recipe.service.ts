@@ -2,13 +2,14 @@ import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
 import {Recipe} from '../model/recipe';
 import {HttpClient} from '@angular/common/http';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
-  private static RECIPES_URL = 'https://recipes-app-apsi.herokuapp.com/recipes';
+  private static RECIPES_URL = environment.apiUrl + '/recipes';
 
   constructor(private http: HttpClient) {
   }
