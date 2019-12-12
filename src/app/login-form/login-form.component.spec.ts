@@ -16,7 +16,7 @@ import {LoginFormComponent} from './login-form.component';
   selector: 'app-mock-profile',
   template: '<p>Mock Profile</p>'
 })
-class MockProfileComponent {
+class MockMainPageComponent {
 }
 
 describe('LoginFormComponent', () => {
@@ -35,7 +35,7 @@ describe('LoginFormComponent', () => {
     passwordField = fixture.debugElement.query(By.css('input#password')).nativeElement;
   };
   const routes: Routes = [
-    {path: 'profile', component: MockProfileComponent}
+    {path: '', component: MockMainPageComponent}
   ];
   const authDelay = 2000;
   const authService = {
@@ -49,7 +49,7 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [LoginFormComponent, MockProfileComponent],
+      declarations: [LoginFormComponent, MockMainPageComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, RouterTestingModule.withRoutes(routes)],
       providers: [{provide: AuthService, useValue: authService}]
     })
@@ -196,7 +196,7 @@ describe('LoginFormComponent', () => {
       submitBtn.click();
       tick(authDelay);
 
-      expect(location.path()).toBe('/profile');
+      expect(location.path()).toBe('/');
     }));
   });
 });
