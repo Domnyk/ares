@@ -6,7 +6,7 @@ import {Observable, Subject} from 'rxjs';
 import {RecipeService} from '../../service/recipe.service';
 
 @Injectable()
-export class SearchResolver implements OnDestroy, Resolve<Recipe[]>{
+export class SearchResolver implements OnDestroy, Resolve<Recipe[]> {
 
   private unsubscribe: Subject<void> = new Subject<void>();
 
@@ -15,7 +15,6 @@ export class SearchResolver implements OnDestroy, Resolve<Recipe[]>{
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Recipe[]> {
     const query = route.queryParams.query;
-    console.warn(route.queryParams);
     return this.recipeService.findRecipeByName(query).pipe(
       takeUntil(this.unsubscribe),
       map((recipes: Recipe[]) => {

@@ -1,22 +1,23 @@
-import { Component } from '@angular/core';
-import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
-import { TranslateModule } from '@ngx-translate/core';
-import { ReactiveFormsModule } from '@angular/forms';
-import { RouterTestingModule } from '@angular/router/testing';
-import { By } from '@angular/platform-browser';
-import { Router, Routes } from '@angular/router';
-import { Location } from '@angular/common';
-import { Observable, of, timer } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
-import { AuthService } from '../service/auth.service';
+import {Component} from '@angular/core';
+import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
+import {TranslateModule} from '@ngx-translate/core';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterTestingModule} from '@angular/router/testing';
+import {By} from '@angular/platform-browser';
+import {Router, Routes} from '@angular/router';
+import {Location} from '@angular/common';
+import {Observable, timer} from 'rxjs';
+import {map} from 'rxjs/operators';
+import {AuthService} from '../service/auth.service';
 
-import { LoginFormComponent } from './login-form.component';
+import {LoginFormComponent} from './login-form.component';
 
 @Component({
   selector: 'app-mock-profile',
   template: '<p>Mock Profile</p>'
 })
-class MockProfileComponent { }
+class MockProfileComponent {
+}
 
 describe('LoginFormComponent', () => {
   let component: LoginFormComponent;
@@ -34,13 +35,12 @@ describe('LoginFormComponent', () => {
     passwordField = fixture.debugElement.query(By.css('input#password')).nativeElement;
   };
   const routes: Routes = [
-    { path: 'profile', component: MockProfileComponent }
+    {path: 'profile', component: MockProfileComponent}
   ];
   const authDelay = 2000;
   const authService = {
     login(u, p): Observable<boolean> {
       return timer(authDelay).pipe(
-        tap(() => console.log('Dupa')),
         map(_ => desiredAuthResult)
       );
     }
@@ -49,11 +49,11 @@ describe('LoginFormComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LoginFormComponent, MockProfileComponent ],
+      declarations: [LoginFormComponent, MockProfileComponent],
       imports: [TranslateModule.forRoot(), ReactiveFormsModule, RouterTestingModule.withRoutes(routes)],
-      providers: [{ provide: AuthService, useValue: authService }]
+      providers: [{provide: AuthService, useValue: authService}]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
