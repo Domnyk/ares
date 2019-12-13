@@ -12,7 +12,7 @@ import {Subject} from 'rxjs';
 export class AppComponent implements OnInit, OnDestroy {
 
   title = 'ares';
-  public isLogged: boolean = true;
+  public isLogged: boolean = false;
   private unsubscribe = new Subject<void>();
 
   constructor(private translate: TranslateService, private authService: AuthService) {
