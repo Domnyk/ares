@@ -14,6 +14,7 @@
     "GO_TO_RECIPE": "Wyświetl przepis"
   },
   "LOGIN_FORM": {
+    "APP_TITLE": "[APSI] Przepisy",
     "SUBMIT": "Zaloguj",
     "WRONG_USERNAME_OR_PASSWORD": "Zły login lub hasło",
     "LOGIN_IN_PROGRESS": "Proszę czekać, trwa logowanie",
@@ -23,7 +24,7 @@
     },
     "VALIDATIONS": {
       "PROVIDE_USERNAME": "Podaj nazwę użytkownika",
-      "PROVIDE_PASSWORD": "Podaj hasło" 
+      "PROVIDE_PASSWORD": "Podaj hasło"
     }
   }
 }

@@ -1,4 +1,7 @@
-<ng-container *ngIf="isLogged">
+<ng-container *ngIf="isLogged else title">
   <app-nav-header></app-nav-header>
 </ng-container>
+<ng-template #title>
+  <h4 class="title">{{'LOGIN_FORM.APP_TITLE' | translate}}</h4>
+</ng-template>
 <router-outlet></router-outlet>
