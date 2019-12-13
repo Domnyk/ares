@@ -14,7 +14,7 @@
       <a class="nav-link navigation-container__button" routerLinkActive="active" routerLink="profile" #logIn>{{'NAVIGATION.MY_PROFILE' | translate}}</a>
     </li>
     <li class="nav-item" *ngIf="isLogged">
-      <a class="nav-link navigation-container__button" routerLink="profile">{{'NAVIGATION.LOGOUT' | translate}}</a>
+      <a class="nav-link navigation-container__button" (click)="logout()">{{'NAVIGATION.LOGOUT' | translate}}</a>
     </li>
   </ul>
 </div>

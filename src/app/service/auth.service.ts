@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
-import { throwError, Observable, BehaviorSubject } from 'rxjs';
+import { throwError, Observable, BehaviorSubject, of } from 'rxjs';
 import { map, tap, catchError, flatMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Credentials } from '../model/credentials';
 import { AuthResponse } from '../model/auth-response';
 import { CurrentUser } from '../model/current-user';
@@ -13,7 +13,8 @@ import { CurrentUser } from '../model/current-user';
 export class AuthService {
   private static readonly currentUserKey = 'currentUser';
 
-  private _isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+  private _isLoggedIn = new BehaviorSubject<boolean>(false);
+  private _currentUser = new BehaviorSubject<CurrentUser | null>(null);
   private url = environment.apiUrl + '/auth';
 
   constructor(private http: HttpClient) { }
@@ -25,57 +26,68 @@ export class AuthService {
     };
 
     return this.http.post(this.url, credentials, httpOptions).pipe(
-      map(this.parseResponse),
+      map(this.parseSuccessfulResponse),
+      catchError(this.parseErrorResponse),
       tap((resp: ParsedAuthResponse) => this.createSessionIfLoginWasSuccessful(resp, credentials.username)),
       flatMap(_ => this._isLoggedIn)
     );
   }
 
   logout(): Observable<boolean> {
-    localStorage.setItem(AuthService.currentUserKey, null);
+    localStorage.setItem(AuthService.currentUserKey, JSON.stringify(null));
 
     this._isLoggedIn.next(false);
     return this._isLoggedIn;
   }
 
-  parseResponse(response: HttpResponse<object>): ParsedAuthResponse {
+  parseSuccessfulResponse(response: HttpResponse<object>): ParsedAuthResponse {
     const { status } = response;
 
     if (status === 200) {
       const respToken = (response.body as AuthResponse).token;
-
       return { wasLoginSuccessful: true, token: respToken };
-    } else if (status === 400) {
-      return { wasLoginSuccessful: false };
     } else {
       console.warn(`Unexpected status code ${status}. Assuming login failed. Full response: ${response}`);
       return { wasLoginSuccessful: false };
     }
   }
 
-  createSessionIfLoginWasSuccessful(response: ParsedAuthResponse, username: string): void {
-    const wasLoginSuccessful = response.wasLoginSuccessful;
-    const t = response.token;
+  parseErrorResponse(response: HttpErrorResponse): Observable<ParsedAuthResponse> {
+    const { status } = response;
+    if (status !== 400) {
+      console.warn(`Unexpected status code ${status}. Assuming login failed. Full response: ${response}`);
+    }
 
+    return of({ wasLoginSuccessful: false });
+  }
+
+  createSessionIfLoginWasSuccessful(response: ParsedAuthResponse, username: string): void {
+    const { wasLoginSuccessful, token } = response;
     if (wasLoginSuccessful === false) {
+      return;
+    } else if (token === undefined || token === undefined) {
+      console.warn(`Token is ${token}  but \'wasLoginSuccessful\' is true. Assuming login failed`);
       return;
     }
 
     this._isLoggedIn.next(true);
-    const currentUser: CurrentUser = { username: '', token: t };
+    const currentUser: CurrentUser = { username, token };
     localStorage.setItem(AuthService.currentUserKey, JSON.stringify(currentUser));
   }
 
   makeCredentials(username: string, password: string): Credentials {
-    const u = username;
-    const p = password;
-
-    return { username: u, password: p };
+    return { username, password };
   }
 
-  get currentUser(): CurrentUser | null {
+  get currentUser(): Observable<CurrentUser | null> {
     const currentUserAsJson = localStorage.getItem(AuthService.currentUserKey);
-    return JSON.parse(currentUserAsJson);
+    if (currentUserAsJson === null) {
+      this._currentUser.next(null);
+    } else {
+      this._currentUser.next(JSON.parse(currentUserAsJson));
+    }
+
+    return this._currentUser;
   }
 
   get isLoggedIn(): Observable<boolean> {
