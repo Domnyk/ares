@@ -4,7 +4,6 @@ import { map, tap, catchError, flatMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
 import { Credentials } from '../model/credentials';
-import { AuthResponse } from '../model/auth-response';
 import { CurrentUser } from '../model/current-user';
 
 @Injectable({
@@ -97,5 +96,9 @@ export class AuthService {
 
 interface ParsedAuthResponse {
   wasLoginSuccessful: boolean;
+  token?: string;
+}
+
+interface AuthResponse {
   token?: string;
 }
