@@ -3,6 +3,7 @@ import {Component} from '@angular/core';
 import {async, fakeAsync, flush, inject, TestBed, tick} from '@angular/core/testing';
 import {RouterTestingModule} from '@angular/router/testing';
 import {Router, Routes} from '@angular/router';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 import {AuthGuard} from './auth.guard';
 import {of} from 'rxjs';
@@ -36,7 +37,7 @@ describe('AuthGuard', () => {
     TestBed.configureTestingModule({
       declarations: [MockMainComponent, MockLoginComponent],
       providers: [AuthGuard],
-      imports: [RouterTestingModule.withRoutes(routes)]
+      imports: [RouterTestingModule.withRoutes(routes), HttpClientTestingModule]
     });
   }));
 
@@ -46,7 +47,7 @@ describe('AuthGuard', () => {
 
   describe('canActivateChild', () => {
     let authGuard: AuthGuard;
-    const authService: AuthService = new AuthService();
+    const authService: AuthService = new AuthService(null);
     let router: Router;
     let location: Location;
 

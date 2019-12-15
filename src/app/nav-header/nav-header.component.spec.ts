@@ -3,6 +3,7 @@ import { RouterTestingModule } from '@angular/router/testing';
 
 import {NavHeaderComponent} from './nav-header.component';
 import {TranslateModule} from '@ngx-translate/core';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('NavHeaderComponent', () => {
   let component: NavHeaderComponent;
@@ -11,7 +12,7 @@ describe('NavHeaderComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ NavHeaderComponent ],
-      imports: [TranslateModule.forRoot(), RouterTestingModule]
+      imports: [TranslateModule.forRoot(), RouterTestingModule, HttpClientTestingModule]
     })
     .compileComponents();
   }));

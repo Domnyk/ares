@@ -4,6 +4,7 @@ import {AppComponent} from './app.component';
 import {NavHeaderComponent} from './nav-header/nav-header.component';
 import {TranslateModule} from '@ngx-translate/core';
 import {AuthService} from './service/auth.service';
+import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -11,6 +12,7 @@ describe('AppComponent', () => {
       imports: [
         RouterTestingModule,
         TranslateModule.forRoot(),
+        HttpClientTestingModule,
       ],
       declarations: [
         AppComponent,
