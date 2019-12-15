@@ -45,7 +45,6 @@ export class LoginFormComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((succeeded: boolean) => {
         if (succeeded) {
-          // Set appropriate flags so that navigation bar would change
           this.router.navigate(['']);
         } else {
           this.lastAttemptFailed = true;
