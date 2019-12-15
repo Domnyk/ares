@@ -1,0 +1,68 @@
+<div class="row">
+  <div class="col-6 offset-3">
+    <div class="alert alert-danger" role="alert" *ngIf="lastAttemptFailed">
+      {{ 'REGISTRATION_FORM.ERROR' | translate }}!
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close" (click)="hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <form [formGroup]="registrationForm" (ngSubmit)="sendRegistrationReq()" novalidate>
+
+      <div class="form-group">
+        <label for="username">{{ 'REGISTRATION_FORM.LABEL.USERNAME' | translate }}</label>
+        <input type="text" class="form-control" formControlName="username" id="username"
+               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(nickname) }">
+        <div *ngIf="fieldValidationService.isInvalid(nickname)" class="invalid-feedback">
+          {{ 'REGISTRATION_FORM.VALIDATIONS.PROVIDE_USERNAME' | translate }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="password">{{ 'REGISTRATION_FORM.LABEL.PASSWORD' | translate }}</label>
+        <input type="password" class="form-control" formControlName="password" id="password"
+               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(password) }">
+        <div *ngIf="fieldValidationService.isInvalid(password)" class="invalid-feedback">
+          {{ 'REGISTRATION_FORM.VALIDATIONS.PROVIDE_PASSWORD' | translate }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="nickname">{{ 'REGISTRATION_FORM.LABEL.NICKNAME' | translate }}</label>
+        <input type="text" class="form-control" formControlName="nickname" id="nickname"
+               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(nickname) }">
+        <div *ngIf="fieldValidationService.isInvalid(nickname)" class="invalid-feedback">
+          {{ 'REGISTRATION_FORM.VALIDATIONS.PROVIDE_NICKNAME' | translate }}
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="name">{{ 'REGISTRATION_FORM.LABEL.NAME' | translate }}</label>
+        <input type="text" class="form-control" formControlName="name" id="name">
+      </div>
+
+      <div class="form-group">
+        <label for="surname">{{ 'REGISTRATION_FORM.LABEL.SURNAME' | translate }}</label>
+        <input type="text" class="form-control" formControlName="surname" id="surname">
+      </div>
+
+      <div class="form-group">
+        <label for="email">{{ 'REGISTRATION_FORM.LABEL.EMAIL' | translate }}</label>
+        <input type="text" class="form-control" formControlName="email" id="email">
+      </div>
+
+      <div class="form-group">
+        <label for="bio">{{ 'REGISTRATION_FORM.LABEL.BIO' | translate }}</label>
+        <input type="text" class="form-control" formControlName="bio" id="bio">
+      </div>
+
+      <div class="form-row">
+        <div class="col-auto">
+          <button type="submit" class="btn btn-primary btn-block" [disabled]="registrationForm.invalid">
+            {{ 'REGISTRATION_FORM.SUBMIT' | translate }}
+          </button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
