@@ -11,6 +11,8 @@ import { CurrentUser } from '../model/current-user';
 })
 export class AuthService {
   private static readonly currentUserKey = 'currentUser';
+  private static readonly OK_STATUS = 200;
+  private static readonly BAD_REQUEST_STATUS = 400;
 
   private _isLoggedIn = new BehaviorSubject<boolean>(false);
   private _currentUser = new BehaviorSubject<CurrentUser | null>(null);
@@ -42,7 +44,7 @@ export class AuthService {
   parseSuccessfulResponse(response: HttpResponse<object>): ParsedAuthResponse {
     const { status } = response;
 
-    if (status === 200) {
+    if (status === AuthService.OK_STATUS) {
       const respToken = (response.body as AuthResponse).token;
       return { wasLoginSuccessful: true, token: respToken };
     } else {
@@ -53,7 +55,7 @@ export class AuthService {
 
   parseErrorResponse(response: HttpErrorResponse): Observable<ParsedAuthResponse> {
     const { status } = response;
-    if (status !== 400) {
+    if (status !== AuthService.BAD_REQUEST_STATUS) {
       console.warn(`Unexpected status code ${status}. Assuming login failed. Full response: ${response}`);
     }
 
@@ -64,7 +66,7 @@ export class AuthService {
     const { wasLoginSuccessful, token } = response;
     if (wasLoginSuccessful === false) {
       return;
-    } else if (token === undefined || token === undefined) {
+    } else if (token === undefined || token === null) {
       console.warn(`Token is ${token}  but \'wasLoginSuccessful\' is true. Assuming login failed`);
       return;
     }
@@ -80,10 +82,10 @@ export class AuthService {
 
   get currentUser(): Observable<CurrentUser | null> {
     const currentUserAsJson = localStorage.getItem(AuthService.currentUserKey);
-    if (currentUserAsJson === null) {
-      this._currentUser.next(null);
-    } else {
+    if (currentUserAsJson !== null) {
       this._currentUser.next(JSON.parse(currentUserAsJson));
+    } else {
+      this._currentUser.next(null);
     }
 
     return this._currentUser;
