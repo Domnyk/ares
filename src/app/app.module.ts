@@ -7,7 +7,7 @@ import { AppComponent } from './app.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { NavHeaderComponent } from './nav-header/nav-header.component';
 import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {HttpClient, HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 import { SearchBoxComponent } from './main-page/search-box/search-box.component';
 import { SearchResultComponent } from './main-page/search-result/search-result.component';
@@ -15,6 +15,7 @@ import { MyProfileComponent } from './my-profile/my-profile.component';
 import { SearchTabComponent } from './search-tab/search-tab.component';
 import {SearchResolver} from './search-tab/resolver/search-resolver';
 import { LoginFormComponent } from './login-form/login-form.component';
+import { AuthInterceptor } from './interceptors/auth.interceptor';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -44,7 +45,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     }),
     ReactiveFormsModule,
   ],
-  providers: [SearchResolver],
+  providers: [SearchResolver, { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

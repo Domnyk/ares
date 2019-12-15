@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   apiUrl: 'https://recipes-app-apsi.herokuapp.com',
+  loginPath: '/auth',
 };
 
 /*

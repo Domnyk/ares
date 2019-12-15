@@ -14,7 +14,7 @@ export class AuthService {
 
   private _isLoggedIn = new BehaviorSubject<boolean>(false);
   private _currentUser = new BehaviorSubject<CurrentUser | null>(null);
-  private url = environment.apiUrl + '/auth';
+  private url = environment.apiUrl + environment.loginPath;
 
   constructor(private http: HttpClient) { }
 
