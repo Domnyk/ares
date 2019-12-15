@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
 export class NavHeaderComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject<void>();
-  private isLogged: boolean = false;
+  isLogged: boolean = false;
 
   constructor(private authService: AuthService, private router: Router) {
   }
