@@ -30,7 +30,8 @@ export class NavHeaderComponent implements OnInit, OnDestroy {
   }
 
   logout(): void {
-    this.authService.logout()
-      .subscribe(_ => this.router.navigate(['/login']));
+    this.authService.logout().pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe(_ => this.router.navigate(['/login']));
   }
 }
