@@ -7,6 +7,7 @@
     "LOGIN": "zaloguj",
     "LOGOUT": "wyloguj"
   },
+  "APP_TITLE": "[APSI] Przepisy",
   "MAIN_PAGE": {
     "LAST_ADDED": "Ostatnio dodane przepisy",
     "SEARCH": "Wyszukaj",
@@ -14,8 +15,8 @@
     "GO_TO_RECIPE": "Wyświetl przepis"
   },
   "LOGIN_FORM": {
-    "APP_TITLE": "[APSI] Przepisy",
     "SUBMIT": "Zaloguj",
+    "SIGN_UP": "Przejdź do formularza rejestracji",
     "WRONG_USERNAME_OR_PASSWORD": "Zły login lub hasło",
     "LOGIN_IN_PROGRESS": "Proszę czekać, trwa logowanie",
     "LABEL": {
@@ -26,5 +27,26 @@
       "PROVIDE_USERNAME": "Podaj nazwę użytkownika",
       "PROVIDE_PASSWORD": "Podaj hasło"
     }
+  },
+  "REGISTRATION_FORM": {
+    "SUBMIT": "Prześlij",
+    "LABEL": {
+      "NAME": "Imię",
+      "SURNAME": "Nazwisko",
+      "NICKNAME": "Nick",
+      "USERNAME": "Login",
+      "PASSWORD": "Hasło",
+      "BIO": "O mnie",
+      "EMAIL": "e-mail",
+      "FAVOURITES": "Ulubione przepisy"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_NICKNAME": "Podaj nik",
+      "PROVIDE_USERNAME": "Podaj nazwę użytkownika",
+      "PROVIDE_PASSWORD": "Podaj hasło",
+      "PROVIDE_EMAIL": "Podaj e-mail",
+      "WRONG_EMAIL" : "Nieprawidłowy adres email"
+    },
+    "ERROR": "Coś poszło nie tak"
   }
 }
