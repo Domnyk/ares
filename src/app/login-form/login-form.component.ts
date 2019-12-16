@@ -57,4 +57,8 @@ export class LoginFormComponent implements OnInit, OnDestroy {
   hide(): void {
     this.lastAttemptFailed = false;
   }
+
+  openRegistrationForm() {
+    this.router.navigate(['registration']);
+  }
 }
