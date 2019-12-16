@@ -50,7 +50,7 @@ export class RegistrationFormComponent implements OnDestroy {
   sendRegistrationReq(): void {
     //TODO
     // real recipes are required here
-    let recipes = [4];
+    const recipes: number[] = [];
     this.registrationService.addUser(
       this.username.value,
       this.password.value,
