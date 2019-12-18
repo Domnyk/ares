@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {BehaviorSubject, Observable, of} from "rxjs";
-import {catchError, flatMap, map, tap} from "rxjs/operators";
-import {User} from "../model/user";
-import {environment} from "../../environments/environment";
-import {HttpClient, HttpErrorResponse, HttpResponse} from "@angular/common/http";
+import {BehaviorSubject, Observable, of} from 'rxjs';
+import {catchError, flatMap, map, tap} from 'rxjs/operators';
+import {User} from '../model/user';
+import {environment} from '../../environments/environment';
+import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -24,12 +24,12 @@ export class RegistrationService {
           password: string,
           nickname: string,
           bio: string,
-          favourite_recipes: number[],
+          favouriteRecipes: number[],
           email: string,
           name: string,
           surname: string
   ): Observable<boolean> {
-    const user: User = this.makeUser(username, password, nickname, bio, favourite_recipes, email, name, surname);
+    const user: User = this.makeUser(username, password, nickname, bio, favouriteRecipes, email, name, surname);
     const httpOptions: { observe: 'response' } = {
       observe: 'response'
     };
@@ -62,12 +62,13 @@ export class RegistrationService {
     return of({wasSignUpSuccessful: false});
   }
 
-  makeUser(username: string, password: string, nickname: string, bio: string, favourite_recipes: Array<number>, email: string, name: string, surname: string): User {
+  makeUser(username: string, password: string, nickname: string, bio: string, favouriteRecipes: Array<number>,
+           email: string, name: string, surname: string): User {
 
-    let basic_info = {username: username, password: password, surname: surname, name: name, email: email};
+    const basicInfo = {username, password, surname, name, email};
 
     return {
-      basic_info, nickname, favourite_recipes, bio
+      basicInfo, nickname, favouriteRecipes, bio
     };
   }
 

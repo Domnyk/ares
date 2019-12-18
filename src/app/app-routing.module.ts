@@ -6,7 +6,7 @@ import {SearchTabComponent} from './search-tab/search-tab.component';
 import {SearchResolver} from './search-tab/resolver/search-resolver';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AuthGuard } from './route-guards/auth.guard';
-import {RegistrationFormComponent} from "./registration-form/registration-form.component";
+import {RegistrationFormComponent} from './registration-form/registration-form.component';
 
 const routes: Routes = [
   { path: '', canActivateChild: [AuthGuard], children: [

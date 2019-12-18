@@ -1,10 +1,10 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {FieldValidationService} from "../service/field-validation.service";
-import {Router} from "@angular/router";
-import {Subject} from "rxjs";
-import {RegistrationService} from "../service/registration.service";
-import {takeUntil} from "rxjs/operators";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FieldValidationService} from '../service/field-validation.service';
+import {Router} from '@angular/router';
+import {Subject} from 'rxjs';
+import {RegistrationService} from '../service/registration.service';
+import {takeUntil} from 'rxjs/operators';
 
 
 @Component({
@@ -18,11 +18,11 @@ export class RegistrationFormComponent implements OnDestroy {
   password: FormControl = new FormControl('', [Validators.required]);
   bio: FormControl = new FormControl('', [Validators.nullValidator]);
   // favourite_recipes: {id:number,recipe:number}[];
-  email: FormControl = new FormControl('',[
+  email: FormControl = new FormControl('', [
     Validators.required,
     Validators.email
   ]);
-  //TODO add posibility to type and search
+  // TODO add posibility to type and search
   name: FormControl = new FormControl('', [Validators.nullValidator]);
   surname: FormControl = new FormControl('', [Validators.nullValidator]);
   registrationForm: FormGroup;
@@ -48,7 +48,7 @@ export class RegistrationFormComponent implements OnDestroy {
   }
 
   sendRegistrationReq(): void {
-    //TODO
+    // TODO
     // real recipes are required here
     const recipes: number[] = [];
     this.registrationService.addUser(
