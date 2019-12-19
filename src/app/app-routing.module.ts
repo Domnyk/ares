@@ -7,12 +7,14 @@ import {SearchResolver} from './search-tab/resolver/search-resolver';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AuthGuard } from './route-guards/auth.guard';
 import {RegistrationFormComponent} from './registration-form/registration-form.component';
+import { ShowRecipeComponent } from './show-recipe/show-recipe.component';
 
 const routes: Routes = [
   { path: '', canActivateChild: [AuthGuard], children: [
     { path: '', component: MainPageComponent },
     { path: 'profile', component: MyProfileComponent },
     { path: 'search', component: SearchTabComponent, resolve: { foundRecipes: SearchResolver } },
+    { path: 'recipe/:id', component: ShowRecipeComponent },
   ]},
   { path: 'login', component: LoginFormComponent },
   { path: 'registration', component: RegistrationFormComponent}

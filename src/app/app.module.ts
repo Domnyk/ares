@@ -17,6 +17,7 @@ import {SearchResolver} from './search-tab/resolver/search-resolver';
 import { LoginFormComponent } from './login-form/login-form.component';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import {RegistrationFormComponent} from './registration-form/registration-form.component';
+import { ShowRecipeComponent } from './show-recipe/show-recipe.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -32,7 +33,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     MyProfileComponent,
     SearchTabComponent,
     LoginFormComponent,
-    RegistrationFormComponent
+    RegistrationFormComponent,
+    ShowRecipeComponent
   ],
   imports: [
     BrowserModule,

@@ -18,6 +18,6 @@ export class SearchResultComponent implements OnInit {
 
   // TODO implement me
   public navigateToRecipe(): void {
-      this.router.navigateByUrl('profile');
+      this.router.navigateByUrl('recipe/1');
   }
 }
