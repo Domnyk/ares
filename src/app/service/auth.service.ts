@@ -92,7 +92,17 @@ export class AuthService {
   }
 
   get isLoggedIn(): Observable<boolean> {
+    if (environment.production === false) {
+      this.logUserAsDeveloper();
+    }
+
     return this._isLoggedIn;
+  }
+
+  private logUserAsDeveloper(): void {
+    const currentUser: CurrentUser = { username: 'Developer', token: environment.token };
+    localStorage.setItem(AuthService.currentUserKey, JSON.stringify(currentUser));
+    this._isLoggedIn.next(true);
   }
 }
 

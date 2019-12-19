@@ -57,6 +57,14 @@
                   "maximumError": "10kb"
                 }
               ]
+            },
+            "test": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.test.ts"
+                }
+              ]
             }
           }
         },
@@ -68,6 +76,9 @@
           "configurations": {
             "production": {
               "browserTarget": "ares:build:production"
+            },
+            "test": {
+              "browserTarget": "ares:build:test"
             }
           }
         },
@@ -91,7 +102,13 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [],
+            "fileReplacements": [
+              {
+                "replace": "src/environments/environment.ts",
+                "with": "src/environments/environment.test.ts"
+              }
+            ]
           }
         },
         "lint": {
@@ -116,6 +133,9 @@
           "configurations": {
             "production": {
               "devServerTarget": "ares:serve:production"
+            },
+            "test": {
+              "devServerTarget": "ares:serve:test"
             }
           }
         }
