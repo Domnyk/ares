@@ -5,6 +5,7 @@ import { map, tap } from 'rxjs/operators';
 import { Recipe } from '../model/recipe';
 import { Ingredient } from '../model/ingredient';
 import { takeUntil } from 'rxjs/operators';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-show-recipe',
@@ -17,13 +18,11 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
 
   public recipe: Recipe | null = null;
 
-  constructor() { }
+  constructor(private activatedRoute: ActivatedRoute) {
+    this.activatedRoute.data.subscribe((res) => console.log(res));
+  }
 
   ngOnInit() {
-    // TODO: This component receives ID from ActivatedRoute. Ignore it for now
-    console.log('Inside ngOnInit');
-    // TODO: Should this component fetch recipe again or accept information via Input directive?
-    // TODO: For now assuming fetching from API
     timer(1000).pipe(
       takeUntil(this.unsubscribe),
     ).subscribe(_ => this.recipe = this.makeDumbRecipe());

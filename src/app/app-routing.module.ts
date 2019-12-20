@@ -8,20 +8,21 @@ import { LoginFormComponent } from './login-form/login-form.component';
 import { AuthGuard } from './route-guards/auth.guard';
 import {RegistrationFormComponent} from './registration-form/registration-form.component';
 import { ShowRecipeComponent } from './show-recipe/show-recipe.component';
+import { FetchRecipeResolver } from './show-recipe/resolvers/fetch-recipe.resolver';
 
 const routes: Routes = [
   { path: '', canActivateChild: [AuthGuard], children: [
     { path: '', component: MainPageComponent },
     { path: 'profile', component: MyProfileComponent },
     { path: 'search', component: SearchTabComponent, resolve: { foundRecipes: SearchResolver } },
-    { path: 'recipe/:id', component: ShowRecipeComponent },
+    { path: 'recipes/:id', component: ShowRecipeComponent, resolve: { recipe: FetchRecipeResolver } }
   ]},
   { path: 'login', component: LoginFormComponent },
-  { path: 'registration', component: RegistrationFormComponent}
+  { path: 'registration', component: RegistrationFormComponent},
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
   exports: [RouterModule]
 })
 export class AppRoutingModule {

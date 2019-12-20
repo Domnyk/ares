@@ -1,5 +1,43 @@
-<div class="row" *ngIf="recipe">
-    <div class="col" id="title">
-        {{ recipe.title }}
+<div *ngIf="recipe; else loading">
+    <div class="row">
+        <div class="col-10 offset-1" id="title">
+            <h1 class="display-3">{{ recipe.title }}</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-3 offset-1">
+            <img src="/assets/images/sample_foot_photo.png" alt="{{recipe.title}} image" class="img-thumbnail">
+        </div>
+        <div class="col-4">
+            <p class="lead">Potrzebne składniki</p>
+            <ul *ngFor="let ingredient of recipe.ingredients">
+                <li>{{ ingredient.name }}</li>
+            </ul>
+        </div>
+        <div class="col-3">
+            <p class="lead">Twoja ocena</p>
+        </div>
+    </div>
+
+    <div class="row pt-4">
+        <div class="col-10 offset-1">
+            <p class="lead">Sposób przygotowania</p>
+            <div>
+                {{ recipe.description }}
+            </div>
+        </div>
+
+
     </div>
 </div>
+
+<ng-template #loading>
+    <div class="row pt-5">
+        <div class="col-4 offset-4 d-flex flex-row align-items-center">
+            <p class="lead text-maroon">{{ 'RECIPE_PAGE.LOADING' | translate }}</p>
+            <div class="ml-auto pb-2">
+                <div class="spinner-border recipe-spinner text-maroon" role="status" aria-hidden="true"></div>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,5 +1,5 @@
 <div class="recipe-item">
   <img class="recipe-item__image" src="/assets/images/sample_foot_photo.png">
   <div class="recipe-item__title"> {{recipe?.title }}</div>
-  <a class="recipe-item__link" (click)="navigateToRecipe()">{{'MAIN_PAGE.GO_TO_RECIPE' | translate }}</a>
+  <a [routerLink]="['/recipes', recipe.id]" class="recipe-item__link">{{'MAIN_PAGE.GO_TO_RECIPE' | translate }}</a>
 </div>

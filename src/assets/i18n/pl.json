@@ -45,8 +45,11 @@
       "PROVIDE_USERNAME": "Podaj nazwę użytkownika",
       "PROVIDE_PASSWORD": "Podaj hasło",
       "PROVIDE_EMAIL": "Podaj e-mail",
-      "WRONG_EMAIL" : "Nieprawidłowy adres email"
+      "WRONG_EMAIL": "Nieprawidłowy adres email"
     },
     "ERROR": "Coś poszło nie tak"
+  },
+  "RECIPE_PAGE": {
+    "LOADING": "Proszę czekać, wczytuję przepis..."
   }
 }
