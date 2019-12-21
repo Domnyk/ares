@@ -1,0 +1,48 @@
+<form class="filters-container" [formGroup]="searchForm">
+  <div class="filters-container__group">
+    <label class="filters-container__group_label" for="name">{{ 'SEARCH.FILTER.NAME' | translate }}</label>
+    <input class="filters-container__group_input filters-container__group_input_long" id="name" formControlName="name">
+  </div>
+  <div class="filters-container__group">
+    <label class="filters-container__group_label" for="difficulty">{{ 'SEARCH.FILTER.DIFFICULTY' | translate }}</label>
+    <input class="filters-container__group_input" type="number" id="difficulty" formControlName="difficulty">
+  </div>
+  <div class="filters-container__group">
+    <label class="filters-container__group_label" for="preparationTime">{{ 'SEARCH.FILTER.TIME' | translate }}</label>
+    <input type="number" class="filters-container__group_input filters-container__group_input_short"
+           id="preparationTime" formControlName="preparationTime">
+  </div>
+  <div class="filters-container__group">
+    <label class="filters-container__group_label" for="categories">{{ 'SEARCH.FILTER.CATEGORIES' | translate }}</label>
+    <input class="filters-container__group_input filters-container__group_input_long" id="categories"
+           [ngbTypeahead]="searchCategories"
+           formControlName="categories"
+           (selectItem)="selectCategory($event)">
+    <div *ngIf="selectedCategories.length !== 0" class="chosen-elements-container">
+      <ng-container *ngFor="let category of selectedCategories">
+        <app-element-box [name]="category" [elementType]="elementType.CATEGORY"
+                         (removeCategory)="removeSelectedCategory($event)"
+        ></app-element-box>
+      </ng-container>
+    </div>
+  </div>
+  <div class="filters-container__group">
+    <label class="filters-container__group_label"
+           for="ingredients">{{ 'SEARCH.FILTER.INGREDIENTS' | translate }}</label>
+    <input class="filters-container__group_input filters-container__group_input_long" id="ingredients" type="text"
+           [ngbTypeahead]="searchIngredients"
+           (selectItem)="selectIngredient($event)"
+           formControlName="ingredients">
+    <div *ngIf="selectedIngredients.length !== 0" class="chosen-elements-container">
+      <ng-container *ngFor="let ingredient of selectedIngredients">
+        <app-element-box [name]="ingredient" [elementType]="elementType.INGREDIENT"
+                         (removeIngredient)="removeSelectedIngredient($event)"
+        ></app-element-box>
+      </ng-container>
+    </div>
+  </div>
+  <button class="filters-container__search-button" (click)="search()">
+    {{ 'SEARCH.SEARCH_BTN' | translate }}
+  </button>
+  <p class="warning-msg" *ngIf="shouldShowWarningMsg">{{'SEARCH.NO_PARAMETERS_SPECIFIED' | translate}} </p>
+</form>

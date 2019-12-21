@@ -1,0 +1,14 @@
+.found-recipes-container {
+  width: 80vw;
+  margin: auto;
+
+  &__title {
+    color: maroon;
+    padding-bottom: 10px;
+  }
+
+  &__recipes {
+    display: flex;
+    flex-direction: column;
+  }
+}

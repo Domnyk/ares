@@ -56,5 +56,17 @@
     "PREPARATION_INSTRUCTIONS": "Sposób przygotowania",
     "LOADING": "Proszę czekać, wczytuję przepis...",
     "SCORE_WAS_ADDED": "Twoja ocena została dodana"
+  },
+  "SEARCH": {
+    "FILTER": {
+      "NAME" : "Nazwa przepisu",
+      "CATEGORIES": "Kategorie",
+      "INGREDIENTS": "Składniki",
+      "TIME": "Maksymalny czas przygotowania",
+      "DIFFICULTY": "Stopień trudności (1- bardzo łatwy, 5-bardzo trudny)"
+    },
+    "SEARCH_BTN": "Wyszukaj",
+    "NO_PARAMETERS_SPECIFIED": "Nie określono parametrów wyszukiwania",
+    "RESULTS": "Wyniki wyszukiwania"
   }
 }

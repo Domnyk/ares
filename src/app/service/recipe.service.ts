@@ -7,6 +7,7 @@ import { map, switchMap, take } from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { CurrentUser } from '../model/current-user';
 import { Rating } from '../model/rating';
+import {DictionaryService} from './dictionary.service';
 
 @Injectable({
   providedIn: 'root'
