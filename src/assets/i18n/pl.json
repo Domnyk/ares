@@ -50,6 +50,10 @@
     "ERROR": "Coś poszło nie tak"
   },
   "RECIPE_PAGE": {
+    "SEND_SCORE": "Prześlij ocenę",
+    "YOUR_SCORE": "Twoja ocena",
+    "NECESSARY_INGREDIENTS": "Potrzebne składniki",
+    "PREPARATION_INSTRUCTIONS": "Sposób przygotowania",
     "LOADING": "Proszę czekać, wczytuję przepis..."
   }
 }

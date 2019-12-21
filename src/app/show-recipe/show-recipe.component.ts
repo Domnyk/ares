@@ -1,11 +1,11 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { timer, Subject } from 'rxjs';
-import { map, tap } from 'rxjs/operators';
+import { Subject, Observable } from 'rxjs';
+import { map, flatMap } from 'rxjs/operators';
 
 import { Recipe } from '../model/recipe';
-import { Ingredient } from '../model/ingredient';
 import { takeUntil } from 'rxjs/operators';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Data } from '@angular/router';
+import { RecipeService } from '../service/recipe.service';
 
 @Component({
   selector: 'app-show-recipe',
@@ -13,19 +13,21 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./show-recipe.component.scss']
 })
 export class ShowRecipeComponent implements OnInit, OnDestroy {
+  public recipe: Recipe | null = null;
+  public isRatingConfirmationVisible = false;
 
   private unsubscribe = new Subject<void>();
 
-  public recipe: Recipe | null = null;
-
-  constructor(private activatedRoute: ActivatedRoute) {
-    this.activatedRoute.data.subscribe((res) => console.log(res));
-  }
+  constructor(private recipeService: RecipeService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
-    timer(1000).pipe(
+    this.activatedRoute.data.pipe(
+      map((res: Data) => res.recipe.id),
+      map((id: string) => parseInt(id, 10)),
+      map((id: number) => this.fetchRecipe(id)),
+      flatMap(_ => _),
       takeUntil(this.unsubscribe),
-    ).subscribe(_ => this.recipe = this.makeDumbRecipe());
+    ).subscribe(recipe => this.recipe = recipe);
   }
 
   ngOnDestroy() {
@@ -33,31 +35,18 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  private makeDumbRecipe(): Recipe {
-    const ingredients: Ingredient[] = [{
-      id: 1,
-      replacements: [],
-      name: 'butter'
-    }, {
-      id: 2,
-      replacements: [],
-      name: 'eggs'
-    }];
+  showRatingConfirmation(): void {
+    this.isRatingConfirmationVisible = true;
+  }
 
-    return {
-      id: '-1',
-      categories: ['dinner', 'expensive', 'fancy', 'perfect for group'],
-      ingredients,
-      title: 'Student\'s chicken',
-      description: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque at efficitur enim. ' +
-        'Maecenas ac risus vitae nibh varius auctor a id ex.Pellentesque habitant morbi tristique ' +
-        'senectus netus et malesuada fames ac turpis egestas.Fusce tortor nisi, lacinia non semper non, commodo id ' +
-        'nibh.Nunc vestibulum maximus ipsum id gravida.Mauris at elit vehicula, faucibus quam et, pharetra augue.',
-      difficulty: 10,
-      creationDate: new Date(),
-      time: 3600,
-      user: -1
-    };
+  updateRating(): void {
+
+  }
+
+  private fetchRecipe(id: number): Observable<Recipe> {
+    return this.recipeService.findRecipeById(id).pipe(
+      takeUntil(this.unsubscribe)
+    );
   }
 
 }

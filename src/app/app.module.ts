@@ -19,6 +19,7 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import {RegistrationFormComponent} from './registration-form/registration-form.component';
 import { ShowRecipeComponent } from './show-recipe/show-recipe.component';
 import { FetchRecipeResolver } from './show-recipe/resolvers/fetch-recipe.resolver';
+import { RecipeRatingComponent } from './recipe-rating/recipe-rating.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -35,7 +36,8 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     SearchTabComponent,
     LoginFormComponent,
     RegistrationFormComponent,
-    ShowRecipeComponent
+    ShowRecipeComponent,
+    RecipeRatingComponent
   ],
   imports: [
     BrowserModule,

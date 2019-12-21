@@ -9,25 +9,28 @@
             <img src="/assets/images/sample_foot_photo.png" alt="{{recipe.title}} image" class="img-thumbnail">
         </div>
         <div class="col-4">
-            <p class="lead">Potrzebne składniki</p>
+            <p class="lead font-weight-bolder">{{ 'RECIPE_PAGE.NECESSARY_INGREDIENTS' | translate }}</p>
             <ul *ngFor="let ingredient of recipe.ingredients">
                 <li>{{ ingredient.name }}</li>
             </ul>
         </div>
         <div class="col-3">
-            <p class="lead">Twoja ocena</p>
+            <p class="lead font-weight-bolder">{{ 'RECIPE_PAGE.YOUR_SCORE' | translate }}</p>
+            <div>
+                <app-recipe-rating (ratingClick)="showRatingConfirmation()"></app-recipe-rating>
+            </div>
+            <div *ngIf="isRatingConfirmationVisible" class="mt-3">
+                <button class="btn btn-primary"
+                    (click)="updateScore()">{{ 'RECIPE_PAGE.SEND_SCORE' | translate }}</button>
+            </div>
         </div>
     </div>
 
     <div class="row pt-4">
         <div class="col-10 offset-1">
-            <p class="lead">Sposób przygotowania</p>
-            <div>
-                {{ recipe.description }}
-            </div>
+            <p class="lead font-weight-bolder">{{ 'RECIPE_PAGE.PREPARATION_INSTRUCTIONS' | translate }}</p>
+            <div>{{ recipe.description }}</div>
         </div>
-
-
     </div>
 </div>
 
