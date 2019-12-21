@@ -13,7 +13,7 @@
     "build:dev": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e --configuration=test"
   },
   "private": true,
   "dependencies": {
@@ -54,5 +54,8 @@
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
     "typescript": "~3.5.3"
+  },
+  "resolutions": {
+    "serialize-javascript": ">= 2.1.1"
   }
 }
