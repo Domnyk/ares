@@ -100,16 +100,12 @@ export class AuthService {
   }
 
   private logUserAsDeveloper(): void {
-<<<<<<< HEAD
-    const currentUser: CurrentUser = { username: 'Developer', token: '4f41d4daecaf901826b467c5ad2e2683f82a0519' };
-=======
     if (environment.token === undefined || environment.token === null) {
       console.warn('Trying to log as developer but token is not defined. Canceling login attempt');
       return;
     }
 
     const currentUser: CurrentUser = { username: 'Developer', token: environment.token };
->>>>>>> staging
     localStorage.setItem(AuthService.currentUserKey, JSON.stringify(currentUser));
     this._isLoggedIn.next(true);
   }
