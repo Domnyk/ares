@@ -40,7 +40,7 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
   }
 
   updateRating(): void {
-
+    // TODO implement
   }
 
   private fetchRecipe(id: number): Observable<Recipe> {
