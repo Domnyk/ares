@@ -2,7 +2,7 @@ import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
-import { of } from 'rxjs';
+import { of, EMPTY } from 'rxjs';
 
 import { ShowRecipeComponent } from './show-recipe.component';
 import { RecipeRatingComponent } from '../recipe-rating/recipe-rating.component';
@@ -34,7 +34,7 @@ class MockActivatedRoute extends ActivatedRoute {
 class MockActivatedRouteWithoutRecipe extends ActivatedRoute {
   constructor() {
       super();
-      this.data = of({ recipe: null });
+      this.data = EMPTY;
   }
 }
 
