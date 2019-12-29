@@ -54,6 +54,7 @@
     "YOUR_SCORE": "Twoja ocena",
     "NECESSARY_INGREDIENTS": "Potrzebne składniki",
     "PREPARATION_INSTRUCTIONS": "Sposób przygotowania",
-    "LOADING": "Proszę czekać, wczytuję przepis..."
+    "LOADING": "Proszę czekać, wczytuję przepis...",
+    "SCORE_WAS_ADDED": "Twoja ocena została dodana"
   }
 }

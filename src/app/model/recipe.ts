@@ -1,7 +1,7 @@
 import { Ingredient } from './ingredient';
 
 export interface Recipe {
-  id: string;
+  id: number;
   categories: string[];
   ingredients: Ingredient[];
   title: string;
