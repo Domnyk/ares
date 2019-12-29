@@ -59,8 +59,6 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
   }
 
   private fetchRecipe(id: number): Observable<Recipe> {
-    return this.recipeService.findRecipeById(id).pipe(
-      takeUntil(this.unsubscribe)
-    );
+    return this.recipeService.findRecipeById(id);
   }
 }

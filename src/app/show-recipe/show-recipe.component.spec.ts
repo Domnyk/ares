@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ActivatedRoute } from '@angular/router';
@@ -10,6 +10,7 @@ import { Recipe } from '../model/recipe';
 import { By } from '@angular/platform-browser';
 import { delay } from 'rxjs/operators';
 import { DebugElement } from '@angular/core';
+import { RecipeService } from '../service/recipe.service';
 
 const mockRecipe: Recipe = {
   id: 1,
@@ -33,23 +34,23 @@ class MockActivatedRoute extends ActivatedRoute {
 class MockActivatedRouteWithoutRecipe extends ActivatedRoute {
   constructor() {
       super();
-      this.data = of({ recipe: null }).pipe(
-        delay(10000)
-      );
+      this.data = of({ recipe: null });
   }
 }
 
 describe('ShowRecipeComponent', () => {
+  const recipeService = {
+    findRecipeById: (id: number) => of(mockRecipe)
+  };
+
   const compileShowRecipeComponent = (activatedRoute: any) => {
-    return TestBed.configureTestingModule({
+    TestBed.configureTestingModule({
       declarations: [ ShowRecipeComponent, RecipeRatingComponent ],
       imports: [ TranslateModule.forRoot(), HttpClientTestingModule ],
-      providers: [ { provide: ActivatedRoute, useClass: activatedRoute }]
+      providers: [ { provide: ActivatedRoute, useClass: activatedRoute }, { provide: RecipeService, useValue: recipeService }]
     })
     .compileComponents();
   };
-
-
 
   describe('When recipe is being fetched', () => {
     let fixture: ComponentFixture<ShowRecipeComponent>;
@@ -77,12 +78,10 @@ describe('ShowRecipeComponent', () => {
       fixture.detectChanges();
     });
 
-    it('should contain image', () => {
-      component.recipe = mockRecipe;
-
+    it('should contain image', fakeAsync(() => {
       const img = fixture.debugElement.query(By.css('img')).nativeElement;
       expect(img).toBeTruthy();
-    });
+    }));
 
     it('should contain list of ingredients', () => {
       const ingredients = fixture.debugElement.queryAll(By.css('li'));
