@@ -13,7 +13,8 @@ export class SearchTabComponent implements OnInit, OnDestroy {
 
   public foundRecipes: Recipe[] = [];
   public shouldDisplayNoRecipesFoundMsg = false;
-  private titleQuery: string = '';
+  public titleQuery: string = '';
+
   private unsubscribe = new Subject<void>();
 
   constructor(private route: ActivatedRoute) {
