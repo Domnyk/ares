@@ -1,40 +1,41 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
-import {debounceTime, distinctUntilChanged, map, switchMap} from 'rxjs/operators';
-import {Observable} from 'rxjs';
+import {debounceTime, distinctUntilChanged, map, switchMap, takeUntil} from 'rxjs/operators';
+import {Observable, Subject} from 'rxjs';
 import {DictionaryService} from '../../service/dictionary.service';
 import {Ingredient} from '../../model/ingredient';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {Category} from '../../model/category';
 import {ElementType} from '../../model/element-type.enum';
-import {RecipeSearchDto} from '../../model/recipe-search-dto';
+import {SearchService} from '../../service/search.service';
+import {Recipe} from '../../model/recipe';
 
 @Component({
   selector: 'app-filters',
   templateUrl: './filters.component.html',
   styleUrls: ['./filters.component.scss']
 })
-export class FiltersComponent implements OnInit {
+export class FiltersComponent implements OnInit, OnDestroy {
 
   private ingredientsForm: FormControl = new FormControl(null);
   private categoriesForm: FormControl = new FormControl(null);
   private nameForm: FormControl = new FormControl(null);
   private preparationTimeForm: FormControl = new FormControl(null);
   private difficultyForm: FormControl = new FormControl(null);
-
-  public searchIngredients!: (text: Observable<string>) => Observable<string[]>;
-  public searchCategories!: (text: Observable<string>) => Observable<string[]>;
-
   private selectedIngredients: string[] = [];
   private selectedCategories: string[] = [];
+  private unsubscribe = new Subject<void>();
 
   public searchForm!: FormGroup;
   public elementType = ElementType;
   public shouldShowWarningMsg: boolean = false;
+  public searchIngredients!: (text: Observable<string>) => Observable<string[]>;
+  public searchCategories!: (text: Observable<string>) => Observable<string[]>;
 
   @Input() initialTitleSearch: string | null = null;
+  @Output() foundRecipes: EventEmitter<Recipe[]> = new EventEmitter<Recipe[]>();
 
-  constructor(private formBuilder: FormBuilder, private dictionaryService: DictionaryService) {
+  constructor(private formBuilder: FormBuilder, private dictionaryService: DictionaryService, private searchService: SearchService) {
   }
 
   ngOnInit() {
@@ -61,6 +62,11 @@ export class FiltersComponent implements OnInit {
         distinctUntilChanged(),
         switchMap(term => this.getCategories(term)
         ));
+  }
+
+  ngOnDestroy() {
+    this.unsubscribe.next();
+    this.unsubscribe.complete();
   }
 
   getIngredients(term: string): Observable<string[]> | [] {
@@ -100,14 +106,14 @@ export class FiltersComponent implements OnInit {
   }
 
   search(): void {
-    const requestParams: RecipeSearchDto = {};
+    const requestParams: { [header: string]: string | string[] } = {};
 
     if (!!this.nameForm.value) {
-      requestParams.name = this.nameForm.value;
+      requestParams.title = this.nameForm.value;
     }
 
     if (!!this.preparationTimeForm.value) {
-      requestParams.preparationTime = this.preparationTimeForm.value;
+      requestParams.time = this.preparationTimeForm.value;
     }
 
     if (!!this.difficultyForm.value) {
@@ -127,7 +133,10 @@ export class FiltersComponent implements OnInit {
     }
 
     this.shouldShowWarningMsg = false; // hide any previous warning msg
-
-    // TODO add RecipeService call to find recipes
+    this.searchService.findRecipes(requestParams).pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe((recipes: Recipe[]) =>
+      this.foundRecipes.emit(recipes)
+    );
   }
 }

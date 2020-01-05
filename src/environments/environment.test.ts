@@ -7,5 +7,6 @@ export const environment: Environment = {
   usersPath: '/users',
   ingredientsPath: '/ingredients',
   categoriesPath: '/categories',
+  searchPath: '/search',
   token: 'my_fancy_token'
 };

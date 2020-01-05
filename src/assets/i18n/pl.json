@@ -67,6 +67,7 @@
     },
     "SEARCH_BTN": "Wyszukaj",
     "NO_PARAMETERS_SPECIFIED": "Nie określono parametrów wyszukiwania",
-    "RESULTS": "Wyniki wyszukiwania"
+    "RESULTS": "Wyniki wyszukiwania",
+    "NO_RECIPES_FOUND": "Nie znaleziono żadnych przepisów o podanych parametrach"
   }
 }

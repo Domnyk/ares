@@ -11,6 +11,7 @@ export const environment: Environment = {
   usersPath: '/users',
   ingredientsPath: '/ingredients',
   categoriesPath: '/categories',
+  searchPath: '/search',
   token: secret.token,
 };
 

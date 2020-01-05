@@ -6,5 +6,6 @@ export const environment: Environment = {
   loginPath: '/auth',
   usersPath: '/users',
   ingredientsPath: '/ingredients',
-  categoriesPath: '/categories'
+  categoriesPath: '/categories',
+  searchPath: '/search',
 };

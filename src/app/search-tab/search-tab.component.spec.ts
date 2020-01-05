@@ -26,6 +26,7 @@ describe('SearchTabComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchTabComponent);
     component = fixture.componentInstance;
+    component.foundRecipes = [];
     fixture.detectChanges();
   });
 

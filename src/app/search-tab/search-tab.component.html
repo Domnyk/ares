@@ -1,4 +1,5 @@
-<app-filters [initialTitleSearch] = titleQuery></app-filters>
+<app-filters [initialTitleSearch]=titleQuery
+             (foundRecipes)="showFoundRecipes($event)"></app-filters>
 <div *ngIf="foundRecipes?.length !== 0" class="found-recipes-container">
   <h4 class="found-recipes-container__title">{{'SEARCH.RESULTS' | translate}}</h4>
   <div class="found-recipes-container__recipes">
@@ -7,3 +8,4 @@
     </ng-container>
   </div>
 </div>
+<div *ngIf="shouldDisplayNoRecipesFoundMsg" class="no-recipes-found">{{'SEARCH.NO_RECIPES_FOUND' | translate}}</div>
