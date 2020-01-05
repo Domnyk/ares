@@ -16,18 +16,14 @@ export class RecipeService {
 
   private static readonly RECIPES_URL = environment.apiUrl + '/recipes';
   private static readonly RATINGS_URL = environment.apiUrl + '/ratings';
+  private static readonly NEWEST_RECIPES_NUMBER = '5';
+
 
   constructor(private http: HttpClient, private auth: AuthService) {
   }
 
   public findNewestRecipes(): Observable<Recipe[]> {
-    // TODO replace with correct endpoint when it is available
-    return this.http.get<Recipe[]>(RecipeService.RECIPES_URL);
-  }
-
-  public findRecipeByName(query: string): Observable<Recipe[]> {
-    // TODO implement when searching API is specified
-    return this.http.get<Recipe[]>(RecipeService.RECIPES_URL);
+    return this.http.get<Recipe[]>(RecipeService.RECIPES_URL, {params : {amount : RecipeService.NEWEST_RECIPES_NUMBER}});
   }
 
   public findRecipeById(id: number): Observable<Recipe> {

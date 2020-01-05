@@ -1,9 +1,10 @@
 .filters-container {
   padding-top: 25px;
-  width: 90vw;
+  width: 80vw;
   margin: auto;
   display: flex;
   flex-wrap: wrap;
+  justify-content: flex-start;
 
   &__group {
     display: flex;
@@ -39,6 +40,10 @@
     height: fit-content;
     align-self: center;
     margin-left: 50px;
+
+    &:focus {
+      outline: none;
+    }
   }
 }
 
@@ -69,3 +74,10 @@ input[type=number] {
   -moz-appearance: textfield;
 }
 
+//disable input color change after chrome suggestions
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

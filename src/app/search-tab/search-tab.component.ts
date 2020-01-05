@@ -1,7 +1,7 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Recipe} from '../model/recipe';
-import {ActivatedRoute, Data, Params} from '@angular/router';
-import {Subject} from 'rxjs';
+import {ActivatedRoute} from '@angular/router';
+import {combineLatest, Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 
 @Component({
@@ -12,6 +12,7 @@ import {takeUntil} from 'rxjs/operators';
 export class SearchTabComponent implements OnInit, OnDestroy {
 
   public foundRecipes: Recipe[] = [];
+  public shouldDisplayNoRecipesFoundMsg = false;
   private titleQuery: string = '';
   private unsubscribe = new Subject<void>();
 
@@ -19,14 +20,17 @@ export class SearchTabComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.route.data.pipe(
-      takeUntil(this.unsubscribe)
-    ).subscribe((data: Data) => this.foundRecipes = data.foundRecipes);
-
-    this.route.queryParams.pipe(
-      takeUntil(this.unsubscribe)
-    ).subscribe((params: Params) => this.titleQuery = params.query);
-
+    combineLatest(
+      this.route.data,
+      this.route.queryParams,
+    ).pipe(takeUntil(this.unsubscribe)
+    ).subscribe(([data, params]) => {
+      this.foundRecipes = data.foundRecipes;
+      this.titleQuery = params.query;
+      if (this.foundRecipes && this.foundRecipes.length === 0 && !!this.titleQuery) {
+        this.shouldDisplayNoRecipesFoundMsg = true;
+      }
+    });
   }
 
   ngOnDestroy(): void {
@@ -34,4 +38,8 @@ export class SearchTabComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
+  public showFoundRecipes(recipes: Recipe[]): void {
+    this.foundRecipes = recipes;
+    this.shouldDisplayNoRecipesFoundMsg = (this.foundRecipes.length === 0);
+  }
 }

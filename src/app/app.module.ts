@@ -44,7 +44,10 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RecipeRatingComponent,
     RegistrationFormComponent,
     FiltersComponent,
-    ElementBoxComponent
+    ElementBoxComponent,
+    RegistrationFormComponent,
+    ShowRecipeComponent,
+    RecipeRatingComponent
   ],
   imports: [
     BrowserModule,

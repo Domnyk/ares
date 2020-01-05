@@ -1,5 +1,5 @@
 export interface RecipeSearchDto {
-  name?: string;
+  title?: string;
   categories?: string[];
   ingredients?: string[];
   difficulty?: number;
