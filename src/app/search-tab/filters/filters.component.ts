@@ -16,7 +16,6 @@ import {RecipeSearchDto} from '../../model/recipe-search-dto';
 })
 export class FiltersComponent implements OnInit {
 
-  private searchForm!: FormGroup;
   private ingredientsForm: FormControl = new FormControl(null);
   private categoriesForm: FormControl = new FormControl(null);
   private nameForm: FormControl = new FormControl(null);
@@ -29,6 +28,7 @@ export class FiltersComponent implements OnInit {
   private selectedIngredients: string[] = [];
   private selectedCategories: string[] = [];
 
+  public searchForm!: FormGroup;
   public elementType = ElementType;
   public shouldShowWarningMsg: boolean = false;
 
@@ -52,23 +52,31 @@ export class FiltersComponent implements OnInit {
       text$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(term => term.length < 2 ? []
-          : this.dictionaryService.getIngredients(term).pipe(
-            map((ingredients: Ingredient[]) =>
-              ingredients.map((ingredient: Ingredient) => ingredient.name)
-                .filter((ingredient: string) => !this.selectedIngredients.includes(ingredient))))
+        switchMap(term => this.getIngredients(term)
         ));
 
     this.searchCategories = (text$: Observable<string>) =>
       text$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(term => term.length < 2 ? []
-          : this.dictionaryService.getCategories(term).pipe(
-            map((categories: Category[]) =>
-              categories.map((category: Category) => category.name)
-                .filter((category: string) => !this.selectedCategories.includes(category))))
+        switchMap(term => this.getCategories(term)
         ));
+  }
+
+  getIngredients(term: string): Observable<string[]> | [] {
+    return term.length < 2 ? []
+      : this.dictionaryService.getIngredients(term).pipe(
+        map((ingredients: Ingredient[]) =>
+          ingredients.map((ingredient: Ingredient) => ingredient.name)
+            .filter((ingredient: string) => !this.selectedIngredients.includes(ingredient))));
+  }
+
+  getCategories(term: string): Observable<string[]> | [] {
+    return term.length < 2 ? []
+      : this.dictionaryService.getCategories(term).pipe(
+        map((categories: Category[]) =>
+          categories.map((category: Category) => category.name)
+            .filter((category: string) => !this.selectedCategories.includes(category))));
   }
 
   selectIngredient(event: NgbTypeaheadSelectItemEvent) {

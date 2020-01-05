@@ -12,8 +12,8 @@ export class ElementBoxComponent implements OnInit {
 
   @Input() name: string = '';
   @Input() elementType!: ElementType;
-  @Output() removeIngredient: EventEmitter<string> = new EventEmitter<string>();
-  @Output() removeCategory: EventEmitter<string> = new EventEmitter<string>();
+  @Output() removeIngredient = new EventEmitter<string>();
+  @Output() removeCategory = new EventEmitter<string>();
 
   constructor() {
   }
