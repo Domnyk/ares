@@ -1,1 +1,9 @@
-<p>search-tab works!</p>
+<app-filters [initialTitleSearch] = titleQuery></app-filters>
+<div *ngIf="foundRecipes?.length !== 0" class="found-recipes-container">
+  <h4 class="found-recipes-container__title">{{'SEARCH.RESULTS' | translate}}</h4>
+  <div class="found-recipes-container__recipes">
+    <ng-container *ngFor="let recipe of foundRecipes">
+      <app-search-result [recipe]="recipe"></app-search-result>
+    </ng-container>
+  </div>
+</div>

@@ -3,5 +3,7 @@ export interface Environment {
   apiUrl: string;
   loginPath: string;
   usersPath: string;
+  ingredientsPath: string;
+  categoriesPath: string;
   token?: string;
 }

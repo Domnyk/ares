@@ -1,22 +1,19 @@
-import {map, takeUntil} from 'rxjs/operators';
+import {map, take, takeUntil, tap} from 'rxjs/operators';
 import {Recipe} from '../../model/recipe';
 import {Injectable, OnDestroy} from '@angular/core';
 import {ActivatedRouteSnapshot, Resolve, Router, RouterStateSnapshot} from '@angular/router';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {RecipeService} from '../../service/recipe.service';
 
 @Injectable()
-export class SearchResolver implements OnDestroy, Resolve<Recipe[]> {
-
-  private unsubscribe: Subject<void> = new Subject<void>();
+export class SearchResolver implements Resolve<Recipe[]> {
 
   constructor(private recipeService: RecipeService, private router: Router) {
   }
 
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<Recipe[]> {
     const query = route.queryParams.query;
-    return this.recipeService.findRecipeByName(query).pipe(
-      takeUntil(this.unsubscribe),
+    return !!query ? this.recipeService.findRecipeByName(query).pipe(
       map((recipes: Recipe[]) => {
         if (recipes.length !== 1) {
           return recipes;
@@ -26,12 +23,7 @@ export class SearchResolver implements OnDestroy, Resolve<Recipe[]> {
           this.router.navigateByUrl('profile');
           return [];
         }
-      }));
-  }
-
-
-  ngOnDestroy(): void {
-    this.unsubscribe.next();
-    this.unsubscribe.complete();
+      }),
+      take(1)) : of([]);
   }
 }

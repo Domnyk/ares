@@ -9,7 +9,9 @@ export const environment: Environment = {
   apiUrl: 'https://recipes-app-apsi.herokuapp.com',
   loginPath: '/auth',
   usersPath: '/users',
-  token: secret.token
+  ingredientsPath: '/ingredients',
+  categoriesPath: '/categories',
+  token: secret.token,
 };
 
 /*
