@@ -5,7 +5,7 @@ import {Subject} from 'rxjs';
 
 import {FieldValidationService} from '../service/field-validation.service';
 import {AuthService} from '../service/auth.service';
-import {takeUntil} from 'rxjs/operators';
+import {takeUntil, take} from 'rxjs/operators';
 
 @Component({
   selector: 'app-login-form',
@@ -42,7 +42,7 @@ export class LoginFormComponent implements OnInit, OnDestroy {
     this.loginInProgress = true;
 
     this.authService.login(this.username.value, this.password.value)
-      .pipe(takeUntil(this.unsubscribe))
+      .pipe(takeUntil(this.unsubscribe), take(1))
       .subscribe((succeeded: boolean) => {
         if (succeeded) {
           this.router.navigate(['']);

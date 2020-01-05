@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Subject, Observable, iif } from 'rxjs';
 
 import { AuthService } from '../service/auth.service';
-import { takeUntil, flatMap } from 'rxjs/operators';
+import { takeUntil, flatMap, take } from 'rxjs/operators';
 import { CurrentUser } from '../model/current-user';
 import { InterceptorUtils } from './utils';
 
@@ -19,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     }
 
     return this.authService.currentUser.pipe(
+      take(1),
       flatMap((currentUser: CurrentUser | null) => this.insertAuthHeader(currentUser, req, next))
     );
   }

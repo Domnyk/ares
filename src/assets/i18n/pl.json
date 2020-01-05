@@ -45,8 +45,16 @@
       "PROVIDE_USERNAME": "Podaj nazwę użytkownika",
       "PROVIDE_PASSWORD": "Podaj hasło",
       "PROVIDE_EMAIL": "Podaj e-mail",
-      "WRONG_EMAIL" : "Nieprawidłowy adres email"
+      "WRONG_EMAIL": "Nieprawidłowy adres email"
     },
     "ERROR": "Coś poszło nie tak"
+  },
+  "RECIPE_PAGE": {
+    "SEND_SCORE": "Prześlij ocenę",
+    "YOUR_SCORE": "Twoja ocena",
+    "NECESSARY_INGREDIENTS": "Potrzebne składniki",
+    "PREPARATION_INSTRUCTIONS": "Sposób przygotowania",
+    "LOADING": "Proszę czekać, wczytuję przepis...",
+    "SCORE_WAS_ADDED": "Twoja ocena została dodana"
   }
 }
