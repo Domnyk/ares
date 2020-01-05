@@ -22,10 +22,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
   private nameForm: FormControl = new FormControl(null);
   private preparationTimeForm: FormControl = new FormControl(null);
   private difficultyForm: FormControl = new FormControl(null);
-  private selectedIngredients: string[] = [];
-  private selectedCategories: string[] = [];
   private unsubscribe = new Subject<void>();
 
+  public selectedIngredients: string[] = [];
+  public selectedCategories: string[] = [];
   public searchForm!: FormGroup;
   public elementType = ElementType;
   public shouldShowWarningMsg: boolean = false;
