@@ -40,6 +40,6 @@ export class SearchTabComponent implements OnInit, OnDestroy {
 
   public showFoundRecipes(recipes: Recipe[]): void {
     this.foundRecipes = recipes;
-    this.foundRecipes.length === 0 ? this.shouldDisplayNoRecipesFoundMsg = true : this.shouldDisplayNoRecipesFoundMsg = false;
+    this.shouldDisplayNoRecipesFoundMsg = (this.foundRecipes.length === 0);
   }
 }
