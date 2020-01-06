@@ -1,0 +1,83 @@
+.filters-container {
+  padding-top: 25px;
+  width: 80vw;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+
+  &__group {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 15px;
+    margin-right: 5px;
+
+    &_label {
+      color: maroon;
+    }
+
+    &_input {
+      border-radius: 10px;
+      padding: 5px 5px 5px 10px;
+      border-color: maroon;
+
+      &_short {
+        width: 20vw;
+      }
+
+      &_long {
+        width: 30vw;
+      }
+    }
+  }
+
+  &__search-button {
+    background-color: maroon;
+    color: white;
+    border-radius: 25px;
+    border: none;
+    padding: 10px 20px;
+    height: fit-content;
+    align-self: center;
+    margin-left: 50px;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.chosen-elements-container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  width: 30vw;
+}
+
+.warning-msg {
+  color: red;
+}
+
+::ng-deep .dropdown-item.active {
+  background-color: maroon;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}
+
+//disable input color change after chrome suggestions
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active  {
+  -webkit-box-shadow: 0 0 0 30px white inset !important;
+}

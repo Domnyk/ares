@@ -15,9 +15,4 @@ export class SearchResultComponent implements OnInit {
 
   ngOnInit() {
   }
-
-  // TODO implement me
-  public navigateToRecipe(): void {
-      this.router.navigateByUrl('profile');
-  }
 }

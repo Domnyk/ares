@@ -1,7 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import {async, ComponentFixture, TestBed} from '@angular/core/testing';
 
-import { SearchTabComponent } from './search-tab.component';
+import {SearchTabComponent} from './search-tab.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {FiltersComponent} from './filters/filters.component';
+import {SearchResultComponent} from '../shared/search-result/search-result.component';
+import {ReactiveFormsModule} from '@angular/forms';
+import {RouterTestingModule} from '@angular/router/testing';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {ElementBoxComponent} from './filters/element-box/element-box.component';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 
 describe('SearchTabComponent', () => {
   let component: SearchTabComponent;
@@ -9,15 +16,17 @@ describe('SearchTabComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ SearchTabComponent ],
-      imports: [TranslateModule.forRoot()]
+      declarations: [SearchTabComponent, FiltersComponent, SearchResultComponent, ElementBoxComponent],
+      imports: [TranslateModule.forRoot(), ReactiveFormsModule, RouterTestingModule, NgbModule],
+      providers: [HttpClient, HttpHandler]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SearchTabComponent);
     component = fixture.componentInstance;
+    component.foundRecipes = [];
     fixture.detectChanges();
   });
 

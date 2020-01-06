@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { throwError, Observable, BehaviorSubject, of } from 'rxjs';
+import { throwError, Observable, BehaviorSubject, of, ReplaySubject } from 'rxjs';
 import { map, tap, catchError, flatMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { HttpClient, HttpResponse, HttpErrorResponse } from '@angular/common/http';
@@ -88,11 +88,26 @@ export class AuthService {
       this._currentUser.next(null);
     }
 
-    return this._currentUser;
+    return this._currentUser.asObservable();
   }
 
   get isLoggedIn(): Observable<boolean> {
+    if (environment.production === false) {
+      this.logUserAsDeveloper();
+    }
+
     return this._isLoggedIn;
+  }
+
+  private logUserAsDeveloper(): void {
+    if (environment.token === undefined || environment.token === null) {
+      console.warn('Trying to log as developer but token is not defined. Canceling login attempt');
+      return;
+    }
+
+    const currentUser: CurrentUser = { username: 'developer', token: environment.token };
+    localStorage.setItem(AuthService.currentUserKey, JSON.stringify(currentUser));
+    this._isLoggedIn.next(true);
   }
 }
 

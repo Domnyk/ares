@@ -1,12 +1,18 @@
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
+import { secret } from './environment.secret';
+import { Environment } from './environment.interface';
 
-export const environment = {
+export const environment: Environment = {
   production: false,
   apiUrl: 'https://recipes-app-apsi.herokuapp.com',
   loginPath: '/auth',
-  usersPath: '/users'
+  usersPath: '/users',
+  ingredientsPath: '/ingredients',
+  categoriesPath: '/categories',
+  searchPath: '/search',
+  token: secret.token,
 };
 
 /*

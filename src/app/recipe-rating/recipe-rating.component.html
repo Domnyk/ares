@@ -1,0 +1,4 @@
+<ng-container *ngFor="let possibleRating of possibleRatings">
+  <span class="fa fa-star checked" [attr.value]="possibleRating" [class.checked]="rating! >= possibleRating"
+    (click)="updateRating(possibleRating)"></span>
+</ng-container>

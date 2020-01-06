@@ -45,8 +45,29 @@
       "PROVIDE_USERNAME": "Podaj nazwę użytkownika",
       "PROVIDE_PASSWORD": "Podaj hasło",
       "PROVIDE_EMAIL": "Podaj e-mail",
-      "WRONG_EMAIL" : "Nieprawidłowy adres email"
+      "WRONG_EMAIL": "Nieprawidłowy adres email"
     },
     "ERROR": "Coś poszło nie tak"
+  },
+  "RECIPE_PAGE": {
+    "SEND_SCORE": "Prześlij ocenę",
+    "YOUR_SCORE": "Twoja ocena",
+    "NECESSARY_INGREDIENTS": "Potrzebne składniki",
+    "PREPARATION_INSTRUCTIONS": "Sposób przygotowania",
+    "LOADING": "Proszę czekać, wczytuję przepis...",
+    "SCORE_WAS_ADDED": "Twoja ocena została dodana"
+  },
+  "SEARCH": {
+    "FILTER": {
+      "NAME" : "Nazwa przepisu",
+      "CATEGORIES": "Kategorie",
+      "INGREDIENTS": "Składniki",
+      "TIME": "Maksymalny czas przygotowania",
+      "DIFFICULTY": "Stopień trudności (1- bardzo łatwy, 5-bardzo trudny)"
+    },
+    "SEARCH_BTN": "Wyszukaj",
+    "NO_PARAMETERS_SPECIFIED": "Nie określono parametrów wyszukiwania",
+    "RESULTS": "Wyniki wyszukiwania",
+    "NO_RECIPES_FOUND": "Nie znaleziono żadnych przepisów o podanych parametrach"
   }
 }
