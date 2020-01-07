@@ -1,9 +1,9 @@
 import {Injectable} from '@angular/core';
-import {Observable, throwError} from 'rxjs';
+import {Observable, of, throwError} from 'rxjs';
 import {Recipe} from '../model/recipe';
 import {HttpClient} from '@angular/common/http';
 import { environment } from '../../environments/environment';
-import { map, switchMap, take } from 'rxjs/operators';
+import {catchError, map, switchMap, take, tap} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { CurrentUser } from '../model/current-user';
 import { Rating } from '../model/rating';
@@ -31,6 +31,13 @@ export class RecipeService {
     return this.http.get<Recipe>(this.createRecipeUrl(id));
   }
 
+  public addRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.http.post<Recipe>(RecipeService.RECIPES_URL, recipe).pipe(
+        tap((newRecipe: Recipe) => console.log(`added recipe w/ id=${newRecipe.id}`)),
+        catchError(this.handleError<Recipe>('addRecipe'))
+      );
+  }
+
   public addRating(score: number, recipeId: number): Observable<void> {
     return this.auth.currentUser.pipe(
       take(1),
@@ -56,5 +63,19 @@ export class RecipeService {
 
   private createRecipeUrl(id: number): string {
     return RecipeService.RECIPES_URL + `/${id}`;
+  }
+
+  private handleError<T>(operation = 'operation', result?: T) {
+    return (error: any): Observable<T> => {
+
+      // TODO: send the error to remote logging infrastructure
+      console.error(error); // log to console instead
+
+      // TODO: better job of transforming error for user consumption
+      console.log(`${operation} failed: ${error.message}`);
+
+      // Let the app keep running by returning an empty result.
+      return of(result as T);
+    };
   }
 }
