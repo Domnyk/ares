@@ -66,7 +66,6 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.log('created');
     this.authService.currentUser
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((user: CurrentUser | null) => {
