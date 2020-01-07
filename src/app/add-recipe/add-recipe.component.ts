@@ -5,7 +5,7 @@ import {Router} from "@angular/router";
 import {Observable, Subject, throwError} from "rxjs";
 import {RecipeService} from "../service/recipe.service";
 import {debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil} from "rxjs/operators";
-import {RecipeToAdd} from "../model/recipe-to-add";
+import {Recipe} from '../model/recipe';
 import {AuthService} from "../service/auth.service";
 import {CurrentUser} from "../model/current-user";
 import {Ingredient} from "../model/ingredient";
@@ -138,7 +138,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     let newRecipe = this.buildRecipe();
     this.recipeService.addRecipe(newRecipe)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((recipe:RecipeToAdd)=> {
+      .subscribe((recipe:Recipe)=> {
         if (recipe) {
           console.log("success");
           this.lastAttemptFailed = false;
@@ -156,8 +156,8 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     this.router.navigate(["recipes/"+this.lastRecipeId]);
   }
 
-  private buildRecipe(): RecipeToAdd {
-    let newRecipe: RecipeToAdd =
+  private buildRecipe(): Recipe {
+    let newRecipe: Recipe =
       {
         title: this.title.value,
         description: this.description.value,

@@ -8,7 +8,6 @@ import { AuthService } from './auth.service';
 import { CurrentUser } from '../model/current-user';
 import { Rating } from '../model/rating';
 import {DictionaryService} from './dictionary.service';
-import {RecipeToAdd} from "../model/recipe-to-add";
 
 @Injectable({
   providedIn: 'root'
@@ -32,10 +31,10 @@ export class RecipeService {
     return this.http.get<Recipe>(this.createRecipeUrl(id));
   }
 
-  public addRecipe(recipe: RecipeToAdd): Observable<RecipeToAdd> {
-    return this.http.post<RecipeToAdd>(RecipeService.RECIPES_URL, recipe).pipe(
-        tap((newRecipe: RecipeToAdd) => console.log(`added recipe w/ id=${newRecipe.id}`)),
-        catchError(this.handleError<RecipeToAdd>('addRecipe'))
+  public addRecipe(recipe: Recipe): Observable<Recipe> {
+    return this.http.post<Recipe>(RecipeService.RECIPES_URL, recipe).pipe(
+        tap((newRecipe: Recipe) => console.log(`added recipe w/ id=${newRecipe.id}`)),
+        catchError(this.handleError<Recipe>('addRecipe'))
       );
   }
 
