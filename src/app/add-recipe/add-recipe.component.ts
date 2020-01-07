@@ -38,7 +38,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   description: FormControl = new FormControl('', [Validators.required]);
   difficulty: FormControl = new FormControl('', [Validators.required]);
   categories: FormControl = new FormControl();
-  ingredients: FormControl = new FormControl(  );
+  ingredients: FormControl = new FormControl();
 
   requiredTime: FormControl = new FormControl('', [
     Validators.required,
@@ -76,53 +76,25 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         }
       );
 
-    this.searchCategories = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        switchMap(term => this.getCategories(term)
-        ));
-
-    this.searchIngredients = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        switchMap(term => this.getIngredients(term)
-        ));
+    this.searchCategories = this.dictionaryService.searchCategoriesNames(this.selectedCategories);
+    this.searchIngredients = this.dictionaryService.searchIngredients(this.selectedIngredients);
   }
 
-  getCategories(term: string): Observable<string[]> | [] {
-    return this.dictionaryService.getCategories(term).pipe(
-        map((categories: Category[]) =>
-          categories.map((category: Category) => category.name)
-            .filter((category: string) => !this.selectedCategories.includes(category))));
-  }
-
-
-  removeSelectedCategory(removedCategory: string) {
+  removeSelectedCategory(removedCategory: string): void {
     this.selectedCategories.splice(this.selectedCategories.indexOf(removedCategory), 1);
   }
 
-  selectCategory(event: NgbTypeaheadSelectItemEvent) {
+  selectCategory(event: NgbTypeaheadSelectItemEvent): void {
     event.preventDefault();
     this.selectedCategories.push(event.item);
     this.categories.reset();
   }
 
-  getIngredients(term: string): Observable<string[]> | [] {
-    return this.dictionaryService.getIngredients(term).pipe(
-      map((ingredients: Ingredient[]) =>
-        ingredients.
-            filter((ingredient: Ingredient) => !this.selectedIngredients.includes(ingredient))
-        .map((ingredient: Ingredient) => JSON.stringify(ingredient))));
-  }
-
-
-  removeSelectedIngredient(removedCategory: string) {
+  removeSelectedIngredient(removedCategory: string): void {
     this.selectedCategories.splice(this.selectedCategories.indexOf(removedCategory), 1);
   }
 
-  selectIngredient(event: NgbTypeaheadSelectItemEvent) {
+  selectIngredient(event: NgbTypeaheadSelectItemEvent): void {
     event.preventDefault();
     this.selectedIngredients.push(JSON.parse(event.item));
     this.ingredients.reset();
@@ -133,13 +105,16 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
     this.unsubscribe.complete();
   }
 
-  sendRecipe() {
+
+  sendRecipe(): void {
     const newRecipe = this.buildRecipe();
     this.recipeService.addRecipe(newRecipe)
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((recipe: Recipe) => {
         if (recipe) {
-          console.log('success');
+          console.log('Recipe was added successfully with id:' + recipe.id);
+          console.log('Added recipe\n' + recipe);
+
           this.lastAttemptFailed = false;
           if (recipe.id !== undefined && recipe.title !== undefined) {
             this.lastRecipeId = recipe.id;
@@ -151,7 +126,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       });
   }
 
-  moveToCreatedRecipe() {
+  moveToCreatedRecipe(): void {
     this.router.navigate(['recipes/' + this.lastRecipeId]);
   }
 
@@ -166,8 +141,6 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         time: this.requiredTime.value,
         user: this.currentUserId
       };
-    console.log('Recipe to add: ', newRecipe);
-
     return newRecipe;
   }
 }
