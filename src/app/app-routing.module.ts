@@ -9,13 +9,15 @@ import { AuthGuard } from './route-guards/auth.guard';
 import {RegistrationFormComponent} from './registration-form/registration-form.component';
 import { ShowRecipeComponent } from './show-recipe/show-recipe.component';
 import { FetchRecipeResolver } from './show-recipe/resolvers/fetch-recipe.resolver';
+import { AddRecipeComponent } from "./add-recipe/add-recipe.component";
 
 const routes: Routes = [
   { path: '', canActivateChild: [AuthGuard], children: [
     { path: '', component: MainPageComponent },
     { path: 'profile', component: MyProfileComponent },
     { path: 'search', component: SearchTabComponent, resolve: { foundRecipes: SearchResolver } },
-    { path: 'recipes/:id', component: ShowRecipeComponent, resolve: { recipe: FetchRecipeResolver } }
+    { path: 'recipes/:id', component: ShowRecipeComponent, resolve: { recipe: FetchRecipeResolver } },
+    { path: 'add-recipe', component: AddRecipeComponent }
   ]},
   { path: 'login', component: LoginFormComponent },
   { path: 'registration', component: RegistrationFormComponent},

@@ -57,9 +57,32 @@
     "LOADING": "Proszę czekać, wczytuję przepis...",
     "SCORE_WAS_ADDED": "Twoja ocena została dodana"
   },
+  "ADD_RECIPE_FORM": {
+    "SUBMIT" : "Opublikuj",
+    "SUCCESSFULLY_ADDED": "Dodaliśmy twój przepis!",
+    "ERROR_HAS_OCCURRED" : "Błąd podczas dodawania przepisu",
+    "LABEL": {
+      "TITLE": "Nazwa",
+      "DESCRIPTION": "Opis",
+      "DIFFICULTY": "Poziom trudności",
+      "REQUIRED_TIME": "Czas wykonania",
+      "CATEGORIES": "Kategorie",
+      "INGREDIENTS": "Składniki"
+    },
+    "PLACEHOLDER" : {
+      "TITLE": "Jak nazywa się Twoja potrawa?",
+      "DESCRIPTION" : "Jak wykonac Twoją potrawę?",
+      "REQUIRED_TIME" : "Czas wykonania potrawy w minutach"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_TITLE" : "Nazwa jest wymagana",
+      "PROVIDE_DESCRIPTION" : "Opis jest wymagany",
+      "PROVIDE_REQUIRED_TIME" : "Czas wykonania jest wymagany"
+    }
+  },
   "SEARCH": {
     "FILTER": {
-      "NAME" : "Nazwa przepisu",
+      "NAME": "Nazwa przepisu",
       "CATEGORIES": "Kategorie",
       "INGREDIENTS": "Składniki",
       "TIME": "Maksymalny czas przygotowania",

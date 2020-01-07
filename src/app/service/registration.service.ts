@@ -13,12 +13,9 @@ export class RegistrationService {
   private static readonly BAD_REQUEST_STATUS = 400;
   private _isSignedUp = new BehaviorSubject<boolean>(false);
 
-
   private url = environment.apiUrl + environment.usersPath;
-
   constructor(private http: HttpClient) {
   }
-
 
   addUser(username: string,
           password: string,

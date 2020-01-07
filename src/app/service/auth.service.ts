@@ -63,16 +63,19 @@ export class AuthService {
   }
 
   createSessionIfLoginWasSuccessful(response: ParsedAuthResponse, username: string): void {
-    const { wasLoginSuccessful, token } = response;
+    const { wasLoginSuccessful, token, id} = response;
     if (wasLoginSuccessful === false) {
       return;
     } else if (token === undefined || token === null) {
       console.warn(`Token is ${token}  but \'wasLoginSuccessful\' is true. Assuming login failed`);
       return;
+    } else if (id === undefined || id === null) {
+      console.warn(`Id is ${id}  but \'wasLoginSuccessful\' is true. Assuming login failed`);
+      return;
     }
 
     this._isLoggedIn.next(true);
-    const currentUser: CurrentUser = { username, token };
+    const currentUser: CurrentUser = { id, username, token, };
     localStorage.setItem(AuthService.currentUserKey, JSON.stringify(currentUser));
   }
 
@@ -105,7 +108,7 @@ export class AuthService {
       return;
     }
 
-    const currentUser: CurrentUser = { username: 'developer', token: environment.token };
+    const currentUser: CurrentUser = { id: 97, username: 'developer', token: environment.token };
     localStorage.setItem(AuthService.currentUserKey, JSON.stringify(currentUser));
     this._isLoggedIn.next(true);
   }
@@ -114,6 +117,7 @@ export class AuthService {
 interface ParsedAuthResponse {
   wasLoginSuccessful: boolean;
   token?: string;
+  id?: number;
 }
 
 interface AuthResponse {
