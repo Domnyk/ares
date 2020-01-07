@@ -1,18 +1,18 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from "@angular/forms";
-import {FieldValidationService} from "../service/field-validation.service";
-import {Router} from "@angular/router";
-import {Observable, Subject, throwError} from "rxjs";
-import {RecipeService} from "../service/recipe.service";
-import {debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil} from "rxjs/operators";
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {FieldValidationService} from '../service/field-validation.service';
+import {Router} from '@angular/router';
+import {Observable, Subject, throwError} from 'rxjs';
+import {RecipeService} from '../service/recipe.service';
+import {debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil} from 'rxjs/operators';
 import {Recipe} from '../model/recipe';
-import {AuthService} from "../service/auth.service";
-import {CurrentUser} from "../model/current-user";
-import {Ingredient} from "../model/ingredient";
-import {Category} from "../model/category";
-import {DictionaryService} from "../service/dictionary.service";
-import {NgbTypeaheadSelectItemEvent} from "@ng-bootstrap/ng-bootstrap";
-import {ElementType} from "../model/element-type.enum";
+import {AuthService} from '../service/auth.service';
+import {CurrentUser} from '../model/current-user';
+import {Ingredient} from '../model/ingredient';
+import {Category} from '../model/category';
+import {DictionaryService} from '../service/dictionary.service';
+import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
+import {ElementType} from '../model/element-type.enum';
 
 
 @Component({
@@ -22,7 +22,7 @@ import {ElementType} from "../model/element-type.enum";
 })
 export class AddRecipeComponent implements OnInit, OnDestroy {
 
-  lastAttemptFailed : boolean | null = null;
+  lastAttemptFailed: boolean | null = null;
   lastRecipeId: number | null = null;
   lastRecipeName: string | null = null;
 
@@ -66,14 +66,13 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    console.info("created");
+    console.log('created');
     this.authService.currentUser
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((user: CurrentUser | null) => {
           if (user != null && user.id != null) {
-              this.currentUserId = user.id
-          }
-          else throwError("Can not fetch user id")
+              this.currentUserId = user.id;
+          } else { throwError('Can not fetch user id'); }
         }
       );
 
@@ -115,7 +114,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       map((ingredients: Ingredient[]) =>
         ingredients.
             filter((ingredient: Ingredient) => !this.selectedIngredients.includes(ingredient))
-        .map((ingredient:Ingredient) => JSON.stringify(ingredient))));
+        .map((ingredient: Ingredient) => JSON.stringify(ingredient))));
   }
 
 
@@ -135,12 +134,12 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   sendRecipe() {
-    let newRecipe = this.buildRecipe();
+    const newRecipe = this.buildRecipe();
     this.recipeService.addRecipe(newRecipe)
       .pipe(takeUntil(this.unsubscribe))
-      .subscribe((recipe:Recipe)=> {
+      .subscribe((recipe: Recipe) => {
         if (recipe) {
-          console.log("success");
+          console.log('success');
           this.lastAttemptFailed = false;
           if (recipe.id !== undefined && recipe.title !== undefined) {
             this.lastRecipeId = recipe.id;
@@ -153,12 +152,11 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   moveToCreatedRecipe() {
-    this.router.navigate(["recipes/"+this.lastRecipeId]);
+    this.router.navigate(['recipes/' + this.lastRecipeId]);
   }
 
   private buildRecipe(): Recipe {
-    let newRecipe: Recipe =
-      {
+    const newRecipe: Recipe = {
         title: this.title.value,
         description: this.description.value,
         categories: this.selectedCategories,
@@ -168,7 +166,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
         time: this.requiredTime.value,
         user: this.currentUserId
       };
-    console.log("Recipe to add: ", newRecipe);
+    console.log('Recipe to add: ', newRecipe);
 
     return newRecipe;
   }

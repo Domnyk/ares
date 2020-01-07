@@ -9,7 +9,7 @@ import { AuthGuard } from './route-guards/auth.guard';
 import {RegistrationFormComponent} from './registration-form/registration-form.component';
 import { ShowRecipeComponent } from './show-recipe/show-recipe.component';
 import { FetchRecipeResolver } from './show-recipe/resolvers/fetch-recipe.resolver';
-import { AddRecipeComponent } from "./add-recipe/add-recipe.component";
+import { AddRecipeComponent } from './add-recipe/add-recipe.component';
 
 const routes: Routes = [
   { path: '', canActivateChild: [AuthGuard], children: [
