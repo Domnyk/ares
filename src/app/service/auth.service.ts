@@ -67,7 +67,8 @@ export class AuthService {
 
     if (status === AuthService.OK_STATUS) {
       const respToken = (response.body as AuthResponse).token;
-      return {wasLoginSuccessful: true, token: respToken};
+      const userId = (response.body as AuthResponse).id;
+      return {wasLoginSuccessful: true, token: respToken, id: userId};
     } else {
       console.warn(`Unexpected status code ${status}. Assuming login failed. Full response: ${response}`);
       return {wasLoginSuccessful: false};
@@ -124,4 +125,5 @@ interface ParsedAuthResponse {
 
 interface AuthResponse {
   token?: string;
+  id?: number;
 }
