@@ -48,8 +48,6 @@ export class RegistrationFormComponent implements OnDestroy {
   }
 
   sendRegistrationReq(): void {
-    // TODO
-    // real recipes are required here
     this.registrationService.addUser(
       this.username.value,
       this.password.value,
@@ -61,11 +59,7 @@ export class RegistrationFormComponent implements OnDestroy {
     )
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((succeeded: boolean) => {
-        if (succeeded) {
-          this.lastAttemptFailed = false;
-        } else {
-          this.lastAttemptFailed = true;
-        }
+         this.lastAttemptFailed = !succeeded;
       });
   }
 
