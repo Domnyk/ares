@@ -26,7 +26,7 @@ export class RegistrationFormComponent implements OnDestroy {
   name: FormControl = new FormControl('', [Validators.nullValidator]);
   surname: FormControl = new FormControl('', [Validators.nullValidator]);
   registrationForm: FormGroup;
-  lastAttemptFailed = false;
+  lastAttemptFailed: boolean | null = null;
   private unsubscribe = new Subject<void>();
 
   constructor(public fieldValidationService: FieldValidationService, private registrationService: RegistrationService,
@@ -50,13 +50,11 @@ export class RegistrationFormComponent implements OnDestroy {
   sendRegistrationReq(): void {
     // TODO
     // real recipes are required here
-    const recipes: number[] = [];
     this.registrationService.addUser(
       this.username.value,
       this.password.value,
       this.nickname.value,
       this.bio.value,
-      recipes,
       this.email.value,
       this.name.value,
       this.surname.value
@@ -64,13 +62,16 @@ export class RegistrationFormComponent implements OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((succeeded: boolean) => {
         if (succeeded) {
-          this.router.navigate(['/login']);
+          this.lastAttemptFailed = false;
         } else {
           this.lastAttemptFailed = true;
         }
       });
   }
 
+  moveToLogin():void{
+    this.router.navigate(['/login']);
+  }
   hide(): void {
     this.lastAttemptFailed = false;
   }
