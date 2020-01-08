@@ -62,10 +62,12 @@ export class RegistrationService {
   makeUser(username: string, password: string, nickname: string, bio: string,
            email: string, name: string, surname: string): User {
 
-    const basic_info = {username, password, surname, name, email};
-
     return {
-      basic_info, nickname, bio
+     basic_info: {
+        username, password, surname, name, email
+      },
+      nickname,
+      bio
     };
   }
 

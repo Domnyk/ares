@@ -69,7 +69,7 @@ export class RegistrationFormComponent implements OnDestroy {
       });
   }
 
-  moveToLogin():void{
+  moveToLogin(): void {
     this.router.navigate(['/login']);
   }
   hide(): void {
