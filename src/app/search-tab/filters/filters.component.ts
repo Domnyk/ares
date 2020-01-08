@@ -49,40 +49,13 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
     this.nameForm.setValue(this.initialTitleSearch);
 
-    this.searchIngredients = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        switchMap(term => this.getIngredients(term)
-        ));
-
-    this.searchCategories = (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        switchMap(term => this.getCategories(term)
-        ));
+    this.searchIngredients = this.dictionaryService.searchIngredientsNames(this.selectedIngredients);
+    this.searchCategories = this.dictionaryService.searchCategoriesNames(this.selectedCategories);
   }
 
   ngOnDestroy() {
     this.unsubscribe.next();
     this.unsubscribe.complete();
-  }
-
-  getIngredients(term: string): Observable<string[]> | [] {
-    return term.length < 2 ? []
-      : this.dictionaryService.getIngredients(term).pipe(
-        map((ingredients: Ingredient[]) =>
-          ingredients.map((ingredient: Ingredient) => ingredient.name)
-            .filter((ingredient: string) => !this.selectedIngredients.includes(ingredient))));
-  }
-
-  getCategories(term: string): Observable<string[]> | [] {
-    return term.length < 2 ? []
-      : this.dictionaryService.getCategories(term).pipe(
-        map((categories: Category[]) =>
-          categories.map((category: Category) => category.name)
-            .filter((category: string) => !this.selectedCategories.includes(category))));
   }
 
   selectIngredient(event: NgbTypeaheadSelectItemEvent) {

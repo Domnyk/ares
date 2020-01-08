@@ -43,8 +43,9 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
   }
 
   updateRating(): void {
-    if (this.rating === null || this.recipe === null) {
-      console.error(`Update rating was canceled because rating ${this.rating} or recipe ${this.recipe} is null`);
+    if (this.rating === null || this.recipe === null || this.recipe.id === undefined) {
+      console.error(`Update rating was canceled because rating ${this.rating} or recipe ${this.recipe} is null or it` +
+                    `is missing id`);
       return;
     }
 

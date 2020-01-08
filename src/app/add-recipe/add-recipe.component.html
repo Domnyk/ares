@@ -1,0 +1,91 @@
+<div class="row">
+  <div class="col-7 offset-1">
+    <div *ngIf="lastAttemptFailed === false" class="alert alert-success" role="alert">
+      {{ 'ADD_RECIPE_FORM.SUCCESSFULLY_ADDED' | translate }}
+      <a (click)="moveToCreatedRecipe()" class="page-link">{{lastRecipeName}}</a>
+    </div>
+    <div *ngIf="lastAttemptFailed === true" class="alert alert-success" role="alert">
+      {{ 'ADD_RECIPE_FORM.ERROR_HAS_OCCURRED' | translate }}
+    </div>
+    <form (ngSubmit)="sendRecipe()" [formGroup]="recipeForm" class="form-container" novalidate>
+      <div class="form-group">
+        <label for="title">{{ 'ADD_RECIPE_FORM.LABEL.TITLE' | translate }}</label>
+        <input [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(title) }" class="form-control"
+               formControlName="title" id="title"
+               placeholder="{{ 'ADD_RECIPE_FORM.PLACEHOLDER.TITLE' | translate }}"
+               type="text">
+        <div *ngIf="fieldValidationService.isInvalid(title)" class="invalid-feedback">
+          {{ 'ADD_RECIPE_FORM.VALIDATIONS.PROVIDE_TITLE' | translate }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="description">{{ 'ADD_RECIPE_FORM.LABEL.DESCRIPTION' | translate }}</label>
+        <input [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(description) }" class="form-control"
+               formControlName="description" id="description"
+               placeholder="{{ 'ADD_RECIPE_FORM.PLACEHOLDER.DESCRIPTION' | translate }}"
+               type="text">
+        <div *ngIf="fieldValidationService.isInvalid(description)" class="invalid-feedback">
+          {{ 'ADD_RECIPE_FORM.VALIDATIONS.PROVIDE_DESCRIPTION' | translate }}
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="difficulty">{{ 'ADD_RECIPE_FORM.LABEL.DIFFICULTY' | translate }}</label>
+        <select class="form-control" formControlName="difficulty" id="difficulty">
+          <option selected="selected">1</option>
+          <option *ngFor="let num of [2,3,4,5]">{{num}}</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="requiredTime">{{ 'ADD_RECIPE_FORM.LABEL.REQUIRED_TIME' | translate }}</label>
+        <input [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(requiredTime) }" class="form-control"
+               formControlName="requiredTime" id="requiredTime"
+               placeholder="{{ 'ADD_RECIPE_FORM.PLACEHOLDER.REQUIRED_TIME' | translate }}" type="number">
+        <div *ngIf="fieldValidationService.isInvalid(requiredTime)" class="invalid-feedback">
+          {{ 'ADD_RECIPE_FORM.VALIDATIONS.PROVIDE_REQUIRED_TIME' | translate }}
+        </div>
+      </div>
+
+      <div class="filters-container__group">
+        <label for="categories">{{ 'ADD_RECIPE_FORM.LABEL.CATEGORIES' | translate }}</label>
+        <input (selectItem)="selectCategory($event)"
+               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(categories) }"
+               [ngbTypeahead]="searchCategories"
+               class="filters-container__group_input filters-container__group_input_long"
+               formControlName="categories"
+               id="categories">
+        <div *ngIf="selectedCategories.length !== 0" class="chosen-elements-container">
+          <ng-container *ngFor="let category of selectedCategories">
+            <app-element-box (removeCategory)="removeSelectedCategory($event)" [elementType]="elementType.CATEGORY"
+                             [name]="category"
+            ></app-element-box>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="filters-container__group">
+        <label for="ingredients">{{ 'ADD_RECIPE_FORM.LABEL.INGREDIENTS' | translate }}</label>
+        <input (selectItem)="selectIngredient($event)"
+               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(ingredients) }"
+               [ngbTypeahead]="searchIngredients"
+               class="filters-container__group_input filters-container__group_input_long"
+               formControlName="ingredients"
+               id="ingredients">
+        <div *ngIf="selectedIngredients.length !== 0" class="chosen-elements-container">
+          <ng-container *ngFor="let ingredient of selectedIngredients">
+            <app-element-box (removeCategory)="removeSelectedIngredient($event)" [elementType]="elementType.INGREDIENT"
+                             [name]="ingredient.name"
+            ></app-element-box>
+          </ng-container>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <div class="col-auto">
+          <button [disabled]="recipeForm.invalid" class="btn btn-primary btn-block" type="submit">
+            {{ 'ADD_RECIPE_FORM.SUBMIT' | translate }}
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
