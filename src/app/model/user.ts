@@ -1,5 +1,5 @@
 export interface User {
-  basicInfo: {
+  basic_info: {
     username: string,
     password: string,
     surname: string,
@@ -8,5 +8,4 @@ export interface User {
   };
   nickname: string;
   bio: string;
-  favouriteRecipes: number[];
 }
