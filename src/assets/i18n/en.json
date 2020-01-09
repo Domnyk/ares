@@ -15,7 +15,7 @@
     "GO_TO_RECIPE": "Show recipe"
   },
   "LOGIN_FORM": {
-    "SUBMIT": "login",
+    "SUBMIT": "Login",
     "SIGN_UP": "Go to registration form",
     "WRONG_USERNAME_OR_PASSWORD": "Wrong login or password",
     "LOGIN_IN_PROGRESS": "Please wait, login in progress",
@@ -43,7 +43,7 @@
     "VALIDATIONS": {
       "PROVIDE_NICKNAME": "Provide nick",
       "PROVIDE_USERNAME": "Provide username",
-      "PROVIDE_PASSWORD": "Podaj password",
+      "PROVIDE_PASSWORD": "Provide password",
       "PROVIDE_EMAIL": "Provide e-mail",
       "WRONG_EMAIL": "Wrong e-mail address"
     },
