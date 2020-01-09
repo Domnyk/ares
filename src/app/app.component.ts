@@ -16,7 +16,7 @@ export class AppComponent implements OnInit, OnDestroy {
   private unsubscribe = new Subject<void>();
 
   constructor(private translate: TranslateService, private authService: AuthService) {
-    translate.setDefaultLang('pl');
+    translate.setDefaultLang('en');
   }
 
   ngOnInit(): void {

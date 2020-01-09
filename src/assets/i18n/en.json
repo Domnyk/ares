@@ -1,0 +1,96 @@
+{
+  "NAVIGATION": {
+    "MAIN_PAGE": "main page",
+    "SEARCH_RECIPE": "search recipe",
+    "ADD_RECIPE": "add recipe",
+    "MY_PROFILE": "my profile",
+    "LOGIN": "login",
+    "LOGOUT": "logout"
+  },
+  "APP_TITLE": "[APSI] Recipes",
+  "MAIN_PAGE": {
+    "LAST_ADDED": "Newest recipes",
+    "SEARCH": "Search",
+    "SEARCH_PLACEHOLDER": "Search recipe",
+    "GO_TO_RECIPE": "Show recipe"
+  },
+  "LOGIN_FORM": {
+    "SUBMIT": "login",
+    "SIGN_UP": "Go to registration form",
+    "WRONG_USERNAME_OR_PASSWORD": "Wrong login or password",
+    "LOGIN_IN_PROGRESS": "Please wait, login in progress",
+    "LABEL": {
+      "USERNAME": "Username",
+      "PASSWORD": "Password"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_USERNAME": "Provide username",
+      "PROVIDE_PASSWORD": "Provide password"
+    }
+  },
+  "REGISTRATION_FORM": {
+    "SUBMIT": "Submit",
+    "LABEL": {
+      "NAME": "First name",
+      "SURNAME": "Last name",
+      "NICKNAME": "Nick",
+      "USERNAME": "Login",
+      "PASSWORD": "Password",
+      "BIO": "About me",
+      "EMAIL": "e-mail",
+      "FAVOURITES": "Favourite recipes"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_NICKNAME": "Provide nick",
+      "PROVIDE_USERNAME": "Provide username",
+      "PROVIDE_PASSWORD": "Podaj password",
+      "PROVIDE_EMAIL": "Provide e-mail",
+      "WRONG_EMAIL": "Wrong e-mail address"
+    },
+    "ERROR": "Something went wrong"
+  },
+  "RECIPE_PAGE": {
+    "SEND_SCORE": "Send score",
+    "YOUR_SCORE": "Your score",
+    "NECESSARY_INGREDIENTS": "Necessary ingredients",
+    "PREPARATION_INSTRUCTIONS": "Preparation instructions",
+    "LOADING": "Please wait, loading in progress...",
+    "SCORE_WAS_ADDED": "Your score was added"
+  },
+  "ADD_RECIPE_FORM": {
+    "SUBMIT": "Publish",
+    "SUCCESSFULLY_ADDED": "We have added your recipe!",
+    "ERROR_HAS_OCCURRED": "Error when adding recipe",
+    "LABEL": {
+      "TITLE": "Name",
+      "DESCRIPTION": "Description",
+      "DIFFICULTY": "Difficulty",
+      "REQUIRED_TIME": "Required time",
+      "CATEGORIES": "Categories",
+      "INGREDIENTS": "Ingredients"
+    },
+    "PLACEHOLDER": {
+      "TITLE": "What's the name of your dish?",
+      "DESCRIPTION": "How to make your dish?",
+      "REQUIRED_TIME": "Required time (in minutes)"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_TITLE": "Name is required",
+      "PROVIDE_DESCRIPTION": "Description is required",
+      "PROVIDE_REQUIRED_TIME": "Time is required"
+    }
+  },
+  "SEARCH": {
+    "FILTER": {
+      "NAME": "Name of recipe",
+      "CATEGORIES": "Categories",
+      "INGREDIENTS": "Ingredients",
+      "TIME": "Max preparation time",
+      "DIFFICULTY": "Difficulty (1-piece of cake, 5-hell no)"
+    },
+    "SEARCH_BTN": "Search",
+    "NO_PARAMETERS_SPECIFIED": "Missing search parameters",
+    "RESULTS": "Search results",
+    "NO_RECIPES_FOUND": "No recipes were found"
+  }
+}
