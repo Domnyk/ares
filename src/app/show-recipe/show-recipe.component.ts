@@ -73,7 +73,7 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
   }
 
   private fetchRating(recipeId: number): Observable<Rating> {
-    const errorMsg = 'Tried to fetch rating but curretnUser is null - is user logged in?';
+    const errorMsg = 'Tried to fetch rating but currentUser is null - is user logged in?';
 
     return this.auth.currentUser.pipe(
       take(1),
