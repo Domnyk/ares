@@ -11,7 +11,7 @@
       <div class="form-group">
         <label for="username">{{ 'REGISTRATION_FORM.LABEL.USERNAME' | translate }}</label>
         <input type="text" class="form-control" formControlName="username" id="username"
-               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(username) }">
+          [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(username) }">
         <div *ngIf="fieldValidationService.isInvalid(nickname)" class="invalid-feedback">
           {{ 'REGISTRATION_FORM.VALIDATIONS.PROVIDE_USERNAME' | translate }}
         </div>
@@ -20,7 +20,7 @@
       <div class="form-group">
         <label for="password">{{ 'REGISTRATION_FORM.LABEL.PASSWORD' | translate }}</label>
         <input type="password" class="form-control" formControlName="password" id="password"
-               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(password) }">
+          [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(password) }">
         <div *ngIf="fieldValidationService.isInvalid(password)" class="invalid-feedback">
           {{ 'REGISTRATION_FORM.VALIDATIONS.PROVIDE_PASSWORD' | translate }}
         </div>
@@ -29,7 +29,7 @@
       <div class="form-group">
         <label for="nickname">{{ 'REGISTRATION_FORM.LABEL.NICKNAME' | translate }}</label>
         <input type="text" class="form-control" formControlName="nickname" id="nickname"
-               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(nickname) }">
+          [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(nickname) }">
         <div *ngIf="fieldValidationService.isInvalid(nickname)" class="invalid-feedback">
           {{ 'REGISTRATION_FORM.VALIDATIONS.PROVIDE_NICKNAME' | translate }}
         </div>
@@ -48,10 +48,22 @@
       <div class="form-group">
         <label for="email">{{ 'REGISTRATION_FORM.LABEL.EMAIL' | translate }}</label>
         <input type="text" class="form-control" formControlName="email" id="email"
-               [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(email) }"/>
+          [ngClass]="{ 'is-invalid': fieldValidationService.isInvalid(email) }" />
         <div *ngIf="fieldValidationService.isInvalid(email)" class="invalid-feedback">
-          {{ 'REGISTRATION_FORM.VALIDATIONS.WRONG_EMAIL' | translate }}
+          {{ 'REGISTRATION_FORM.VALIDATIONS.WRONG_EMAIL' | translate }}:
+          <span *ngIf="email.hasError('required')">
+            {{ 'REGISTRATION_FORM.VALIDATIONS.PROVIDE_EMAIL' | translate }}
+          </span>
+          <span *ngIf="email.hasError('email')">
+            {{ 'REGISTRATION_FORM.VALIDATIONS.WRONG_FORMAT' | translate }}
+          </span>
+          <span *ngIf="email.hasError('alreadyTaken')">
+            {{ 'REGISTRATION_FORM.VALIDATIONS.EMAIL_TAKEN' | translate }}
+          </span>
         </div>
+        <small *ngIf='email.pending' class="form-text text-warning">
+          {{ 'REGISTRATION_FORM.VALIDATIONS.EMAIL_CHECK_IN_PROGRESS' | translate }}
+        </small>
       </div>
 
       <div class="form-group">

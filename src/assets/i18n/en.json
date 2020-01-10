@@ -44,8 +44,11 @@
       "PROVIDE_NICKNAME": "Provide nick",
       "PROVIDE_USERNAME": "Provide username",
       "PROVIDE_PASSWORD": "Provide password",
-      "PROVIDE_EMAIL": "Provide e-mail",
-      "WRONG_EMAIL": "Wrong e-mail address"
+      "PROVIDE_EMAIL": "provide e-mail",
+      "WRONG_EMAIL": "Wrong e-mail address",
+      "WRONG_FORMAT": "this is not valid email",
+      "EMAIL_CHECK_IN_PROGRESS": "Please wait while your email adrres is being checked...",
+      "EMAIL_TAKEN": "this email is taken"
     },
     "ERROR": "Something went wrong"
   },
