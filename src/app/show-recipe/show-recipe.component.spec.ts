@@ -11,6 +11,7 @@ import { By } from '@angular/platform-browser';
 import { delay } from 'rxjs/operators';
 import { DebugElement } from '@angular/core';
 import { RecipeService } from '../service/recipe.service';
+import { Rating } from '../model/rating';
 
 const mockRecipe: Recipe = {
   id: 1,
@@ -22,6 +23,13 @@ const mockRecipe: Recipe = {
   creationDate: new Date(),
   time: 10,
   user: 1,
+};
+
+const mockRating: Rating = {
+  id: -1,
+  user: 'donald',
+  score: 4,
+  recipe: -1
 };
 
 class MockActivatedRoute extends ActivatedRoute {
@@ -40,7 +48,8 @@ class MockActivatedRouteWithoutRecipe extends ActivatedRoute {
 
 describe('ShowRecipeComponent', () => {
   const recipeService = {
-    findRecipeById: (id: number) => of(mockRecipe)
+    findRecipeById: (id: number) => of(mockRecipe),
+    fetchRating: (recipeId: number, username: string) => of(mockRating),
   };
 
   const compileShowRecipeComponent = (activatedRoute: any) => {
