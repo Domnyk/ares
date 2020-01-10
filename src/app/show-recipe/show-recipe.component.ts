@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Subject, Observable, Subscription, fromEvent, throwError, zip } from 'rxjs';
+import { Subject, Observable, Subscription, fromEvent, throwError, zip, of } from 'rxjs';
 import { map, flatMap, tap, take, switchMap } from 'rxjs/operators';
 
 import { Recipe } from '../model/recipe';
@@ -9,6 +9,7 @@ import { RecipeService } from '../service/recipe.service';
 import { AuthService } from '../service/auth.service';
 import { RecipeWithRating } from '../model/recipe-with-rating';
 import { Rating } from '../model/rating';
+import { CurrentUser } from '../model/current-user';
 
 @Component({
   selector: 'app-show-recipe',
@@ -72,9 +73,12 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
   }
 
   private fetchRating(recipeId: number): Observable<Rating> {
+    const errorMsg = 'Tried to fetch rating but curretnUser is null - is user logged in?';
+
     return this.auth.currentUser.pipe(
       take(1),
-      flatMap(cu => this.recipeService.fetchRating(recipeId, cu.username))
+      flatMap((cu: CurrentUser | null) => cu === null ? throwError(errorMsg) : of(cu)),
+      flatMap((cu: CurrentUser) => this.recipeService.fetchRating(recipeId, cu.username))
     );
   }
 }
