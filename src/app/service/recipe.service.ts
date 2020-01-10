@@ -7,7 +7,7 @@ import {catchError, map, switchMap, take, tap} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { CurrentUser } from '../model/current-user';
 import { Rating } from '../model/rating';
-import {DictionaryService} from './dictionary.service';
+import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -43,6 +43,18 @@ export class RecipeService {
       take(1),
       switchMap((currentUser: CurrentUser | null) => this._addRating(score, recipeId, currentUser)),
     );
+  }
+
+  public fetchRating(recipeId: number, username: string): Observable<Rating> {
+    const params = new HttpParams().set('recipeId', recipeId.toString()).set('user', username);
+
+    // TODO: Uncomment when backend will be ready
+    // return this.http.get<Rating>(RecipeService.RATINGS_URL, { params }).pipe(
+    //   map((rating: Rating) => rating.score),
+    // );
+
+    const mockResp: Rating = { id: -1, score: 3, user: 'donald', recipe: -1 };
+    return of(mockResp);
   }
 
   private _addRating(score: number, recipeId: number, currentUser: CurrentUser | null): Observable<never | void> {

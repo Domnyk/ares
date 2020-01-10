@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, ElementRef, AfterViewInit } from '@angular/core';
-import { Subject, Observable, Subscription, fromEvent, throwError } from 'rxjs';
+import { Subject, Observable, Subscription, fromEvent, throwError, zip } from 'rxjs';
 import { map, flatMap, tap, take, switchMap } from 'rxjs/operators';
 
 import { Recipe } from '../model/recipe';
@@ -7,6 +7,8 @@ import { takeUntil } from 'rxjs/operators';
 import { ActivatedRoute, Data } from '@angular/router';
 import { RecipeService } from '../service/recipe.service';
 import { AuthService } from '../service/auth.service';
+import { RecipeWithRating } from '../model/recipe-with-rating';
+import { Rating } from '../model/rating';
 
 @Component({
   selector: 'app-show-recipe',
@@ -15,11 +17,11 @@ import { AuthService } from '../service/auth.service';
 })
 export class ShowRecipeComponent implements OnInit, OnDestroy {
   public recipe: Recipe | null = null;
+  public rating: number | null = null;
   public isRatingConfirmationVisible = false;
   public showAlert = false;
 
   private unsubscribe = new Subject<void>();
-  private rating: number | null = null;
 
   constructor(private recipeService: RecipeService, private activatedRoute: ActivatedRoute, private auth: AuthService) {}
 
@@ -27,9 +29,9 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
     this.activatedRoute.data.pipe(
       map((res: Data) => res.recipe.id),
       map((id: string) => parseInt(id, 10)),
-      flatMap((id: number) => this.fetchRecipe(id)),
+      flatMap((id: number) => this.fetchRecipeAndRating(id)),
       takeUntil(this.unsubscribe),
-    ).subscribe(recipe => this.recipe = recipe);
+    ).subscribe(({ recipe, rating }) => { this.recipe = recipe; this.rating = rating.score; });
   }
 
   ngOnDestroy() {
@@ -59,7 +61,20 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
     this.showAlert = false;
   }
 
+  private fetchRecipeAndRating(recipeId: number): Observable<RecipeWithRating> {
+    return zip(this.fetchRecipe(recipeId), this.fetchRating(recipeId)).pipe(
+      map(([recipe, rating]: [Recipe, Rating]) => ({ recipe, rating }))
+    );
+  }
+
   private fetchRecipe(id: number): Observable<Recipe> {
     return this.recipeService.findRecipeById(id);
+  }
+
+  private fetchRating(recipeId: number): Observable<Rating> {
+    return this.auth.currentUser.pipe(
+      take(1),
+      flatMap(cu => this.recipeService.fetchRating(recipeId, cu.username))
+    );
   }
 }
