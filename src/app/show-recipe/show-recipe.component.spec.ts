@@ -57,11 +57,15 @@ class MockActivatedRouteWithoutRecipe extends ActivatedRoute {
 describe('ShowRecipeComponent', () => {
   const recipeService = {
     findRecipeById: (id: number) => of(mockRecipe),
+<<<<<<< HEAD
     fetchRating: (recipeId: number, username: string) => of(mockRating),
   };
 
   const authService = {
     currentUser: of(mockCurrentUser),
+=======
+    fetchFavourites: () => of([0, 1, 2, 3]),
+>>>>>>> Add to favourites
   };
 
   const compileShowRecipeComponent = (activatedRoute: any) => {
