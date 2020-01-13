@@ -86,7 +86,8 @@
       "CATEGORIES": "Categories",
       "INGREDIENTS": "Ingredients",
       "TIME": "Max preparation time",
-      "DIFFICULTY": "Difficulty (1-piece of cake, 5-hell no)"
+      "DIFFICULTY": "Difficulty (1-piece of cake, 5-hell no)",
+      "INCLUDE_INGREDIENTS_REPLACEMENTS" : "include ingredients replacements"
     },
     "SEARCH_BTN": "Search",
     "NO_PARAMETERS_SPECIFIED": "Missing search parameters",

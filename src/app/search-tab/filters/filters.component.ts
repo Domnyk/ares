@@ -22,6 +22,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   private nameForm: FormControl = new FormControl(null);
   private preparationTimeForm: FormControl = new FormControl(null);
   private difficultyForm: FormControl = new FormControl(null);
+  private shouldIncludeReplacements: boolean = false;
   private unsubscribe = new Subject<void>();
 
   public selectedIngredients: string[] = [];
@@ -31,6 +32,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public shouldShowWarningMsg: boolean = false;
   public searchIngredients!: (text: Observable<string>) => Observable<string[]>;
   public searchCategories!: (text: Observable<string>) => Observable<string[]>;
+  public suggestsTitles!: (text: Observable<string>) => Observable<string[]>;
 
   @Input() initialTitleSearch: string | null = null;
   @Output() foundRecipes: EventEmitter<Recipe[]> = new EventEmitter<Recipe[]>();
@@ -51,6 +53,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
     this.searchIngredients = this.dictionaryService.searchIngredientsNames(this.selectedIngredients);
     this.searchCategories = this.dictionaryService.searchCategoriesNames(this.selectedCategories);
+    this.suggestsTitles = this.dictionaryService.suggestsTitles();
   }
 
   ngOnDestroy() {
@@ -100,6 +103,10 @@ export class FiltersComponent implements OnInit, OnDestroy {
     if (this.selectedCategories.length !== 0) {
       requestParams.categories = this.selectedCategories;
     }
+    if (this.shouldIncludeReplacements) {
+      requestParams.replacements = 'true';
+    }
+
     if (Object.keys(requestParams).length === 0) {
       this.shouldShowWarningMsg = true;
       return;
@@ -111,5 +118,9 @@ export class FiltersComponent implements OnInit, OnDestroy {
     ).subscribe((recipes: Recipe[]) =>
       this.foundRecipes.emit(recipes)
     );
+  }
+
+  public toggleReplacements(): void {
+    this.shouldIncludeReplacements = !this.shouldIncludeReplacements;
   }
 }

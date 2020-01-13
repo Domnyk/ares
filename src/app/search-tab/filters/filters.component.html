@@ -1,7 +1,8 @@
 <form class="filters-container" [formGroup]="searchForm">
   <div class="filters-container__group">
     <label class="filters-container__group_label" for="name">{{ 'SEARCH.FILTER.NAME' | translate }}</label>
-    <input class="filters-container__group_input filters-container__group_input_long" id="name" formControlName="name">
+    <input class="filters-container__group_input filters-container__group_input_long" id="name" formControlName="name"
+           [ngbTypeahead]="suggestsTitles">
   </div>
   <div class="filters-container__group">
     <label class="filters-container__group_label" for="difficulty">{{ 'SEARCH.FILTER.DIFFICULTY' | translate }}</label>
@@ -33,6 +34,13 @@
            [ngbTypeahead]="searchIngredients"
            (selectItem)="selectIngredient($event)"
            formControlName="ingredients">
+    <div class="form-check">
+      <input class="form-check-input" type="checkbox" value="" name="shouldIncludeReplacements"
+             id="shouldIncludeReplacements" (change)="toggleReplacements()">
+      <label class="form-check-label" for="shouldIncludeReplacements">
+        {{ 'SEARCH.FILTER.INCLUDE_INGREDIENTS_REPLACEMENTS' | translate }}
+      </label>
+    </div>
     <div *ngIf="selectedIngredients.length !== 0" class="chosen-elements-container">
       <ng-container *ngFor="let ingredient of selectedIngredients">
         <app-element-box [name]="ingredient" [elementType]="elementType.INGREDIENT"
