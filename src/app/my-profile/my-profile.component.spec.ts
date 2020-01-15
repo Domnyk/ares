@@ -2,6 +2,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { MyProfileComponent } from './my-profile.component';
 import {TranslateModule} from '@ngx-translate/core';
+import {AuthService} from '../service/auth.service';
+import {UserService} from '../service/user.service';
+import {SearchResultComponent} from '../shared/search-result/search-result.component';
+import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
+import {RouterTestingModule} from '@angular/router/testing';
+import {HttpClient, HttpHandler} from '@angular/common/http';
 
 describe('MyProfileComponent', () => {
   let component: MyProfileComponent;
@@ -9,8 +15,9 @@ describe('MyProfileComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MyProfileComponent ],
-      imports: [TranslateModule.forRoot()]
+      declarations: [ MyProfileComponent, SearchResultComponent],
+      imports: [TranslateModule.forRoot(), NgbModule, RouterTestingModule],
+      providers: [AuthService, UserService, HttpClient, HttpHandler]
     })
     .compileComponents();
   }));

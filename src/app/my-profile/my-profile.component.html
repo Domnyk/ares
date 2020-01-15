@@ -1,1 +1,61 @@
-<p>my-profile works!</p>
+<div *ngIf="pageLoaded; else loading">
+  <div class="recipes-container">
+    <h4 class="recipes-container__title">{{'MY_PROFILE.MY_RECIPES' | translate}}</h4>
+    <div class="recipes-container__recipes">
+      <ng-container
+        *ngFor="let myRecipe of myRecipes  | slice: (myRecipesPage-1) * pageSize : (myRecipesPage-1) * pageSize + pageSize">
+        <app-search-result [recipe]="myRecipe"></app-search-result>
+      </ng-container>
+      <ngb-pagination *ngIf="myRecipes.length != 0" class="recipes-container__pagination"
+                      [(page)]="myRecipesPage"
+                      [pageSize]="pageSize"
+                      [collectionSize]="myRecipes.length"></ngb-pagination>
+      <div class="no-recipes-found" *ngIf="myRecipes.length == 0"> {{'MY_PROFILE.EMPTY_MY_RECIPES' | translate}}
+      </div>
+    </div>
+  </div>
+
+  <div class="recipes-container">
+    <h4 class="recipes-container__title">{{'MY_PROFILE.RECOMMENDED_RECIPES' | translate}}</h4>
+    <div class="recipes-container__recipes">
+      <ng-container
+        *ngFor="let recommendedRecipe of recommendedRecipes  | slice: (recommendedRecipesPage-1) * pageSize : (recommendedRecipesPage-1) * pageSize + pageSize">
+        <app-search-result [recipe]="recommendedRecipe"></app-search-result>
+      </ng-container>
+      <ngb-pagination *ngIf="recommendedRecipes.length != 0" class="recipes-container__pagination"
+                      [(page)]="recommendedRecipesPage"
+                      [pageSize]="pageSize"
+                      [collectionSize]="recommendedRecipes.length"></ngb-pagination>
+      <div class="no-recipes-found"
+           *ngIf="recommendedRecipes.length == 0"> {{'MY_PROFILE.EMPTY_RECOMMENDED_RECIPES' | translate}}
+      </div>
+    </div>
+  </div>
+
+  <div class="recipes-container">
+    <h4 class="recipes-container__title">{{'MY_PROFILE.FAVOURITE_RECIPES' | translate}}</h4>
+    <div class="recipes-container__recipes">
+      <ng-container
+        *ngFor="let favouriteRecipe of myFavouriteRecipes | slice: (favouriteRecipesPage-1) * pageSize : (favouriteRecipesPage-1) * pageSize + pageSize">
+        <app-search-result [recipe]="favouriteRecipe"></app-search-result>
+      </ng-container>
+      <ngb-pagination *ngIf="myFavouriteRecipes.length != 0" class="recipes-container__pagination"
+                      [(page)]="favouriteRecipesPage"
+                      [pageSize]="pageSize"
+                      [collectionSize]="myFavouriteRecipes.length"></ngb-pagination>
+      <div class="no-recipes-found"
+           *ngIf="myFavouriteRecipes.length == 0"> {{'MY_PROFILE.EMPTY_FAVOURITE_RECIPES' | translate}}
+      </div>
+    </div>
+  </div>
+</div>
+<ng-template #loading>
+  <div class="row pt-5">
+    <div class="col-4 offset-4 d-flex flex-row align-items-center">
+      <p class="lead text-maroon">{{ 'MY_PROFILE.LOADING' | translate }}</p>
+      <div class="ml-auto pb-2">
+        <div class="spinner-border recipe-spinner text-maroon" role="status" aria-hidden="true"></div>
+      </div>
+    </div>
+  </div>
+</ng-template>

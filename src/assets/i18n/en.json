@@ -92,5 +92,14 @@
     "NO_PARAMETERS_SPECIFIED": "Missing search parameters",
     "RESULTS": "Search results",
     "NO_RECIPES_FOUND": "No recipes were found"
+  },
+  "MY_PROFILE": {
+    "MY_RECIPES": "My recipes",
+    "RECOMMENDED_RECIPES": "Recommended for me",
+    "FAVOURITE_RECIPES": "Favourite recipes",
+    "EMPTY_FAVOURITE_RECIPES" : "You don't have any favourite recipes",
+    "EMPTY_MY_RECIPES" : "You haven't added any recipes yet",
+    "EMPTY_RECOMMENDED_RECIPES" : "No suggestions. Rate more recipes and we will propose you some you may like",
+    "LOADING": "Please wait a moment. We're loading your profile data"
   }
 }
