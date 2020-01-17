@@ -27,22 +27,6 @@ export class DictionaryService {
         ));
   }
 
-  suggestsTitles(): (text: Observable<string>) => Observable<string[]> {
-    return (text$: Observable<string>) =>
-      text$.pipe(
-        debounceTime(200),
-        distinctUntilChanged(),
-        // TODO fix it when backend is ready
-        // switchMap(query => this.getTitleSuggestions(query)
-        switchMap(query => this.getCategoriesNames(query, [])
-        ));
-  }
-
-  getTitleSuggestions(term: string): (text: Observable<string>) => Observable<string[]> | [] {
-    // TODO implement me when backend is ready
-    return (text$: Observable<string>) => [];
-  }
-
   searchIngredientsNames(selectedIngredients: string[]): (text: Observable<string>) => Observable<string[]> {
     return (text$: Observable<string>) =>
       text$.pipe(
