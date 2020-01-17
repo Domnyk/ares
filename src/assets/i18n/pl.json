@@ -93,5 +93,15 @@
     "NO_PARAMETERS_SPECIFIED": "Nie określono parametrów wyszukiwania",
     "RESULTS": "Wyniki wyszukiwania",
     "NO_RECIPES_FOUND": "Nie znaleziono żadnych przepisów o podanych parametrach"
+  },
+  "MY_PROFILE": {
+    "MY_RECIPES": "Moje przepisy",
+    "RECOMMENDED_RECIPES": "Polecane dla mnie",
+    "FAVOURITE_RECIPES": "Ulubione przepisy",
+    "EMPTY_FAVOURITE_RECIPES" : "Nie masz jeszcze ulubionych przepisów",
+    "EMPTY_MY_RECIPES" : "Nie dodałeś jeszcze żadnego własnego przepisu",
+    "EMPTY_RECOMMENDED_RECIPES" : "Brak sugestii. Oceniaj kolejne przepisy, a my zaproponujemy Tobie przepisy, które mogą Ci się spodobać",
+    "LOADING": "Proszę czekać. Wczytujemy informacje o Twoim profilu"
+
   }
 }

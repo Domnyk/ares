@@ -26,7 +26,7 @@ export class RegistrationService {
           name: string,
           surname: string
   ): Observable<boolean> {
-    const user: User = this.makeUser(username, password, nickname, bio, favouriteRecipes, email, name, surname);
+    const user: User = this.makeUser(username, password, nickname, bio, email, name, surname);
     const httpOptions: { observe: 'response' } = {
       observe: 'response'
     };
@@ -59,13 +59,13 @@ export class RegistrationService {
     return of({wasSignUpSuccessful: false});
   }
 
-  makeUser(username: string, password: string, nickname: string, bio: string, favouriteRecipes: Array<number>,
+  makeUser(username: string, password: string, nickname: string, bio: string,
            email: string, name: string, surname: string): User {
 
     const basicInfo = {username, password, surname, name, email};
 
     return {
-      basicInfo, nickname, favouriteRecipes, bio
+      basicInfo, nickname, bio
     };
   }
 
