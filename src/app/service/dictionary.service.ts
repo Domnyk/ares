@@ -1,7 +1,6 @@
 import {Injectable} from '@angular/core';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
-import {Recipe} from '../model/recipe';
 import {Observable} from 'rxjs';
 import {Ingredient} from '../model/ingredient';
 import {Category} from '../model/category';
@@ -47,7 +46,7 @@ export class DictionaryService {
   }
 
 
-  getIngredientsNames(term: string,  selectedIngredients: string[]): Observable<string[]> | [] {
+  getIngredientsNames(term: string, selectedIngredients: string[]): Observable<string[]> | [] {
     return term.length < 2 ? []
       : this.requestIngredients(term).pipe(
         map((ingredients: Ingredient[]) =>
@@ -55,11 +54,10 @@ export class DictionaryService {
             .filter((ingredient: string) => !selectedIngredients.includes(ingredient))));
   }
 
-  getIngredients(term: string,  selectedIngredients: Ingredient[]): Observable<string[]> | [] {
+  getIngredients(term: string, selectedIngredients: Ingredient[]): Observable<string[]> | [] {
     return this.requestIngredients(term).pipe(
       map((ingredients: Ingredient[]) =>
-        ingredients.
-        filter((ingredient: Ingredient) => !selectedIngredients.includes(ingredient))
+        ingredients.filter((ingredient: Ingredient) => !selectedIngredients.includes(ingredient))
           .map((ingredient: Ingredient) => JSON.stringify(ingredient))));
   }
 
