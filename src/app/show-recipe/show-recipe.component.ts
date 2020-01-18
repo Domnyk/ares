@@ -76,7 +76,7 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
     ).subscribe(_ => { this.displayAlert('RECIPE_PAGE.SCORE_WAS_ADDED'); });
   }
 
-  hide() {
+  hide(): void {
     this.showAlert = false;
   }
 
@@ -85,20 +85,23 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
       map(([recipe, rating]: [Recipe, Rating]) => ({ recipe, rating }))
     );
   }
-  private displayAlert(msg: string) {
-    this.translate.get(msg).subscribe((res: string) => {
+
+  private displayAlert(msg: string): void {
+    this.translate.get(msg).pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe((res: string) => {
       this.showAlert = true;
       this.alertMsg = res;
     });
   }
 
-  private markIfFavourite(recipeId: number | undefined) {
+  private markIfFavourite(recipeId: number | undefined): void {
     if (recipeId === undefined) {
       console.warn('Missing recipe id. Recipe will not be marked as favourite');
       return;
     }
 
-    return this.recipeService.fetchFavourites()
+    this.recipeService.fetchFavourites()
     .pipe(
       take(1),
       takeUntil(this.unsubscribe)

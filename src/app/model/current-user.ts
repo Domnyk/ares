@@ -4,7 +4,7 @@ export interface CurrentUser {
   token: string;
 }
 
-export interface CurretnUserDto {
+export interface CurrentUserDto {
   id: number;
   basic_info: {
     username: string;

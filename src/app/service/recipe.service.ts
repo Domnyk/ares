@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, throwError, EMPTY} from 'rxjs';
 import {Recipe} from '../model/recipe';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import {catchError, map, switchMap, take, tap} from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { CurrentUser, CurretnUserDto } from '../model/current-user';
+import { CurrentUser, CurrentUserDto } from '../model/current-user';
 import { Rating } from '../model/rating';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -48,7 +47,6 @@ export class RecipeService {
 
     return this.auth.currentUser.pipe(
       take(1),
-      tap((cu) => console.log(`Test ${cu}`)),
       switchMap((currentUser: CurrentUser | null) => this._addToFavourites(recipeId, currentUser)),
     );
   }
@@ -65,8 +63,8 @@ export class RecipeService {
       return throwError('currentUser is null. Skipping fetch of favourites recipes');
     }
 
-    return this.http.get<CurretnUserDto>(this.createUserUrl(currentUser.id)).pipe(
-      map((resp: CurretnUserDto) => resp.favourite_recipes),
+    return this.http.get<CurrentUserDto>(this.createUserUrl(currentUser.id)).pipe(
+      map((resp: CurrentUserDto) => resp.favourite_recipes),
       map((favourites: Array<{id: number}>) => favourites.map(f => f.id)),
     );
   }
