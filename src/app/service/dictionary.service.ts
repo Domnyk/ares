@@ -47,7 +47,7 @@ export class DictionaryService {
 
 
   getIngredientsNames(term: string, selectedIngredients: string[]): Observable<string[]> | [] {
-    return term.length < 2 ? []
+    return term.length < 1 ? []
       : this.requestIngredients(term).pipe(
         map((ingredients: Ingredient[]) =>
           ingredients.map((ingredient: Ingredient) => ingredient.name)
@@ -57,7 +57,8 @@ export class DictionaryService {
   getIngredients(term: string, selectedIngredients: Ingredient[]): Observable<string[]> | [] {
     return this.requestIngredients(term).pipe(
       map((ingredients: Ingredient[]) =>
-        ingredients.filter((ingredient: Ingredient) => !selectedIngredients.includes(ingredient))
+        ingredients
+          .filter((ingredient: Ingredient) => !selectedIngredients.includes(ingredient))
           .map((ingredient: Ingredient) => JSON.stringify(ingredient))));
   }
 

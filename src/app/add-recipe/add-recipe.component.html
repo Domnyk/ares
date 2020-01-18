@@ -70,10 +70,10 @@
                class="filters-container__group_input filters-container__group_input_long"
                formControlName="ingredients"
                id="ingredients">
-        <div *ngIf="selectedIngredients.length !== 0" class="chosen-elements-container">
-          <ng-container *ngFor="let ingredient of selectedIngredients">
+        <div *ngIf="selectedIngredientsNames.length !== 0" class="chosen-elements-container">
+          <ng-container *ngFor="let ingredient of selectedIngredientsNames">
             <app-element-box (removeCategory)="removeSelectedIngredient($event)" [elementType]="elementType.INGREDIENT"
-                             [name]="ingredient.name"
+                             [name]="ingredient"
             ></app-element-box>
           </ng-container>
         </div>
