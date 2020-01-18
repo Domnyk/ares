@@ -4,11 +4,13 @@ import {catchError, flatMap, map, tap} from 'rxjs/operators';
 import {User} from '../model/user';
 import {environment} from '../../environments/environment';
 import {HttpClient, HttpErrorResponse, HttpResponse} from '@angular/common/http';
+import { ValidationResp } from '../model/validation-resp';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RegistrationService {
+  private static readonly EMAIL_VALIDATION_ENDPOINT = environment.apiUrl + '/registration';
   private static readonly CREATED_STATUS = 201;
   private static readonly BAD_REQUEST_STATUS = 400;
   private _isSignedUp = new BehaviorSubject<boolean>(false);
@@ -67,6 +69,15 @@ export class RegistrationService {
     return {
       basicInfo, nickname, bio
     };
+  }
+
+  isEmailUnique(email: string): Observable<boolean> {
+    const params = { email };
+
+    return this.http.get<ValidationResp>(RegistrationService.EMAIL_VALIDATION_ENDPOINT, { params }).pipe(
+      map((resp: ValidationResp) => resp.email),
+      map(isTaken => !isTaken),
+    );
   }
 
   private setIsSignedUp(resp: ParsedAuthResponse) {
