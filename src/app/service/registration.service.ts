@@ -75,7 +75,7 @@ export class RegistrationService {
     const params = { email };
 
     return this.http.get<ValidationResp>(RegistrationService.EMAIL_VALIDATION_ENDPOINT, { params }).pipe(
-      map((resp: ValidationResp) => resp.valid),
+      map((resp: ValidationResp) => resp.email),
       map(isTaken => !isTaken),
     );
   }

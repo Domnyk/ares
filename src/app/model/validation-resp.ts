@@ -1,3 +1,3 @@
 export interface ValidationResp {
-  valid: boolean;
+  email: boolean;
 }
