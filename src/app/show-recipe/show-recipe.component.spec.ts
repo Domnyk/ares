@@ -11,6 +11,9 @@ import { By } from '@angular/platform-browser';
 import { delay } from 'rxjs/operators';
 import { DebugElement } from '@angular/core';
 import { RecipeService } from '../service/recipe.service';
+import { Rating } from '../model/rating';
+import { CurrentUser } from '../model/current-user';
+import { AuthService } from '../service/auth.service';
 
 const mockRecipe: Recipe = {
   id: 1,
@@ -22,6 +25,19 @@ const mockRecipe: Recipe = {
   creationDate: new Date(),
   time: 10,
   user: 1,
+};
+
+const mockRating: Rating = {
+  id: -1,
+  user: 'donald',
+  score: 4,
+  recipe: -1
+};
+
+const mockCurrentUser: CurrentUser = {
+  id: 1,
+  username: 'donald',
+  token: 'donalds token'
 };
 
 class MockActivatedRoute extends ActivatedRoute {
@@ -40,14 +56,20 @@ class MockActivatedRouteWithoutRecipe extends ActivatedRoute {
 
 describe('ShowRecipeComponent', () => {
   const recipeService = {
-    findRecipeById: (id: number) => of(mockRecipe)
+    findRecipeById: (id: number) => of(mockRecipe),
+    fetchRating: (recipeId: number, username: string) => of(mockRating),
+  };
+
+  const authService = {
+    currentUser: of(mockCurrentUser),
   };
 
   const compileShowRecipeComponent = (activatedRoute: any) => {
     TestBed.configureTestingModule({
       declarations: [ ShowRecipeComponent, RecipeRatingComponent ],
       imports: [ TranslateModule.forRoot(), HttpClientTestingModule ],
-      providers: [ { provide: ActivatedRoute, useClass: activatedRoute }, { provide: RecipeService, useValue: recipeService }]
+      providers: [ { provide: ActivatedRoute, useClass: activatedRoute }, { provide: RecipeService, useValue: recipeService },
+                   { provide: AuthService, useValue: authService }]
     })
     .compileComponents();
   };
