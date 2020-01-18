@@ -5,7 +5,7 @@ import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {RegistrationService} from '../service/registration.service';
 import {takeUntil} from 'rxjs/operators';
-import { AsyncValidationService } from '../service/async-validation.service';
+import { ValidateUniqueEmail } from '../service/validate-unique-email';
 
 
 @Component({
@@ -21,7 +21,7 @@ export class RegistrationFormComponent implements OnDestroy {
   email: FormControl = new FormControl('', [
     Validators.required,
     Validators.email
-  ], [this.asyncValidators.uniqueEmail]);
+  ], [ValidateUniqueEmail.createValidator(this.registrationService)]);
   // TODO add posibility to type and search
   name: FormControl = new FormControl('', [Validators.nullValidator]);
   surname: FormControl = new FormControl('', [Validators.nullValidator]);
@@ -30,7 +30,7 @@ export class RegistrationFormComponent implements OnDestroy {
   private unsubscribe = new Subject<void>();
 
   constructor(public fieldValidationService: FieldValidationService, private registrationService: RegistrationService,
-              private formBuilder: FormBuilder, private router: Router, private asyncValidators: AsyncValidationService) {
+              private formBuilder: FormBuilder, private router: Router) {
     this.registrationForm = this.formBuilder.group({
       nickname: this.nickname,
       username: this.username,

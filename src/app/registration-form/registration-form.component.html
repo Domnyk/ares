@@ -57,7 +57,7 @@
           <span *ngIf="email.hasError('email')">
             {{ 'REGISTRATION_FORM.VALIDATIONS.WRONG_FORMAT' | translate }}
           </span>
-          <span *ngIf="email.hasError('alreadyTaken')">
+          <span *ngIf="email.hasError('emailTaken')">
             {{ 'REGISTRATION_FORM.VALIDATIONS.EMAIL_TAKEN' | translate }}
           </span>
         </div>
