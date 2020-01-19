@@ -1,19 +1,21 @@
 import {Injectable} from '@angular/core';
-import {Observable, of, throwError} from 'rxjs';
+import {Observable, of, throwError, EMPTY} from 'rxjs';
 import {Recipe} from '../model/recipe';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
 import { environment } from '../../environments/environment';
 import {catchError, map, switchMap, take, tap} from 'rxjs/operators';
 import { AuthService } from './auth.service';
-import { CurrentUser } from '../model/current-user';
+import { CurrentUser, CurrentUserDto } from '../model/current-user';
 import { Rating } from '../model/rating';
-import { HttpParams } from '@angular/common/http';
+import { FavouriteRecipe } from '../model/favourite-recipe';
 
 @Injectable({
   providedIn: 'root'
 })
 export class RecipeService {
 
+  private static readonly USERS_URL = environment.apiUrl + '/users';
+  private static readonly FAVOURITES_URL = environment.apiUrl + '/favourite_recipe';
   private static readonly RECIPES_URL = environment.apiUrl + '/recipes';
   private static readonly RATINGS_URL = environment.apiUrl + '/ratings';
   private static readonly NEWEST_RECIPES_NUMBER = '5';
@@ -36,6 +38,45 @@ export class RecipeService {
         tap((newRecipe: Recipe) => console.log(`added recipe w/ id=${newRecipe.id}`)),
         catchError(this.handleError<Recipe>('addRecipe'))
       );
+  }
+
+  public addToFavourites(recipeId?: number): Observable<FavouriteRecipe> {
+    if (recipeId === undefined) {
+      console.warn('Missing recipeId, skipping');
+      return EMPTY;
+    }
+
+    return this.auth.currentUser.pipe(
+      take(1),
+      switchMap((currentUser: CurrentUser | null) => this._addToFavourites(recipeId, currentUser)),
+    );
+  }
+
+  public fetchFavourites(): Observable<number[]> {
+    return this.auth.currentUser.pipe(
+      take(1),
+      switchMap((currentUser: CurrentUser | null) => this._fetchFavourites(currentUser)),
+    );
+  }
+
+  private _fetchFavourites(currentUser: CurrentUser | null): Observable<number[]> {
+    if (currentUser == null) {
+      return throwError('currentUser is null. Skipping fetch of favourites recipes');
+    }
+
+    return this.http.get<CurrentUserDto>(this.createUserUrl(currentUser.id)).pipe(
+      map((resp: CurrentUserDto) => resp.favourite_recipes),
+      map((favourites: Array<{id: number}>) => favourites.map(f => f.id)),
+    );
+  }
+
+  private _addToFavourites(recipeId: number, currentUser: CurrentUser | null): Observable<FavouriteRecipe> {
+    if (currentUser == null) {
+      return throwError('CurrentUser is null. Skipping add to favourites');
+    }
+
+    const favouriteRecipe: FavouriteRecipe = { recipe_id: recipeId, user_id: currentUser.id };
+    return this.http.post<FavouriteRecipe>(RecipeService.FAVOURITES_URL, favouriteRecipe);
   }
 
   public addRating(score: number, recipeId: number): Observable<void> {
@@ -71,6 +112,10 @@ export class RecipeService {
 
   private createRecipeUrl(id: number): string {
     return RecipeService.RECIPES_URL + `/${id}`;
+  }
+
+  private createUserUrl(id: number): string {
+    return RecipeService.USERS_URL + `/${id}`;
   }
 
   private handleError<T>(operation = 'operation', result?: T) {
