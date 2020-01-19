@@ -47,7 +47,9 @@
       "PROVIDE_EMAIL": "Podaj e-mail",
       "WRONG_EMAIL": "Nieprawidłowy adres email"
     },
-    "ERROR": "Coś poszło nie tak"
+    "ERROR": "Coś poszło nie tak",
+    "SUCCESS": "Twoje konto zostało pomyślnie dodane.",
+    "BACK_TO_LOGIN": "Powróć do strony logowania"
   },
   "RECIPE_PAGE": {
     "SEND_SCORE": "Prześlij ocenę",

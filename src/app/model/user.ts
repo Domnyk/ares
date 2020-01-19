@@ -1,7 +1,7 @@
 import {Recipe} from './recipe';
 
 export interface User {
-  basicInfo: {
+  basic_info: {
     username: string,
     password: string,
     surname: string,

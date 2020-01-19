@@ -6,6 +6,11 @@
         <span aria-hidden="true">&times;</span>
       </button>
     </div>
+
+    <div *ngIf="lastAttemptFailed === false" class="alert alert-success" role="alert">
+      {{ 'REGISTRATION_FORM.SUCCESS' | translate }}
+      <a (click)="moveToLogin()" class="page-link"> {{ 'REGISTRATION_FORM.BACK_TO_LOGIN' | translate }}</a>
+    </div>
     <form [formGroup]="registrationForm" (ngSubmit)="sendRegistrationReq()" novalidate>
 
       <div class="form-group">

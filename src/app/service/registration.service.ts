@@ -23,7 +23,6 @@ export class RegistrationService {
           password: string,
           nickname: string,
           bio: string,
-          favouriteRecipes: number[],
           email: string,
           name: string,
           surname: string
@@ -64,10 +63,12 @@ export class RegistrationService {
   makeUser(username: string, password: string, nickname: string, bio: string,
            email: string, name: string, surname: string): User {
 
-    const basicInfo = {username, password, surname, name, email};
-
     return {
-      basicInfo, nickname, bio
+     basic_info: {
+        username, password, surname, name, email
+      },
+      nickname,
+      bio
     };
   }
 
