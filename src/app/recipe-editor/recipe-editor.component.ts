@@ -107,6 +107,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
     this.categories.reset();
   }
 
+
   removeSelectedIngredient(removedIngredient: string): void {
     this.selectedIngredientsNames.splice(this.selectedIngredientsNames.indexOf(removedIngredient), 1);
   }
@@ -168,7 +169,6 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
           }
         }
       });
-
   }
 
   moveToCreatedRecipe(): void {
