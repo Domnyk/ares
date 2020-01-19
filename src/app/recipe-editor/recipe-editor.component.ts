@@ -78,13 +78,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
         .map((ingredient: Ingredient) => {
           return ingredient.name;
         });
-
-      console.log(`Setting value of difficulty to ${this.recipe.difficulty}`);
-
-      this.difficulty.setValue(this.recipe.difficulty);
-
-      console.log(this.recipeForm);
-
+      this.difficulty.patchValue(this.recipe.difficulty);
       this.requiredTime.patchValue(this.recipe.time);
     }
 
@@ -113,8 +107,8 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
     this.categories.reset();
   }
 
-  removeSelectedIngredient(removedCategory: string): void {
-    this.selectedIngredientsNames.splice(this.selectedCategories.indexOf(removedCategory), 1);
+  removeSelectedIngredient(removedIngredient: string): void {
+    this.selectedIngredientsNames.splice(this.selectedIngredientsNames.indexOf(removedIngredient), 1);
   }
 
   selectIngredient(event: NgbTypeaheadSelectItemEvent): void {
@@ -138,7 +132,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
           .subscribe((recipe: Recipe) => {
             if (recipe) {
               console.log('Recipe was with id:' + recipe.id + ' was successfully changed into:');
-              console.log('\n' + recipe);
+              console.log(recipe);
 
               this.lastAttemptFailed = false;
               if (recipe.id !== undefined && recipe.title !== undefined) {
@@ -222,7 +216,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
         description: this.description.value,
         categories: this.selectedCategories,
         ingredients: selectedIngredients,
-        difficulty: +this.difficulty.value,
+        difficulty: this.difficulty.value,
         creationDate: new Date(),
         time: this.requiredTime.value,
         user: this.currentUserId

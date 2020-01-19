@@ -80,7 +80,7 @@
                id="ingredients">
         <div *ngIf="selectedIngredientsNames.length !== 0" class="chosen-elements-container">
           <ng-container *ngFor="let ingredient of selectedIngredientsNames">
-            <app-element-box (removeCategory)="removeSelectedIngredient($event)" [elementType]="elementType.INGREDIENT"
+            <app-element-box (removeIngredient)="removeSelectedIngredient($event)" [elementType]="elementType.INGREDIENT"
                              [name]="ingredient"
             ></app-element-box>
           </ng-container>
