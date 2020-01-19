@@ -49,7 +49,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
   ]);
   recipeForm: FormGroup;
 
-  currentUserId: number | null;
+  currentUserId: number | null = null;
 
 
   private unsubscribe = new Subject<void>();
@@ -65,8 +65,6 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
       categories: this.categories,
       ingredients: this.ingredients
     });
-
-    this.currentUserId = 0;
   }
 
   ngOnInit() {
@@ -126,9 +124,8 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
 
 
   sendRecipe(): void {
-    if(this.currentUserId !== null) {
-      const newRecipe = this.buildRecipe();
-
+    const newRecipe = this.buildRecipe();
+    if (newRecipe) {
       if (this.editMode && !!this.recipe && !!this.recipe.id) {
         this.recipeService.changeRecipe(this.recipe.id, newRecipe)
           .pipe(takeUntil(this.unsubscribe))
@@ -168,6 +165,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
           });
       }
     }
+
   }
 
   moveToCreatedRecipe(): void {
@@ -192,7 +190,11 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
     }
   }
 
-  private buildRecipe(): Recipe {
+  moveToMainPage() {
+    this.router.navigate(['']);
+  }
+
+  private buildRecipe(): Recipe | null {
     let selectedIngredients: Ingredient[] = [];
 
     this.dictionaryService.requestIngredients('')
@@ -208,20 +210,17 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
             );
         }
       );
-
-    return {
-      title: this.title.value,
-      description: this.description.value,
-      categories: this.selectedCategories,
-      ingredients: selectedIngredients,
-      difficulty: +this.difficulty.value,
-      creationDate: new Date(),
-      time: this.requiredTime.value,
-      user: this.currentUserId
-    };
-  }
-
-  moveToMainPage() {
-    this.router.navigate(['']);
+    if (this.currentUserId) {
+      return {
+        title: this.title.value,
+        description: this.description.value,
+        categories: this.selectedCategories,
+        ingredients: selectedIngredients,
+        difficulty: +this.difficulty.value,
+        creationDate: new Date(),
+        time: this.requiredTime.value,
+        user: this.currentUserId
+      };
+    } else { return null; }
   }
 }
