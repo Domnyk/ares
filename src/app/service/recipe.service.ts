@@ -7,6 +7,7 @@ import {catchError, map, switchMap, take, tap} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { CurrentUser, CurrentUserDto } from '../model/current-user';
 import { Rating } from '../model/rating';
+import { FavouriteRecipe } from '../model/favourite-recipe';
 
 @Injectable({
   providedIn: 'root'
@@ -14,7 +15,7 @@ import { Rating } from '../model/rating';
 export class RecipeService {
 
   private static readonly USERS_URL = environment.apiUrl + '/users';
-  private static readonly FAVOURITES_URL = environment.apiUrl + '/favourites'; // TODO: replace with proper path
+  private static readonly FAVOURITES_URL = environment.apiUrl + '/favourite_recipe';
   private static readonly RECIPES_URL = environment.apiUrl + '/recipes';
   private static readonly RATINGS_URL = environment.apiUrl + '/ratings';
   private static readonly NEWEST_RECIPES_NUMBER = '5';
@@ -39,7 +40,7 @@ export class RecipeService {
       );
   }
 
-  public addToFavourites(recipeId?: number): Observable<void> {
+  public addToFavourites(recipeId?: number): Observable<FavouriteRecipe> {
     if (recipeId === undefined) {
       console.warn('Missing recipeId, skipping');
       return EMPTY;
@@ -69,14 +70,13 @@ export class RecipeService {
     );
   }
 
-  private _addToFavourites(recipeId: number, currentUser: CurrentUser | null): Observable<void> {
+  private _addToFavourites(recipeId: number, currentUser: CurrentUser | null): Observable<FavouriteRecipe> {
     if (currentUser == null) {
       return throwError('CurrentUser is null. Skipping add to favourites');
     }
 
-    const favouriteRecipe = { recipe: recipeId, user: currentUser.id };
-    // return this.http.post<any>(RecipeService.FAVOURITES_URL, favouriteRecipe); TODO: uncomment when implemented
-    return of('').pipe(map(_ => { return; }));
+    const favouriteRecipe: FavouriteRecipe = { recipe_id: recipeId, user_id: currentUser.id };
+    return this.http.post<FavouriteRecipe>(RecipeService.FAVOURITES_URL, favouriteRecipe);
   }
 
   public addRating(score: number, recipeId: number): Observable<void> {
