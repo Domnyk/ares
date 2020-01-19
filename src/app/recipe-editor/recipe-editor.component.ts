@@ -15,15 +15,19 @@ import {ElementType} from '../model/element-type.enum';
 
 
 @Component({
-  selector: 'app-add-recipe',
-  templateUrl: './add-recipe.component.html',
-  styleUrls: ['./add-recipe.component.scss']
+  selector: 'app-recipe-editor',
+  templateUrl: './recipe-editor.component.html',
+  styleUrls: ['./recipe-editor.component.scss']
 })
-export class AddRecipeComponent implements OnInit, OnDestroy {
+export class RecipeEditorComponent implements OnInit, OnDestroy {
+  public recipe: Recipe | null = null;
+  public editMode: boolean = false;
 
   lastAttemptFailed: boolean | null = null;
   lastRecipeId: number | null = null;
   lastRecipeName: string | null = null;
+
+  deletedSuccessfully: boolean | null = null;
 
   public searchIngredients!: (text: Observable<string>) => Observable<string[]>;
   public searchCategories!: (text: Observable<string>) => Observable<string[]>;
@@ -45,7 +49,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   ]);
   recipeForm: FormGroup;
 
-  currentUserId: number;
+  currentUserId: number | null = null;
 
 
   private unsubscribe = new Subject<void>();
@@ -61,10 +65,23 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       categories: this.categories,
       ingredients: this.ingredients
     });
-    this.currentUserId = 0;
   }
 
   ngOnInit() {
+    this.recipe = history.state;
+    if (this.recipe !== null && this.recipe.title !== undefined) {
+      this.editMode = true;
+      this.title.patchValue(this.recipe.title);
+      this.description.patchValue(this.recipe.description);
+      this.selectedCategories = this.recipe.categories;
+      this.selectedIngredientsNames = this.recipe.ingredients
+        .map((ingredient: Ingredient) => {
+          return ingredient.name;
+        });
+      this.difficulty.patchValue(this.recipe.difficulty);
+      this.requiredTime.patchValue(this.recipe.time);
+    }
+
     this.authService.currentUser
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((user: CurrentUser | null) => {
@@ -108,36 +125,84 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
 
   sendRecipe(): void {
     const newRecipe = this.buildRecipe();
-    this.recipeService.addRecipe(newRecipe)
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((recipe: Recipe) => {
-        if (recipe) {
-          console.log('Recipe was added successfully with id:' + recipe.id);
-          console.log('Added recipe\n' + recipe);
+    if (newRecipe) {
+      if (this.editMode && !!this.recipe && !!this.recipe.id) {
+        this.recipeService.changeRecipe(this.recipe.id, newRecipe)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe((recipe: Recipe) => {
+            if (recipe) {
+              console.log('Recipe was with id:' + recipe.id + ' was successfully changed into:');
+              console.log('\n' + recipe);
 
-          this.lastAttemptFailed = false;
-          if (recipe.id !== undefined && recipe.title !== undefined) {
-            this.lastRecipeId = recipe.id;
-            this.lastRecipeName = recipe.title;
-          }
-        } else {
-          this.lastAttemptFailed = true;
-        }
-      });
+              this.lastAttemptFailed = false;
+              if (recipe.id !== undefined && recipe.title !== undefined) {
+                this.lastRecipeId = recipe.id;
+                this.lastRecipeName = recipe.title;
+              }
+            } else {
+              this.lastAttemptFailed = true;
+            }
+          });
+      } else {
+        this.recipeService.addRecipe(newRecipe)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe((recipe: Recipe) => {
+            if (recipe) {
+              console.log('Recipe was added successfully with id:' + recipe.id);
+              console.log('Added recipe\n' + recipe);
+
+              this.lastAttemptFailed = false;
+              this.deletedSuccessfully = null;
+              if (recipe.id !== undefined && recipe.title !== undefined) {
+                this.lastRecipeId = recipe.id;
+                this.lastRecipeName = recipe.title;
+              }
+            } else {
+              this.lastAttemptFailed = true;
+              this.deletedSuccessfully = null;
+
+            }
+          });
+      }
+    }
+
   }
 
   moveToCreatedRecipe(): void {
     this.router.navigate(['recipes/' + this.lastRecipeId]);
   }
 
-  private buildRecipe(): Recipe {
+  deleteRecipe() {
+    if (this.editMode && this.recipe !== null && this.recipe.id !== undefined) {
+      this.recipeService.deleteRecipe(this.recipe.id)
+        .pipe(takeUntil(this.unsubscribe))
+        .subscribe((isPassed: boolean) => {
+            if (isPassed) {
+              console.log('Recipe was successfully deleted.');
+              this.deletedSuccessfully = true;
+              this.lastAttemptFailed = null;
+            } else {
+              this.deletedSuccessfully = false;
+              this.lastAttemptFailed = null;
+            }
+          }
+        );
+    }
+  }
+
+  moveToMainPage() {
+    this.router.navigate(['']);
+  }
+
+  private buildRecipe(): Recipe | null {
     let selectedIngredients: Ingredient[] = [];
 
     this.dictionaryService.requestIngredients('')
-      .pipe(takeUntil(this.unsubscribe))
-      .subscribe((ingredients: Ingredient[]) => {
+      .subscribe(
+        (ingredients: Ingredient[]) => {
           selectedIngredients = ingredients
-            .filter((ingredient: Ingredient) => {
+            .filter(
+              ingredient => {
                 if (this.selectedIngredientsNames.includes(ingredient.name)) {
                   selectedIngredients.push(ingredient);
                 }
@@ -145,16 +210,17 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
             );
         }
       );
-
-    return {
-      title: this.title.value,
-      description: this.description.value,
-      categories: this.selectedCategories,
-      ingredients: selectedIngredients,
-      difficulty: this.difficulty.value,
-      creationDate: new Date(),
-      time: this.requiredTime.value,
-      user: this.currentUserId
-    };
+    if (this.currentUserId) {
+      return {
+        title: this.title.value,
+        description: this.description.value,
+        categories: this.selectedCategories,
+        ingredients: selectedIngredients,
+        difficulty: +this.difficulty.value,
+        creationDate: new Date(),
+        time: this.requiredTime.value,
+        user: this.currentUserId
+      };
+    } else { return null; }
   }
 }

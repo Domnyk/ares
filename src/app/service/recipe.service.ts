@@ -25,7 +25,7 @@ export class RecipeService {
   }
 
   public findNewestRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(RecipeService.RECIPES_URL, {params : {amount : RecipeService.NEWEST_RECIPES_NUMBER}});
+    return this.http.get<Recipe[]>(RecipeService.RECIPES_URL, {params: {amount: RecipeService.NEWEST_RECIPES_NUMBER}});
   }
 
   public findRecipeById(id: number): Observable<Recipe> {
@@ -35,9 +35,9 @@ export class RecipeService {
 
   public addRecipe(recipe: Recipe): Observable<Recipe> {
     return this.http.post<Recipe>(RecipeService.RECIPES_URL, recipe).pipe(
-        tap((newRecipe: Recipe) => console.log(`added recipe w/ id=${newRecipe.id}`)),
-        catchError(this.handleError<Recipe>('addRecipe'))
-      );
+      tap((newRecipe: Recipe) => console.log(`added recipe w/ id=${newRecipe.id}`)),
+      catchError(this.handleError<Recipe>('addRecipe'))
+    );
   }
 
   public addToFavourites(recipeId?: number): Observable<FavouriteRecipe> {
@@ -86,6 +86,24 @@ export class RecipeService {
     );
   }
 
+  changeRecipe(id: number, newRecipe: Recipe) {
+    return this.http.put<Recipe>(RecipeService.RECIPES_URL + '/' + id, newRecipe).pipe(
+      tap((recipe: Recipe) => console.log(`changed recipe w/ id=${recipe.id}`)),
+      catchError(this.handleError<Recipe>('changeRecipe'))
+    );
+  }
+
+  deleteRecipe(id: number): Observable<boolean> {
+    return this.http.delete(RecipeService.RECIPES_URL + '/' + id)
+      .pipe(
+        map(() => {
+          console.log(`removed recipe w/ id=${id}`);
+          return true;
+        }),
+        catchError(this.handleError<any>('deleteRecipe'))
+      );
+  }
+
   public fetchRating(recipeId: number, username: string): Observable<Rating> {
     const params = new HttpParams().set('recipe_id', recipeId.toString()).set('username', username);
 
@@ -106,7 +124,9 @@ export class RecipeService {
     };
 
     return this.http.post(RecipeService.RATINGS_URL, rating).pipe(
-      map(_ => { return; }) // Discard data form backend. We don't need them for now
+      map(_ => {
+        return;
+      }) // Discard data form backend. We don't need them for now
     );
   }
 

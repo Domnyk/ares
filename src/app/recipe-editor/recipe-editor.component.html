@@ -4,8 +4,15 @@
       {{ 'ADD_RECIPE_FORM.SUCCESSFULLY_ADDED' | translate }}
       <a (click)="moveToCreatedRecipe()" class="page-link">{{lastRecipeName}}</a>
     </div>
-    <div *ngIf="lastAttemptFailed === true" class="alert alert-success" role="alert">
+    <div *ngIf="lastAttemptFailed === true" class="alert alert-danger" role="alert">
       {{ 'ADD_RECIPE_FORM.ERROR_HAS_OCCURRED' | translate }}
+    </div>
+    <div *ngIf="deletedSuccessfully === true" class="alert alert-success" role="alert">
+      {{ 'ADD_RECIPE_FORM.DELETION_SUCCEEDED' | translate }}
+      <a (click)="moveToMainPage()" class="page-link">{{'ADD_RECIPE_FORM.BACK_TO_MAIN_PAGE' | translate}}</a>
+    </div>
+    <div *ngIf="deletedSuccessfully === false" class="alert alert-danger" role="alert">
+      {{ 'ADD_RECIPE_FORM.DELETION_FAILED' | translate }}
     </div>
     <form (ngSubmit)="sendRecipe()" [formGroup]="recipeForm" class="form-container" novalidate>
       <div class="form-group">
@@ -79,11 +86,21 @@
         </div>
       </div>
 
-      <div class="form-row">
+      <div class="form-row" *ngIf="!editMode">
         <div class="col-auto">
           <button [disabled]="recipeForm.invalid" class="btn btn-primary btn-block" type="submit">
             {{ 'ADD_RECIPE_FORM.SUBMIT' | translate }}
           </button>
+        </div>
+      </div>
+      <div class="form-row" *ngIf="editMode">
+        <div class="col-auto">
+          <button [disabled]="recipeForm.invalid" class="btn btn-primary btn-block" type="submit">
+            {{ 'ADD_RECIPE_FORM.SUBMIT' | translate }}
+          </button>
+        </div>
+        <div class="col-auto">
+          <input type="button" (click)="deleteRecipe()" value="{{ 'ADD_RECIPE_FORM.DELETE' | translate }}" class="btn btn-primary btn-block">
         </div>
       </div>
     </form>

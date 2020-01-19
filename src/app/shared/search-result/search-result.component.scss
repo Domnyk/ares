@@ -17,11 +17,14 @@
     font-weight: bolder;
   }
 
-  &__link {
-    color: maroon;
+  &__link__label {
     align-self: flex-end;
     margin: auto 25px auto auto;
+  }
 
+  &__link {
+    color: maroon;
+    margin: auto 25px auto auto;
     &:hover {
       color: maroon;
     }

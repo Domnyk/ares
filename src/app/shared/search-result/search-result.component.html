@@ -1,5 +1,8 @@
 <div class="recipe-item">
   <img class="recipe-item__image" src="/assets/images/sample_foot_photo.png">
   <div class="recipe-item__title"> {{recipe?.title }}</div>
-  <a [routerLink]="['/recipes', recipe.id]" class="recipe-item__link">{{'MAIN_PAGE.GO_TO_RECIPE' | translate }}</a>
+  <div class="recipe-item__link__label">
+    <a [routerLink]="['/recipes', recipe.id]" class="recipe-item__link">{{'MAIN_PAGE.GO_TO_RECIPE' | translate }}</a>
+    <a [routerLink]="['/recipe-editor']" [state]=recipe  *ngIf="isCreatedByUser" class="recipe-item__link">{{'MAIN_PAGE.EDIT_RECIPE' | translate }}</a>
+  </div>
 </div>

@@ -4,7 +4,7 @@ import { map, flatMap, tap, take, switchMap, first, catchError } from 'rxjs/oper
 
 import { Recipe } from '../model/recipe';
 import { takeUntil } from 'rxjs/operators';
-import { ActivatedRoute, Data } from '@angular/router';
+import {ActivatedRoute, Data, Router} from '@angular/router';
 import { RecipeService } from '../service/recipe.service';
 import { AuthService } from '../service/auth.service';
 import { RecipeWithRating } from '../model/recipe-with-rating';
@@ -27,7 +27,8 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
 
   private unsubscribe = new Subject<void>();
 
-  constructor(private recipeService: RecipeService, private activatedRoute: ActivatedRoute, private auth: AuthService,
+  constructor(private recipeService: RecipeService, private activatedRoute: ActivatedRoute,
+              private route: Router, private auth: AuthService,
               private translate: TranslateService) {}
 
   ngOnInit() {
@@ -122,5 +123,11 @@ export class ShowRecipeComponent implements OnInit, OnDestroy {
       flatMap((cu: CurrentUser | null) => cu === null ? throwError(errorMsg) : of(cu)),
       flatMap((cu: CurrentUser) => this.recipeService.fetchRating(recipeId, cu.username))
     );
+  }
+
+  routeToEditor() {
+    if (this.recipe !== null) {
+    this.route.navigate(['/recipe-editor'], {state: this.recipe});
+    }
   }
 }

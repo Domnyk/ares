@@ -1,7 +1,7 @@
 import { async, ComponentFixture, TestBed, fakeAsync, tick } from '@angular/core/testing';
 import { TranslateModule } from '@ngx-translate/core';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, NavigationExtras, Router} from '@angular/router';
 import { of, EMPTY } from 'rxjs';
 
 import { ShowRecipeComponent } from './show-recipe.component';
@@ -65,12 +65,16 @@ describe('ShowRecipeComponent', () => {
     currentUser: of(mockCurrentUser),
   };
 
+  const route = {
+    navigate: of(true),
+  };
+
   const compileShowRecipeComponent = (activatedRoute: any) => {
     TestBed.configureTestingModule({
       declarations: [ ShowRecipeComponent, RecipeRatingComponent ],
       imports: [ TranslateModule.forRoot(), HttpClientTestingModule ],
       providers: [ { provide: ActivatedRoute, useClass: activatedRoute }, { provide: RecipeService, useValue: recipeService },
-                   { provide: AuthService, useValue: authService }]
+                   { provide: AuthService, useValue: authService }, {provide : Router, useValue: route}]
     })
     .compileComponents();
   };
