@@ -65,6 +65,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
       categories: this.categories,
       ingredients: this.ingredients
     });
+
     this.currentUserId = 0;
   }
 
@@ -127,7 +128,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
   sendRecipe(): void {
     const newRecipe = this.buildRecipe();
 
-    if (this.editMode && this.recipe !== null && this.recipe.id !== undefined) {
+    if (this.editMode && !!this.recipe && !!this.recipe.id) {
       this.recipeService.changeRecipe(this.recipe.id, newRecipe)
         .pipe(takeUntil(this.unsubscribe))
         .subscribe((recipe: Recipe) => {

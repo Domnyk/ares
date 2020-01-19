@@ -46,7 +46,7 @@ export class RecipeService {
 
   changeRecipe(id: number, newRecipe: Recipe) {
     return this.http.put<Recipe>(RecipeService.RECIPES_URL + '/' + id, newRecipe).pipe(
-      tap((recipe: Recipe) => console.log(`added recipe w/ id=${recipe.id}`)),
+      tap((recipe: Recipe) => console.log(`changed recipe w/ id=${recipe.id}`)),
       catchError(this.handleError<Recipe>('changeRecipe'))
     );
   }

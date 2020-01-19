@@ -5,6 +5,7 @@ import {TranslateModule} from '@ngx-translate/core';
 import {RouterTestingModule} from '@angular/router/testing';
 import { Recipe } from 'src/app/model/recipe';
 import { By } from '@angular/platform-browser';
+import {HttpClientModule} from "@angular/common/http";
 
 describe('SearchResultComponent', () => {
   const recipe: Recipe = {
@@ -25,7 +26,7 @@ describe('SearchResultComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [ SearchResultComponent],
-      imports: [TranslateModule.forRoot(), RouterTestingModule]
+      imports: [HttpClientModule,TranslateModule.forRoot(), RouterTestingModule]
     })
     .compileComponents();
   }));
