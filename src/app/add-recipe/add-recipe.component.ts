@@ -69,8 +69,10 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((user: CurrentUser | null) => {
           if (user != null && user.id != null) {
-              this.currentUserId = user.id;
-          } else { throwError('Can not fetch user id'); }
+            this.currentUserId = user.id;
+          } else {
+            throwError('Can not fetch user id');
+          }
         }
       );
 
@@ -129,20 +131,18 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   private buildRecipe(): Recipe {
-    var selectedIngredients: Ingredient[] = [];
+    let selectedIngredients: Ingredient[] = [];
 
-    this.dictionaryService.requestIngredients("")
-      .subscribe(
-        (ingredients : Ingredient[]) =>
-        {
+    this.dictionaryService.requestIngredients('')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((ingredients: Ingredient[]) => {
           selectedIngredients = ingredients
-            .filter(
-              ingredient => {
-               if (this.selectedIngredientsNames.includes(ingredient.name)){
-                 selectedIngredients.push(ingredient);
-               }
+            .filter((ingredient: Ingredient) => {
+                if (this.selectedIngredientsNames.includes(ingredient.name)) {
+                  selectedIngredients.push(ingredient);
+                }
               }
-            )
+            );
         }
       );
 
@@ -151,7 +151,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       description: this.description.value,
       categories: this.selectedCategories,
       ingredients: selectedIngredients,
-      difficulty: +this.difficulty.value,
+      difficulty: this.difficulty.value,
       creationDate: new Date(),
       time: this.requiredTime.value,
       user: this.currentUserId

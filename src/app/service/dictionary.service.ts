@@ -32,13 +32,13 @@ export class DictionaryService {
       text$.pipe(
         debounceTime(200),
         distinctUntilChanged(),
-        switchMap(term => this.getIngredientsNames(term, selectedIngredients)
-        ));
+        switchMap(term => this.getIngredientsNames(term, selectedIngredients))
+      );
   }
 
-  searchIngredients(selectedIngredients: Ingredient[]): (text: Observable<string>) => Observable<string[]> {
-    return (text$: Observable<string>) =>
-      text$.pipe(
+  searchIngredients(selectedIngredients: Ingredient[]): (text: Observable<string>) => Observable<Ingredient[]> {
+    return (text: Observable<string>) =>
+      text.pipe(
         debounceTime(200),
         distinctUntilChanged(),
         switchMap(term => this.getIngredients(term, selectedIngredients)
@@ -54,12 +54,11 @@ export class DictionaryService {
             .filter((ingredient: string) => !selectedIngredients.includes(ingredient))));
   }
 
-  getIngredients(term: string, selectedIngredients: Ingredient[]): Observable<string[]> | [] {
+  getIngredients(term: string, selectedIngredients: Ingredient[]): Observable<Ingredient[]> {
     return this.requestIngredients(term).pipe(
       map((ingredients: Ingredient[]) =>
         ingredients
-          .filter((ingredient: Ingredient) => !selectedIngredients.includes(ingredient))
-          .map((ingredient: Ingredient) => JSON.stringify(ingredient))));
+          .filter((ingredient: Ingredient) => !selectedIngredients.includes(ingredient))));
   }
 
   getCategoriesNames(term: string, selectedCategories: string[]): Observable<string[]> | [] {
