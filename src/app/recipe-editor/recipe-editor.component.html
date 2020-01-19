@@ -38,8 +38,9 @@
       <div class="form-group">
         <label for="difficulty">{{ 'ADD_RECIPE_FORM.LABEL.DIFFICULTY' | translate }}</label>
         <select class="form-control" formControlName="difficulty" id="difficulty">
-          <option selected="selected">1</option>
-          <option *ngFor="let num of [2,3,4,5]">{{num}}</option>
+          <ng-container *ngFor="let num of [1,2,3,4,5]">
+            <option [selected]="difficulty.value == num">{{num}}</option>
+          </ng-container>
         </select>
       </div>
       <div class="form-group">

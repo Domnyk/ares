@@ -39,7 +39,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
 
   title: FormControl = new FormControl('', [Validators.required]);
   description: FormControl = new FormControl('', [Validators.required]);
-  difficulty: FormControl = new FormControl('', [Validators.required]);
+  difficulty: FormControl = new FormControl(1, [Validators.required]);
   categories: FormControl = new FormControl();
   ingredients: FormControl = new FormControl();
 
