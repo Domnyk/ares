@@ -5,6 +5,7 @@ import {Router} from '@angular/router';
 import {Subject} from 'rxjs';
 import {RegistrationService} from '../service/registration.service';
 import {takeUntil} from 'rxjs/operators';
+import { ValidateUniqueEmail } from '../service/validate-unique-email';
 
 
 @Component({
@@ -17,11 +18,10 @@ export class RegistrationFormComponent implements OnDestroy {
   username: FormControl = new FormControl('', [Validators.required]);
   password: FormControl = new FormControl('', [Validators.required]);
   bio: FormControl = new FormControl('', [Validators.nullValidator]);
-  // favourite_recipes: {id:number,recipe:number}[];
   email: FormControl = new FormControl('', [
     Validators.required,
     Validators.email
-  ]);
+  ], [ValidateUniqueEmail.createValidator(this.registrationService)]);
   // TODO add posibility to type and search
   name: FormControl = new FormControl('', [Validators.nullValidator]);
   surname: FormControl = new FormControl('', [Validators.nullValidator]);

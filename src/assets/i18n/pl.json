@@ -55,7 +55,10 @@
     "NECESSARY_INGREDIENTS": "Potrzebne składniki",
     "PREPARATION_INSTRUCTIONS": "Sposób przygotowania",
     "LOADING": "Proszę czekać, wczytuję przepis...",
-    "SCORE_WAS_ADDED": "Twoja ocena została dodana"
+    "SCORE_WAS_ADDED": "Twoja ocena została dodana",
+    "ADD_TO_FAVOURITES": "Dodaj do ulubionych",
+    "ADDED_TO_FAVOURITES": "Dodano do ulubionych",
+    "IS_FAVOURITE": "oznaczony jako ulubiony"
   },
   "ADD_RECIPE_FORM": {
     "SUBMIT": "Opublikuj",
