@@ -2,8 +2,8 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Recipe} from '../../model/recipe';
 import {Router} from '@angular/router';
 import {AuthService} from '../../service/auth.service';
-import {takeUntil} from "rxjs/operators";
-import {Subject} from "rxjs";
+import {takeUntil} from 'rxjs/operators';
+import {Subject} from 'rxjs';
 
 @Component({
   selector: 'app-search-result',
