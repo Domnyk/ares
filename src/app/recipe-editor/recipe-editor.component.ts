@@ -4,7 +4,7 @@ import {FieldValidationService} from '../service/field-validation.service';
 import {Router} from '@angular/router';
 import {Observable, Subject, throwError} from 'rxjs';
 import {RecipeService} from '../service/recipe.service';
-import {takeUntil} from 'rxjs/operators';
+import {map, takeUntil} from 'rxjs/operators';
 import {Recipe} from '../model/recipe';
 import {AuthService} from '../service/auth.service';
 import {CurrentUser} from '../model/current-user';
@@ -124,47 +124,50 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
 
 
   sendRecipe(): void {
-    const newRecipe = this.buildRecipe();
-    if (newRecipe) {
-      if (this.editMode && !!this.recipe && !!this.recipe.id) {
-        this.recipeService.changeRecipe(this.recipe.id, newRecipe)
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe((recipe: Recipe) => {
-            if (recipe) {
-              console.log('Recipe was with id:' + recipe.id + ' was successfully changed into:');
-              console.log(recipe);
+    this.buildRecipe()
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((newRecipe: Recipe | null) => {
+        if (newRecipe) {
+          if (this.editMode && !!this.recipe && !!this.recipe.id) {
+            this.recipeService.changeRecipe(this.recipe.id, newRecipe)
+              .pipe(takeUntil(this.unsubscribe))
+              .subscribe((recipe: Recipe) => {
+                if (recipe) {
+                  console.log('Recipe was with id:' + recipe.id + ' was successfully changed into:');
+                  console.log(recipe);
 
-              this.lastAttemptFailed = false;
-              if (recipe.id !== undefined && recipe.title !== undefined) {
-                this.lastRecipeId = recipe.id;
-                this.lastRecipeName = recipe.title;
-              }
-            } else {
-              this.lastAttemptFailed = true;
-            }
-          });
-      } else {
-        this.recipeService.addRecipe(newRecipe)
-          .pipe(takeUntil(this.unsubscribe))
-          .subscribe((recipe: Recipe) => {
-            if (recipe) {
-              console.log('Recipe was added successfully with id:' + recipe.id);
-              console.log('Added recipe\n' + recipe);
+                  this.lastAttemptFailed = false;
+                  if (recipe.id !== undefined && recipe.title !== undefined) {
+                    this.lastRecipeId = recipe.id;
+                    this.lastRecipeName = recipe.title;
+                  }
+                } else {
+                  this.lastAttemptFailed = true;
+                }
+              });
+          } else {
+            this.recipeService.addRecipe(newRecipe)
+              .pipe(takeUntil(this.unsubscribe))
+              .subscribe((recipe: Recipe) => {
+                if (recipe) {
+                  console.log('Recipe was added successfully with id:' + recipe.id);
+                  console.log('Added recipe\n' + recipe);
 
-              this.lastAttemptFailed = false;
-              this.deletedSuccessfully = null;
-              if (recipe.id !== undefined && recipe.title !== undefined) {
-                this.lastRecipeId = recipe.id;
-                this.lastRecipeName = recipe.title;
-              }
-            } else {
-              this.lastAttemptFailed = true;
-              this.deletedSuccessfully = null;
+                  this.lastAttemptFailed = false;
+                  this.deletedSuccessfully = null;
+                  if (recipe.id !== undefined && recipe.title !== undefined) {
+                    this.lastRecipeId = recipe.id;
+                    this.lastRecipeName = recipe.title;
+                  }
+                } else {
+                  this.lastAttemptFailed = true;
+                  this.deletedSuccessfully = null;
 
-            }
-          });
-      }
-    }
+                }
+              });
+          }
+        }
+      });
 
   }
 
@@ -194,33 +197,29 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
     this.router.navigate(['']);
   }
 
-  private buildRecipe(): Recipe | null {
-    let selectedIngredients: Ingredient[] = [];
+  private buildRecipe(): Observable<Recipe | null> {
+    const _buildRecipe = (ingredients: Ingredient[], currentUserId: number | null) => {
+      if (currentUserId === null) {
+        return null;
+      } else {
+        return {
+          title: this.title.value,
+          description: this.description.value,
+          categories: this.selectedCategories,
+          ingredients,
+          difficulty: this.difficulty.value,
+          creationDate: new Date(),
+          time: this.requiredTime.value,
+          user: currentUserId
+        };
+      }
+    };
+    const keepMatching = (i: Ingredient) => this.selectedIngredientsNames.includes(i.name);
+    const makeRecipe = (i: Ingredient[], currentUserId: number | null) => _buildRecipe(i, currentUserId);
 
-    this.dictionaryService.requestIngredients('')
-      .subscribe(
-        (ingredients: Ingredient[]) => {
-          selectedIngredients = ingredients
-            .filter(
-              ingredient => {
-                if (this.selectedIngredientsNames.includes(ingredient.name)) {
-                  selectedIngredients.push(ingredient);
-                }
-              }
-            );
-        }
-      );
-    if (this.currentUserId) {
-      return {
-        title: this.title.value,
-        description: this.description.value,
-        categories: this.selectedCategories,
-        ingredients: selectedIngredients,
-        difficulty: this.difficulty.value,
-        creationDate: new Date(),
-        time: this.requiredTime.value,
-        user: this.currentUserId
-      };
-    } else { return null; }
+    return this.dictionaryService.requestIngredients('').pipe(
+      map((_ingredients: Ingredient[]) => _ingredients.filter(keepMatching)),
+      map((ingredients) => makeRecipe(ingredients, this.currentUserId))
+    );
   }
 }
