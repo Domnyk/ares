@@ -4,12 +4,11 @@ import {FieldValidationService} from '../service/field-validation.service';
 import {Router} from '@angular/router';
 import {Observable, Subject, throwError} from 'rxjs';
 import {RecipeService} from '../service/recipe.service';
-import {debounceTime, distinctUntilChanged, filter, map, switchMap, takeUntil} from 'rxjs/operators';
+import {takeUntil} from 'rxjs/operators';
 import {Recipe} from '../model/recipe';
 import {AuthService} from '../service/auth.service';
 import {CurrentUser} from '../model/current-user';
 import {Ingredient} from '../model/ingredient';
-import {Category} from '../model/category';
 import {DictionaryService} from '../service/dictionary.service';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
 import {ElementType} from '../model/element-type.enum';
@@ -29,7 +28,7 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   public searchIngredients!: (text: Observable<string>) => Observable<string[]>;
   public searchCategories!: (text: Observable<string>) => Observable<string[]>;
 
-  public selectedIngredients: Ingredient[] = [];
+  public selectedIngredientsNames: string[] = [];
   public selectedCategories: string[] = [];
 
   public elementType = ElementType;
@@ -70,13 +69,15 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.unsubscribe))
       .subscribe((user: CurrentUser | null) => {
           if (user != null && user.id != null) {
-              this.currentUserId = user.id;
-          } else { throwError('Can not fetch user id'); }
+            this.currentUserId = user.id;
+          } else {
+            throwError('Can not fetch user id');
+          }
         }
       );
 
     this.searchCategories = this.dictionaryService.searchCategoriesNames(this.selectedCategories);
-    this.searchIngredients = this.dictionaryService.searchIngredients(this.selectedIngredients);
+    this.searchIngredients = this.dictionaryService.searchIngredientsNames(this.selectedIngredientsNames);
   }
 
   removeSelectedCategory(removedCategory: string): void {
@@ -90,12 +91,12 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   removeSelectedIngredient(removedCategory: string): void {
-    this.selectedCategories.splice(this.selectedCategories.indexOf(removedCategory), 1);
+    this.selectedIngredientsNames.splice(this.selectedCategories.indexOf(removedCategory), 1);
   }
 
   selectIngredient(event: NgbTypeaheadSelectItemEvent): void {
     event.preventDefault();
-    this.selectedIngredients.push(JSON.parse(event.item));
+    this.selectedIngredientsNames.push(event.item);
     this.ingredients.reset();
   }
 
@@ -130,16 +131,30 @@ export class AddRecipeComponent implements OnInit, OnDestroy {
   }
 
   private buildRecipe(): Recipe {
-    const newRecipe: Recipe = {
-        title: this.title.value,
-        description: this.description.value,
-        categories: this.selectedCategories,
-        ingredients: this.selectedIngredients,
-        difficulty: +this.difficulty.value,
-        creationDate: new Date(),
-        time: this.requiredTime.value,
-        user: this.currentUserId
-      };
-    return newRecipe;
+    let selectedIngredients: Ingredient[] = [];
+
+    this.dictionaryService.requestIngredients('')
+      .pipe(takeUntil(this.unsubscribe))
+      .subscribe((ingredients: Ingredient[]) => {
+          selectedIngredients = ingredients
+            .filter((ingredient: Ingredient) => {
+                if (this.selectedIngredientsNames.includes(ingredient.name)) {
+                  selectedIngredients.push(ingredient);
+                }
+              }
+            );
+        }
+      );
+
+    return {
+      title: this.title.value,
+      description: this.description.value,
+      categories: this.selectedCategories,
+      ingredients: selectedIngredients,
+      difficulty: this.difficulty.value,
+      creationDate: new Date(),
+      time: this.requiredTime.value,
+      user: this.currentUserId
+    };
   }
 }
