@@ -49,7 +49,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
   ]);
   recipeForm: FormGroup;
 
-  currentUserId: number;
+  currentUserId: number | null;
 
 
   private unsubscribe = new Subject<void>();
@@ -126,45 +126,47 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
 
 
   sendRecipe(): void {
-    const newRecipe = this.buildRecipe();
+    if(this.currentUserId !== null) {
+      const newRecipe = this.buildRecipe();
 
-    if (this.editMode && !!this.recipe && !!this.recipe.id) {
-      this.recipeService.changeRecipe(this.recipe.id, newRecipe)
-        .pipe(takeUntil(this.unsubscribe))
-        .subscribe((recipe: Recipe) => {
-          if (recipe) {
-            console.log('Recipe was with id:' + recipe.id + ' was successfully changed into:');
-            console.log('\n' + recipe);
+      if (this.editMode && !!this.recipe && !!this.recipe.id) {
+        this.recipeService.changeRecipe(this.recipe.id, newRecipe)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe((recipe: Recipe) => {
+            if (recipe) {
+              console.log('Recipe was with id:' + recipe.id + ' was successfully changed into:');
+              console.log('\n' + recipe);
 
-            this.lastAttemptFailed = false;
-            if (recipe.id !== undefined && recipe.title !== undefined) {
-              this.lastRecipeId = recipe.id;
-              this.lastRecipeName = recipe.title;
+              this.lastAttemptFailed = false;
+              if (recipe.id !== undefined && recipe.title !== undefined) {
+                this.lastRecipeId = recipe.id;
+                this.lastRecipeName = recipe.title;
+              }
+            } else {
+              this.lastAttemptFailed = true;
             }
-          } else {
-            this.lastAttemptFailed = true;
-          }
-        });
-    } else {
-      this.recipeService.addRecipe(newRecipe)
-        .pipe(takeUntil(this.unsubscribe))
-        .subscribe((recipe: Recipe) => {
-          if (recipe) {
-            console.log('Recipe was added successfully with id:' + recipe.id);
-            console.log('Added recipe\n' + recipe);
+          });
+      } else {
+        this.recipeService.addRecipe(newRecipe)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe((recipe: Recipe) => {
+            if (recipe) {
+              console.log('Recipe was added successfully with id:' + recipe.id);
+              console.log('Added recipe\n' + recipe);
 
-            this.lastAttemptFailed = false;
-            this.deletedSuccessfully = null;
-            if (recipe.id !== undefined && recipe.title !== undefined) {
-              this.lastRecipeId = recipe.id;
-              this.lastRecipeName = recipe.title;
+              this.lastAttemptFailed = false;
+              this.deletedSuccessfully = null;
+              if (recipe.id !== undefined && recipe.title !== undefined) {
+                this.lastRecipeId = recipe.id;
+                this.lastRecipeName = recipe.title;
+              }
+            } else {
+              this.lastAttemptFailed = true;
+              this.deletedSuccessfully = null;
+
             }
-          } else {
-            this.lastAttemptFailed = true;
-            this.deletedSuccessfully = null;
-
-          }
-        });
+          });
+      }
     }
   }
 
