@@ -39,7 +39,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
 
   title: FormControl = new FormControl('', [Validators.required]);
   description: FormControl = new FormControl('', [Validators.required]);
-  difficulty: FormControl = new FormControl('', [Validators.required]);
+  difficulty: FormControl = new FormControl(1, [Validators.required]);
   categories: FormControl = new FormControl();
   ingredients: FormControl = new FormControl();
 
@@ -78,7 +78,13 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
         .map((ingredient: Ingredient) => {
           return ingredient.name;
         });
-      this.difficulty.patchValue(this.recipe.difficulty);
+
+      console.log(`Setting value of difficulty to ${this.recipe.difficulty}`);
+
+      this.difficulty.setValue(this.recipe.difficulty);
+
+      console.log(this.recipeForm);
+
       this.requiredTime.patchValue(this.recipe.time);
     }
 
