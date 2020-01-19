@@ -1,0 +1,44 @@
+.recipes-container {
+  width: 80vw;
+  margin: auto;
+
+  &__title {
+    color: maroon;
+    padding-bottom: 10px;
+  }
+
+  &__recipes {
+    display: flex;
+    flex-direction: column;
+  }
+
+  &__pagination {
+    align-self: flex-end;
+  }
+}
+
+.no-recipes-found {
+  width: 80vw;
+  margin: auto;
+  padding-bottom: 40px;
+  color: orangered;
+  font-weight: bolder;
+}
+
+::ng-deep  ngb-pagination .page-item.active .page-link {
+  background-color: maroon;
+  border-color: maroon;
+}
+
+::ng-deep  ngb-pagination .page-link {
+  color: maroon;
+  border: 1px solid maroon;
+
+  &:focus, &:hover {
+    text-decoration: none;
+    background-color: maroon;
+    color: white;
+    box-shadow: none;
+  }
+}
+

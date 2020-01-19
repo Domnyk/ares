@@ -1,11 +1,9 @@
 import {Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {FormBuilder, FormControl, FormGroup} from '@angular/forms';
 import {debounceTime, distinctUntilChanged, map, switchMap, takeUntil} from 'rxjs/operators';
-import {Observable, Subject} from 'rxjs';
+import {Observable, of, Subject} from 'rxjs';
 import {DictionaryService} from '../../service/dictionary.service';
-import {Ingredient} from '../../model/ingredient';
 import {NgbTypeaheadSelectItemEvent} from '@ng-bootstrap/ng-bootstrap';
-import {Category} from '../../model/category';
 import {ElementType} from '../../model/element-type.enum';
 import {SearchService} from '../../service/search.service';
 import {Recipe} from '../../model/recipe';
@@ -22,6 +20,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   private nameForm: FormControl = new FormControl(null);
   private preparationTimeForm: FormControl = new FormControl(null);
   private difficultyForm: FormControl = new FormControl(null);
+  private shouldIncludeReplacements: boolean = false;
   private unsubscribe = new Subject<void>();
 
   public selectedIngredients: string[] = [];
@@ -31,6 +30,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
   public shouldShowWarningMsg: boolean = false;
   public searchIngredients!: (text: Observable<string>) => Observable<string[]>;
   public searchCategories!: (text: Observable<string>) => Observable<string[]>;
+  public suggestsTitles!: (text: Observable<string>) => Observable<string[]>;
 
   @Input() initialTitleSearch: string | null = null;
   @Output() foundRecipes: EventEmitter<Recipe[]> = new EventEmitter<Recipe[]>();
@@ -51,6 +51,7 @@ export class FiltersComponent implements OnInit, OnDestroy {
 
     this.searchIngredients = this.dictionaryService.searchIngredientsNames(this.selectedIngredients);
     this.searchCategories = this.dictionaryService.searchCategoriesNames(this.selectedCategories);
+    this.suggestsTitles = this.getTitlesSuggestions();
   }
 
   ngOnDestroy() {
@@ -79,8 +80,27 @@ export class FiltersComponent implements OnInit, OnDestroy {
   }
 
   search(): void {
-    const requestParams: { [header: string]: string | string[] } = {};
+    const requestParams: { [header: string]: string | string[] } = this.createRequestParams();
 
+    if (Object.keys(requestParams).length === 0) {
+      this.shouldShowWarningMsg = true;
+      return;
+    }
+
+    this.shouldShowWarningMsg = false; // hide any previous warning msg
+    this.searchService.findRecipes(requestParams).pipe(
+      takeUntil(this.unsubscribe)
+    ).subscribe((recipes: Recipe[]) =>
+      this.foundRecipes.emit(recipes)
+    );
+  }
+
+  public toggleReplacements(): void {
+    this.shouldIncludeReplacements = !this.shouldIncludeReplacements;
+  }
+
+  private createRequestParams(): { [header: string]: string | string[] } {
+    const requestParams: { [header: string]: string | string[] } = {};
     if (!!this.nameForm.value) {
       requestParams.title = this.nameForm.value;
     }
@@ -100,16 +120,30 @@ export class FiltersComponent implements OnInit, OnDestroy {
     if (this.selectedCategories.length !== 0) {
       requestParams.categories = this.selectedCategories;
     }
-    if (Object.keys(requestParams).length === 0) {
-      this.shouldShowWarningMsg = true;
-      return;
+
+    if (this.shouldIncludeReplacements) {
+      requestParams.replacements = 'true';
     }
 
-    this.shouldShowWarningMsg = false; // hide any previous warning msg
-    this.searchService.findRecipes(requestParams).pipe(
-      takeUntil(this.unsubscribe)
-    ).subscribe((recipes: Recipe[]) =>
-      this.foundRecipes.emit(recipes)
+    return requestParams;
+  }
+
+  getTitlesSuggestions(): (text: Observable<string>) => Observable<string[]> {
+    return (text$: Observable<string>) =>
+      text$.pipe(
+        debounceTime(200),
+        distinctUntilChanged(),
+        switchMap(term => term.length > 2 ? this.getTitlesNames(term) : of([])
+        ));
+  }
+
+  private getTitlesNames(term: string): Observable<string[]> {
+    const requestParams: { [header: string]: string | string[] } = this.createRequestParams();
+    requestParams.title = term;
+    requestParams.fields = 'title';
+
+    return this.searchService.findRecipes(requestParams).pipe(
+      map((recipes: Recipe[]) => recipes.map(recipe => recipe.title) )
     );
   }
 }

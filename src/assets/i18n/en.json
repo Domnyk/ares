@@ -1,0 +1,118 @@
+{
+  "NAVIGATION": {
+    "MAIN_PAGE": "main page",
+    "SEARCH_RECIPE": "search recipe",
+    "RECIPE_DESIGNER": "recipe designer",
+    "MY_PROFILE": "my profile",
+    "LOGIN": "login",
+    "LOGOUT": "logout"
+  },
+  "APP_TITLE": "[APSI] Recipes",
+  "MAIN_PAGE": {
+    "LAST_ADDED": "Newest recipes",
+    "SEARCH": "Search",
+    "SEARCH_PLACEHOLDER": "Search recipe",
+    "GO_TO_RECIPE": "Show recipe",
+    "EDIT_RECIPE" : "Edit recipe"
+  },
+  "LOGIN_FORM": {
+    "SUBMIT": "Login",
+    "SIGN_UP": "Go to registration form",
+    "WRONG_USERNAME_OR_PASSWORD": "Wrong login or password",
+    "LOGIN_IN_PROGRESS": "Please wait, login in progress",
+    "LABEL": {
+      "USERNAME": "Username",
+      "PASSWORD": "Password"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_USERNAME": "Provide username",
+      "PROVIDE_PASSWORD": "Provide password"
+    }
+  },
+  "REGISTRATION_FORM": {
+    "SUBMIT": "Submit",
+    "LABEL": {
+      "NAME": "First name",
+      "SURNAME": "Last name",
+      "NICKNAME": "Nick",
+      "USERNAME": "Login",
+      "PASSWORD": "Password",
+      "BIO": "About me",
+      "EMAIL": "e-mail",
+      "FAVOURITES": "Favourite recipes"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_NICKNAME": "Provide nick",
+      "PROVIDE_USERNAME": "Provide username",
+      "PROVIDE_PASSWORD": "Provide password",
+      "PROVIDE_EMAIL": "provide e-mail",
+      "WRONG_EMAIL": "Wrong e-mail address",
+      "WRONG_FORMAT": "this is not valid email",
+      "EMAIL_CHECK_IN_PROGRESS": "Please wait while your email adrres is being checked...",
+      "EMAIL_TAKEN": "this email is taken"
+    },
+    "ERROR": "Something went wrong"
+  },
+  "RECIPE_PAGE": {
+    "SEND_SCORE": "Send score",
+    "YOUR_SCORE": "Your score",
+    "NECESSARY_INGREDIENTS": "Necessary ingredients",
+    "PREPARATION_INSTRUCTIONS": "Preparation instructions",
+    "LOADING": "Please wait, loading in progress...",
+    "SCORE_WAS_ADDED": "Your score was added",
+    "ADD_TO_FAVOURITES": "Add to favourites",
+    "ADDED_TO_FAVOURITES": "Added to favourites",
+    "IS_FAVOURITE": "marked as favourite",
+    "EDIT_RECIPE": "Edit recipe"
+  },
+  "ADD_RECIPE_FORM": {
+    "SUBMIT": "Publish",
+    "DELETE": "Delete",
+    "SUCCESSFULLY_ADDED": "We have added your recipe!",
+    "ERROR_HAS_OCCURRED": "Error when adding recipe",
+    "DELETION_SUCCEEDED": "Recipe was deleted from server",
+    "DELETION_FAILED": "Error when deleting recipe",
+    "BACK_TO_MAIN_PAGE": "Come back to main page",
+    "LABEL": {
+      "TITLE": "Name",
+      "DESCRIPTION": "Description",
+      "DIFFICULTY": "Difficulty",
+      "REQUIRED_TIME": "Required time",
+      "CATEGORIES": "Categories",
+      "INGREDIENTS": "Ingredients"
+    },
+    "PLACEHOLDER": {
+      "TITLE": "What's the name of your dish?",
+      "DESCRIPTION": "How to make your dish?",
+      "REQUIRED_TIME": "Required time (in minutes)"
+    },
+    "VALIDATIONS": {
+      "PROVIDE_TITLE": "Name is required",
+      "PROVIDE_DESCRIPTION": "Description is required",
+      "PROVIDE_REQUIRED_TIME": "Time is required"
+    }
+  },
+  "SEARCH": {
+    "FILTER": {
+      "NAME": "Name of recipe",
+      "CATEGORIES": "Categories",
+      "INGREDIENTS": "Ingredients",
+      "TIME": "Max preparation time",
+      "DIFFICULTY": "Difficulty (1-piece of cake, 5-hell no)",
+      "INCLUDE_INGREDIENTS_REPLACEMENTS" : "include ingredients replacements"
+    },
+    "SEARCH_BTN": "Search",
+    "NO_PARAMETERS_SPECIFIED": "Missing search parameters",
+    "RESULTS": "Search results",
+    "NO_RECIPES_FOUND": "No recipes were found"
+  },
+  "MY_PROFILE": {
+    "MY_RECIPES": "My recipes",
+    "RECOMMENDED_RECIPES": "Recommended for me",
+    "FAVOURITE_RECIPES": "Favourite recipes",
+    "EMPTY_FAVOURITE_RECIPES" : "You don't have any favourite recipes",
+    "EMPTY_MY_RECIPES" : "You haven't added any recipes yet",
+    "EMPTY_RECOMMENDED_RECIPES" : "No suggestions. Rate more recipes and we will propose you some you may like",
+    "LOADING": "Please wait a moment. We're loading your profile data"
+  }
+}

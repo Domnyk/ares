@@ -1,3 +1,5 @@
+import {Recipe} from './recipe';
+
 export interface User {
   basic_info: {
     username: string,
@@ -8,4 +10,7 @@ export interface User {
   };
   nickname: string;
   bio: string;
+  favourite_recipes?: Recipe[];
+  recommended_recipes?: Recipe[];
+  my_recipes?: Recipe[];
 }

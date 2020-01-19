@@ -57,7 +57,10 @@
     "NECESSARY_INGREDIENTS": "Potrzebne składniki",
     "PREPARATION_INSTRUCTIONS": "Sposób przygotowania",
     "LOADING": "Proszę czekać, wczytuję przepis...",
-    "SCORE_WAS_ADDED": "Twoja ocena została dodana"
+    "SCORE_WAS_ADDED": "Twoja ocena została dodana",
+    "ADD_TO_FAVOURITES": "Dodaj do ulubionych",
+    "ADDED_TO_FAVOURITES": "Dodano do ulubionych",
+    "IS_FAVOURITE": "oznaczony jako ulubiony"
   },
   "ADD_RECIPE_FORM": {
     "SUBMIT": "Opublikuj",
@@ -87,12 +90,23 @@
       "NAME": "Nazwa przepisu",
       "CATEGORIES": "Kategorie",
       "INGREDIENTS": "Składniki",
-      "TIME": "Maksymalny czas przygotowania",
-      "DIFFICULTY": "Stopień trudności (1- bardzo łatwy, 5-bardzo trudny)"
+      "TIME": "Maksymalny czas przygotowania (min)",
+      "DIFFICULTY": "Stopień trudności (1- bardzo łatwy, 5-bardzo trudny)",
+      "INCLUDE_INGREDIENTS_REPLACEMENTS":"uwzględnij zamienniki składników"
     },
     "SEARCH_BTN": "Wyszukaj",
     "NO_PARAMETERS_SPECIFIED": "Nie określono parametrów wyszukiwania",
     "RESULTS": "Wyniki wyszukiwania",
     "NO_RECIPES_FOUND": "Nie znaleziono żadnych przepisów o podanych parametrach"
+  },
+  "MY_PROFILE": {
+    "MY_RECIPES": "Moje przepisy",
+    "RECOMMENDED_RECIPES": "Polecane dla mnie",
+    "FAVOURITE_RECIPES": "Ulubione przepisy",
+    "EMPTY_FAVOURITE_RECIPES" : "Nie masz jeszcze ulubionych przepisów",
+    "EMPTY_MY_RECIPES" : "Nie dodałeś jeszcze żadnego własnego przepisu",
+    "EMPTY_RECOMMENDED_RECIPES" : "Brak sugestii. Oceniaj kolejne przepisy, a my zaproponujemy Tobie przepisy, które mogą Ci się spodobać",
+    "LOADING": "Proszę czekać. Wczytujemy informacje o Twoim profilu"
+
   }
 }
