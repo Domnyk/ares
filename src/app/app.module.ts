@@ -24,7 +24,7 @@ import {FiltersComponent} from './search-tab/filters/filters.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {NgbModule} from '@ng-bootstrap/ng-bootstrap';
 import {ElementBoxComponent} from './search-tab/filters/element-box/element-box.component';
-import { AddRecipeComponent } from './add-recipe/add-recipe.component';
+import { RecipeEditorComponent } from './recipe-editor/recipe-editor.component';
 
 export function HttpLoaderFactory(httpClient: HttpClient) {
   return new TranslateHttpLoader(httpClient);
@@ -49,7 +49,7 @@ export function HttpLoaderFactory(httpClient: HttpClient) {
     RegistrationFormComponent,
     ShowRecipeComponent,
     RecipeRatingComponent,
-    AddRecipeComponent
+    RecipeEditorComponent
   ],
   imports: [
     BrowserModule,

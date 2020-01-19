@@ -1,13 +1,12 @@
 import {Injectable} from '@angular/core';
 import {Observable, of, throwError} from 'rxjs';
 import {Recipe} from '../model/recipe';
-import {HttpClient} from '@angular/common/http';
-import { environment } from '../../environments/environment';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {environment} from '../../environments/environment';
 import {catchError, map, switchMap, take, tap} from 'rxjs/operators';
 import { AuthService } from './auth.service';
 import { CurrentUser } from '../model/current-user';
 import { Rating } from '../model/rating';
-import { HttpParams } from '@angular/common/http';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +22,7 @@ export class RecipeService {
   }
 
   public findNewestRecipes(): Observable<Recipe[]> {
-    return this.http.get<Recipe[]>(RecipeService.RECIPES_URL, {params : {amount : RecipeService.NEWEST_RECIPES_NUMBER}});
+    return this.http.get<Recipe[]>(RecipeService.RECIPES_URL, {params: {amount: RecipeService.NEWEST_RECIPES_NUMBER}});
   }
 
   public findRecipeById(id: number): Observable<Recipe> {
@@ -33,9 +32,9 @@ export class RecipeService {
 
   public addRecipe(recipe: Recipe): Observable<Recipe> {
     return this.http.post<Recipe>(RecipeService.RECIPES_URL, recipe).pipe(
-        tap((newRecipe: Recipe) => console.log(`added recipe w/ id=${newRecipe.id}`)),
-        catchError(this.handleError<Recipe>('addRecipe'))
-      );
+      tap((newRecipe: Recipe) => console.log(`added recipe w/ id=${newRecipe.id}`)),
+      catchError(this.handleError<Recipe>('addRecipe'))
+    );
   }
 
   public addRating(score: number, recipeId: number): Observable<void> {
@@ -43,6 +42,24 @@ export class RecipeService {
       take(1),
       switchMap((currentUser: CurrentUser | null) => this._addRating(score, recipeId, currentUser)),
     );
+  }
+
+  changeRecipe(id: number, newRecipe: Recipe) {
+    return this.http.put<Recipe>(RecipeService.RECIPES_URL + '/' + id, newRecipe).pipe(
+      tap((recipe: Recipe) => console.log(`added recipe w/ id=${recipe.id}`)),
+      catchError(this.handleError<Recipe>('changeRecipe'))
+    );
+  }
+
+  deleteRecipe(id: number): Observable<boolean> {
+    return this.http.delete(RecipeService.RECIPES_URL + '/' + id)
+      .pipe(
+        map(() => {
+          console.log(`removed recipe w/ id=${id}`);
+          return true;
+        }),
+        catchError(this.handleError<any>('deleteRecipe'))
+      );
   }
 
   public fetchRating(recipeId: number, username: string): Observable<Rating> {
@@ -65,7 +82,9 @@ export class RecipeService {
     };
 
     return this.http.post(RecipeService.RATINGS_URL, rating).pipe(
-      map(_ => { return; }) // Discard data form backend. We don't need them for now
+      map(_ => {
+        return;
+      }) // Discard data form backend. We don't need them for now
     );
   }
 
