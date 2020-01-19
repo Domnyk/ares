@@ -58,6 +58,7 @@ describe('ShowRecipeComponent', () => {
   const recipeService = {
     findRecipeById: (id: number) => of(mockRecipe),
     fetchRating: (recipeId: number, username: string) => of(mockRating),
+    fetchFavourites: () => of([0, 1, 2, 3]),
   };
 
   const authService = {

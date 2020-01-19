@@ -60,6 +60,9 @@
     "PREPARATION_INSTRUCTIONS": "Preparation instructions",
     "LOADING": "Please wait, loading in progress...",
     "SCORE_WAS_ADDED": "Your score was added",
+    "ADD_TO_FAVOURITES": "Add to favourites",
+    "ADDED_TO_FAVOURITES": "Added to favourites",
+    "IS_FAVOURITE": "marked as favourite",
     "EDIT_RECIPE": "Edit recipe"
   },
   "ADD_RECIPE_FORM": {
