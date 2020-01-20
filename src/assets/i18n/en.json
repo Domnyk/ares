@@ -51,7 +51,9 @@
       "EMAIL_CHECK_IN_PROGRESS": "Please wait while your email adrres is being checked...",
       "EMAIL_TAKEN": "this email is taken"
     },
-    "ERROR": "Something went wrong"
+    "ERROR": "Something went wrong",
+    "SUCCESS" : "You have signed up successfully.",
+    "BACK_TO_LOGIN" : "Come back to log in."
   },
   "RECIPE_PAGE": {
     "SEND_SCORE": "Send score",
