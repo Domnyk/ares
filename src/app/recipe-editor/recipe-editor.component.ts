@@ -50,8 +50,6 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
   recipeForm: FormGroup;
 
   currentUserId: number | null = null;
-
-
   private unsubscribe = new Subject<void>();
 
   constructor(public fieldValidationService: FieldValidationService, public recipeService: RecipeService,
@@ -69,17 +67,17 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.recipe = history.state;
-    if (this.recipe !== null && this.recipe.title !== undefined) {
-      this.editMode = true;
-      this.title.patchValue(this.recipe.title);
-      this.description.patchValue(this.recipe.description);
-      this.selectedCategories = this.recipe.categories;
-      this.selectedIngredientsNames = this.recipe.ingredients
-        .map((ingredient: Ingredient) => {
-          return ingredient.name;
-        });
-      this.difficulty.patchValue(this.recipe.difficulty);
-      this.requiredTime.patchValue(this.recipe.time);
+    if (this.recipe !== null && this.recipe.id !== undefined) {
+      if (this.recipe.user === undefined) {
+        this.recipeService.findRecipeById(this.recipe.id)
+          .pipe(takeUntil(this.unsubscribe))
+          .subscribe((fullRecipe: Recipe) => {
+              this.fillFormControls(fullRecipe);
+            }
+          );
+      } else {
+        this.fillFormControls(this.recipe);
+      }
     }
 
     this.authService.currentUser
@@ -106,7 +104,6 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
     this.selectedCategories.push(event.item);
     this.categories.reset();
   }
-
 
   removeSelectedIngredient(removedIngredient: string): void {
     this.selectedIngredientsNames.splice(this.selectedIngredientsNames.indexOf(removedIngredient), 1);
@@ -152,7 +149,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
               .subscribe((recipe: Recipe) => {
                 if (recipe) {
                   console.log('Recipe was added successfully with id:' + recipe.id);
-                  console.log('Added recipe\n' + recipe);
+                  console.log(recipe);
 
                   this.lastAttemptFailed = false;
                   this.deletedSuccessfully = null;
@@ -197,7 +194,7 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
     this.router.navigate(['']);
   }
 
-  private buildRecipe(): Observable<Recipe | null> {
+  buildRecipe(): Observable<Recipe | null> {
     const _buildRecipe = (ingredients: Ingredient[], currentUserId: number | null) => {
       if (currentUserId === null) {
         return null;
@@ -222,4 +219,18 @@ export class RecipeEditorComponent implements OnInit, OnDestroy {
       map((ingredients) => makeRecipe(ingredients, this.currentUserId))
     );
   }
+
+  private fillFormControls(recipe: Recipe) {
+      this.editMode = true;
+      this.title.patchValue(recipe.title);
+      this.description.patchValue(recipe.description);
+      this.selectedCategories = recipe.categories;
+      this.selectedIngredientsNames = recipe.ingredients
+        .map((ingredient: Ingredient) => {
+          return ingredient.name;
+        });
+      this.difficulty.patchValue(recipe.difficulty);
+      this.requiredTime.patchValue(recipe.time);
+  }
+
 }

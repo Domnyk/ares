@@ -4,7 +4,7 @@
     <div class="recipes-container__recipes">
       <ng-container
         *ngFor="let myRecipe of myRecipes  | slice: (myRecipesPage-1) * pageSize : (myRecipesPage-1) * pageSize + pageSize">
-        <app-search-result [recipe]="myRecipe"></app-search-result>
+        <app-search-result [recipe]="myRecipe" [myRecipe]="true"></app-search-result>
       </ng-container>
       <ngb-pagination *ngIf="myRecipes.length != 0" class="recipes-container__pagination"
                       [(page)]="myRecipesPage"
