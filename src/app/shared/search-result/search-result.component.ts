@@ -13,6 +13,8 @@ import {Subject} from 'rxjs';
 export class SearchResultComponent implements OnInit {
 
   @Input() public recipe!: Recipe;
+  @Input() public myRecipe!: boolean;
+
   private currentUser: number | null = null;
 
   private unsubscribe = new Subject<void>();
@@ -26,11 +28,10 @@ export class SearchResultComponent implements OnInit {
         if (user !== null) {
         this.currentUser = user.id;
         }
-      })
-    ;
+      });
   }
 
-  isCreatedByUser(): boolean {
-    return this.recipe.user === this.currentUser;
+  isCreatedByUser(recipe: Recipe): boolean {
+    return recipe.user === this.currentUser || this.myRecipe;
   }
 }
